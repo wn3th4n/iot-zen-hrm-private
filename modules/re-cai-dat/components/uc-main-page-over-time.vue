@@ -6,8 +6,10 @@
                     <a-button type="primary" @click.prevent><uc-icon name="plus" />Thêm</a-button>
                     <template #overlay>
                         <a-menu>
-                            <a-menu-item key="0"  @click="states.isOpenModalAddChinhSach = true"><uc-icon name="plus" />Thêm chính sách</a-menu-item>
-                            <a-menu-item key="1" @click="states.isOpenModalAddNhomChinhSach = true"><uc-icon name="plus" />Thêm nhóm chính sách</a-menu-item>
+                            <a-menu-item key="0" @click="states.isOpenModalAddChinhSach = true"><uc-icon
+                                    name="plus" />Thêm chính sách</a-menu-item>
+                            <a-menu-item key="1" @click="states.isOpenModalAddNhomChinhSach = true"><uc-icon
+                                    name="plus" />Thêm nhóm chính sách</a-menu-item>
                         </a-menu>
                     </template>
                 </a-dropdown>
@@ -21,7 +23,8 @@
         </a-tab-pane>
         <a-tab-pane key="2" tab="Tất cả nhóm">
             <uc-container :width="900">
-                <a-table :columns="columns.NhomChinhSach" :dataSource="values.dsNhomChinhSach" :loading="states.isLoadingTableNhomChinhSach" :pagination="false">
+                <a-table :columns="columns.NhomChinhSach" :dataSource="values.dsNhomChinhSach"
+                    :loading="states.isLoadingTableNhomChinhSach" :pagination="false">
                     <template #bodyCell="{ column, record }">
                         <template v-if="column.key === 'stt'">
                             <span>{{ values.dsNhomChinhSach.indexOf(record) + 1 }}</span>
@@ -44,8 +47,10 @@
                                 </a>
                                 <template #overlay>
                                     <a-menu>
-                                        <a-menu-item @click="onEditNhomChinhSach(record)"><uc-icon class="text-primary" name="square-edit-outline" />Chỉnh sửa</a-menu-item>
-                                        <a-menu-item @click="onDeleteNhomChinhSach(record)"><uc-icon class="text-red" name="delete-outline" />Xoá</a-menu-item>
+                                        <a-menu-item @click="onEditNhomChinhSach(record)"><uc-icon class="text-primary"
+                                                name="square-edit-outline" />Chỉnh sửa</a-menu-item>
+                                        <a-menu-item @click="onDeleteNhomChinhSach(record)"><uc-icon class="text-red"
+                                                name="delete-outline" />Xoá</a-menu-item>
                                     </a-menu>
                                 </template>
                             </a-dropdown>
@@ -56,10 +61,13 @@
         </a-tab-pane>
     </a-tabs>
 
-    <uc-modal-add-chinh-sach :dsNhomChinhSach="values.dsNhomChinhSach" v-model:isOpen="states.isOpenModalAddChinhSach" @onFinish="loadDSChinhSach()" />
+    <uc-modal-add-chinh-sach :dsNhomChinhSach="values.dsNhomChinhSach" v-model:isOpen="states.isOpenModalAddChinhSach"
+        @onFinish="loadDSChinhSach()" />
 
-    <uc-modal-add-nhom-chinh-sach v-model:isOpen="states.isOpenModalAddNhomChinhSach" @onFinish="loadDSNhomChinhSach()" />
-    <uc-modal-edit-nhom-chinh-sach :record="values.record.NhomChinhSach" v-model:isOpen="states.isOpenModalEditNhomChinhSach" @onFinish="loadDSNhomChinhSach()" />
+    <uc-modal-add-nhom-chinh-sach v-model:isOpen="states.isOpenModalAddNhomChinhSach"
+        @onFinish="loadDSNhomChinhSach()" />
+    <uc-modal-edit-nhom-chinh-sach :record="values.record.NhomChinhSach"
+        v-model:isOpen="states.isOpenModalEditNhomChinhSach" @onFinish="loadDSNhomChinhSach()" />
 </template>
 
 <script>
@@ -134,7 +142,7 @@ export default {
             }
         },
         onEditNhomChinhSach(record) {
-            this.values.record.NhomChinhSach = {...record , Is_TamKhoa: record.Is_TamKhoa ? 1: 0}
+            this.values.record.NhomChinhSach = { ...record, Is_TamKhoa: record.Is_TamKhoa ? 1 : 0 }
             this.states.isOpenModalEditNhomChinhSach = true
         },
         async onDeleteNhomChinhSach(record) {
