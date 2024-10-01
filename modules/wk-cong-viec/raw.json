@@ -1,0 +1,6 @@
+{
+    "data": [{ "API": "/work/CA_CaMau_Select", "OUT": "DSCaMau" }],
+    "watch": {},
+    "controls": [{ "prop": "", "rows": [{ "prop": "", "cols": [{ "el": "uc-main-page", "w": 24 }] }] }],
+    "set": { "menu": false }
+}

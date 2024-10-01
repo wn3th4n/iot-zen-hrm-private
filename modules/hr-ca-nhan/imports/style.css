@@ -1,0 +1,100 @@
+.me-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.screen-devices {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+    height: 100vh;
+    width: 100%;
+    gap: 10px;
+}
+
+/*Smart phone nhỏ*/
+@media screen and (min-width: 240px) {
+    .screen-devices {
+        width: 100%;
+    }
+}
+
+/*Iphone(480 x 640)*/
+@media screen and (min-width: 320px) {
+    .screen-devices {
+        width: 100%;
+    }
+}
+
+/*Tablet nhỏ(480 x 640)*/
+@media screen and (min-width: 480px) {
+    .screen-devices {
+        width: 100%;
+    }
+}
+
+/*Ipad dọc(768 x 1024)*/
+@media screen and (min-width: 768px) {
+    .screen-devices {
+        width: 768px;
+
+    }
+}
+
+/*Ipad ngang(1024 x 768)*/
+@media screen and (min-width: 1024px) {
+    .screen-devices {
+        width: 768px;
+    }
+}
+
+
+
+
+
+.group-info {
+    display: flex;
+    align-items: center;
+    height: fit-content;
+    width: fit-content;
+    gap: 10px;
+
+    .infomation {
+        display: flex;
+        gap: 4px;
+        flex-direction: column;
+
+        .title {
+            font-size: 26px;
+        }
+
+        .subtitle {
+            font-weight: 300;
+            font-size: 16px;
+
+        }
+
+    }
+}
+
+.lich-lam-viec {
+    width: 100%;
+}
+
+.cham-cong {
+    width: 100%;
+}
+
+
+.v-application p {
+    margin-bottom: 0;
+}
+
+p {
+    margin-bottom: 0;
+}

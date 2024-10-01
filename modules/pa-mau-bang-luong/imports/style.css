@@ -1,0 +1,22 @@
+.flexCol{
+    display: flex;
+    flex-direction: column;
+}
+.spaceBetween{
+    display: flex;
+    justify-content: space-between;
+}
+
+/* .ant-menu-sub.ant-menu-inline>.ant-menu-item, .ant-menu-sub.ant-menu-inline>.ant-menu-submenu>.ant-menu-submenu-title{
+    min-height: 100px;
+    line-height: 1.5;
+    height: auto;
+    list-style-position: inside;
+    list-style-type: disc;
+    padding-top: 10px;
+} */
+
+.menu-item{
+    white-space: normal;
+    word-break: break-word;
+}
