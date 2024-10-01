@@ -208,3 +208,6 @@ body .handsontable .myCols {
 .ant-table-body{
     scrollbar-width: thin;
 }
+.thu-cn {
+    background-color: lightgreen; /* Màu xanh cho cột CN */
+}

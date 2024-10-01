@@ -64,6 +64,16 @@
 	            const $this = this
 	            const cellProperties = {};
 	            // Thiết lập background color cho cell ở dòng 1, cột 1 (index từ 0)
+
+				// Lấy tiêu đề của cột từ templateHeader
+				const columnTitle = this.templateHeader[0][col]; // Giả sử hàng thứ 2 (index 1) là header
+				console.log(columnTitle);
+				
+				// Kiểm tra nếu tiêu đề cột là "CN"
+				if (columnTitle === 'CN') {
+					cellProperties.className = 'thu-cn'; // Gán lớp CSS cho cột có tiêu đề là CN
+				}
+
 	            if (row === 1 && col === 1) {
 	                cellProperties.className = 'my-custom-cell';
 	            }
@@ -87,6 +97,8 @@
 	                    }
 	                }
 	            }
+
+				
 	            console.log('cell style');
 	            return cellProperties;
 	        },
