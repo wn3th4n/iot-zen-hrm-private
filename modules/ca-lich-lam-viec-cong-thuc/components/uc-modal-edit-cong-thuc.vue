@@ -1,9 +1,9 @@
 <template>
-    <uc-form-modal v-model:isOpen="isOpen" title="Chỉnh sửa thuộc tính" :width="1400" :formData="cauhinhcot" ref="modalRef" :rules="rules" :isLoading="isLoading" @onSubmit="onSubmit()" @onClose="handleCancel()">
+    <uc-form-modal v-model:isOpen="isOpen" title="Chỉnh sửa thuộc tính" :width="800" :formData="cauhinhcot" ref="modalRef" :rules="rules" :isLoading="isLoading" @onSubmit="onSubmit()" @onClose="handleCancel()">
         <a-row :gutter="[20]">
-            <a-col :span="7">
-                <a-tabs default-active-key="1">
-                    <a-tab-pane v-for="group in DSBienHeThong.NhomBien" :key="group?.NhomBien_Id" :tab="group?.TenNhomBien" class="pt-3" style="height: 400px; overflow-y: auto">
+            <a-col :span="9">
+                <a-tabs v-model:activeKey="activeDefault">
+                    <a-tab-pane v-for="(group, index) in DSBienHeThong.NhomBien" :key="index" :tab="group?.TenNhomBien" class="pt-3" style="height: 400px; overflow-y: auto">
                         <div class="p-1" v-for="item in DSBienHeThong.Bien.filter((g) => g?.NhomBien_Id === group?.NhomBien_Id)" :key="item?.Bien_Id">
                             <p class="mb-0" @click="onCopy(item.MaHeThong)">
                                 <b>{{ item.MaHeThong }}</b>
@@ -14,49 +14,45 @@
                     </a-tab-pane>
                 </a-tabs>
             </a-col>
-            <a-col :span="17">
+            <a-col :span="15">
                 <a-row :gutter="[10]">
-                    <a-col :span="2">
+                    <a-col :span="4">
                         <a-form-item label="Thứ tự" name="ThuTu">
                             <a-input-number v-model:value="cauhinhcot.ThuTu" class="w-100" />
                         </a-form-item>
                     </a-col>
-                    <!-- <a-col :span="6">
-                        <a-form-item label="Loại biến" name="LoaiThuocTinh">
-                            <a-select v-model:value="cauhinhcot.LoaiThuocTinh">
-                                <a-select-option value="CT"> Công thức </a-select-option>
-                                <a-select-option value="NL"> Nhập liệu </a-select-option>
-                                <a-select-option value="HS"> Hằng số </a-select-option>
-                                <a-select-option value="TD"> Tự động </a-select-option>
-                            </a-select>
-                        </a-form-item>
-                    </a-col> -->
-
-                    <!-- <a-col :span="5">
+                    <a-col :span="8">
                         <a-form-item label="Cách tính" name="Is_TheoNgay">
                             <a-select v-model:value="cauhinhcot.Is_TheoNgay">
-                                <a-select-option :value="false"> Theo ngày </a-select-option>
-                                <a-select-option :value="true"> Theo ca </a-select-option>
+                                <a-select-option :value="0"> Theo ngày </a-select-option>
+                                <a-select-option :value="1"> Theo ca </a-select-option>
                             </a-select>
                         </a-form-item>
-                    </a-col> -->
-
-                    <a-col :span="8">
+                    </a-col>
+                    <a-col :span="7">
+                        <a-form-item label="Dữ liệu" name="LoaiDuLieu">
+                            <a-select v-model:value="cauhinhcot.LoaiDuLieu">
+                                <a-select-option value="TEXT"> Văn bản </a-select-option>
+                                <a-select-option value="NUM"> Số </a-select-option>
+                            </a-select>
+                        </a-form-item>
+                    </a-col>
+                    <a-col :span="5">
+                        <a-form-item label="Hiển thị">
+                            <a-select v-model:value="cauhinhcot.Is_HienThi">
+                                <a-select-option :value="0">Không</a-select-option>
+                                <a-select-option :value="1">Có</a-select-option>
+                            </a-select>
+                        </a-form-item>
+                    </a-col>
+                    <a-col :span="24">
                         <a-form-item label="Mã thuộc tính" name="MaThuocTinh">
                             <a-input v-model:value="cauhinhcot.MaThuocTinh" />
                         </a-form-item>
                     </a-col>
-                    <a-col :span="8">
+                    <a-col :span="24">
                         <a-form-item label="Tên hiển thị" name="TenThuocTinh">
                             <a-input v-model:value="cauhinhcot.TenThuocTinh" />
-                        </a-form-item>
-                    </a-col>
-                    <a-col :span="6">
-                        <a-form-item label="Dữ liệu" name="LoaiDuLieu">
-                            <a-select v-model:value="cauhinhcot.LoaiDuLieu">
-                                <a-select-option :value="TEXT"> Số </a-select-option>
-                                <a-select-option :value="NUM"> Văn bản </a-select-option>
-                            </a-select>
                         </a-form-item>
                     </a-col>
                     <a-col :span="24">
@@ -69,14 +65,6 @@
                             <a-textarea v-model:value="cauhinhcot.CongThuc" :auto-size="{ minRows: 5 }" />
                         </a-form-item>
                     </a-col>
-                    <a-col :span="4">
-                        <a-form-item label="Hiển thị">
-                            <a-select v-model:value="cauhinhcot.Is_HienThi">
-                                <a-select-option :value="0" key="0">Không</a-select-option>
-                                <a-select-option :value="1" key="1">Có</a-select-option>
-                            </a-select>
-                        </a-form-item>
-                    </a-col>
                 </a-row>
             </a-col>
         </a-row>
@@ -86,9 +74,10 @@
 <script>
 export default {
     emits: ['onFinish'],
-    props: ['isOpen', 'maubangcongid', 'cauhinhcot', 'DSBienHeThong'],
+    props: ['isOpen', 'maubangcongid', 'cauhinhcot', 'DSBienHeThong', 'MauBangCong_Item'],
     data() {
         return {
+            activeDefault: 0,
             isLoading: false,
             rules: {
                 ThuTu: [{ required: true, message: 'Vui lòng nhập số thứ tự', trigger: 'change' }],
@@ -106,7 +95,11 @@ export default {
     computed: {},
     watch: {
         isOpen: function (val) {
-            val || this.handleCancel()
+            if (val) {
+                if (this.MauBangCong_Item.Is_CoDinh) {
+                    this.activeDefault = 1
+                }
+            }
         },
     },
     methods: {
@@ -129,7 +122,7 @@ export default {
                     MoTa: this.cauhinhcot.MoTa,
                     Is_TamKhoa: this.cauhinhcot.Is_TamKhoa,
                     Is_HienThi: this.cauhinhcot.Is_HienThi,
-                    // Is_TheoNgay: this.cauhinhcot.Is_TheoNgay,
+                    Is_TheoNgay: this.cauhinhcot.Is_TheoNgay,
                 },
                 (res) => {
                     this.handleCancel()

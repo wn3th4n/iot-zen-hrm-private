@@ -1,5 +1,5 @@
 <template>
-    <uc-form-modal v-model:isOpen="isOpen" title="Cập nhật" :formData="form" @onSubmit="onFinish" :rules="rules" :width="700" @onClose="handleCancel()">
+    <uc-form-modal v-model:isOpen="isOpen" title="Cập nhật" :formData="form" ref="refFormModal" @onSubmit="onFinish" :rules="rules" :width="800" @onClose="handleCancel()">
         <a-row :gutter="[10]">
             <a-col :span="24">
                 <a-row :gutter="[10]">
@@ -55,9 +55,9 @@
                     </a-col>
                 </a-row>
             </a-col>
-            <a-col v-if="IsCheckCoDinh === false" :span="24">
+            <a-col v-if="form.Is_CoDinh === 1" :span="24" class="mb-3">
                 <template v-for="thu in ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']">
-                    <a-row :gutter="[10]" style="display: flex">
+                    <a-row :gutter="[10, 10]" style="display: flex" class="mt-4">
                         <a-col :span="5" style="display: flex; flex-direction: column; gap: 8px; align-self: center">
                             <b>Thứ {{ thu }}</b>
                             <a-checkbox v-model:value="form[thu + '_Is_NgayNghi']">Ngày nghỉ</a-checkbox>
@@ -67,16 +67,22 @@
                             <b>Ca 2</b>
                         </a-col>
                         <a-col :span="5" style="display: flex; flex-direction: column; gap: 8px; align-self: center">
-                            <a-time-picker v-model:value="form[thu + '_C1_VaoCa']" placeholder="hh:mm" :minuteStep="5" format="HH:mm" style="width: 100%" />
-                            <a-time-picker v-model:value="form[thu + '_C2_VaoCa']" placeholder="hh:mm" :minuteStep="5" format="HH:mm" style="width: 100%" />
+                            <a-time-picker v-model:value="form[thu + '_C1_VaoCa']" placeholder="hh:mm" :minuteStep="5" format="HH:mm" style="width: 100%" :disabled="form.Is_CoDinh === 1" />
+                            <a-time-picker v-model:value="form[thu + '_C2_VaoCa']" placeholder="hh:mm" :minuteStep="5" format="HH:mm" style="width: 100%" :disabled="form.Is_CoDinh === 1" />
                         </a-col>
                         <a-col :span="5" style="display: flex; flex-direction: column; gap: 8px; align-self: center">
-                            <a-time-picker v-model:value="form[thu + '_C1_RaCa']" placeholder="hh:mm" :minuteStep="5" format="HH:mm" style="width: 100%" />
-                            <a-time-picker v-model:value="form[thu + '_C2_RaCa']" placeholder="hh:mm" :minuteStep="5" format="HH:mm" style="width: 100%" />
+                            <a-time-picker v-model:value="form[thu + '_C1_RaCa']" placeholder="hh:mm" :minuteStep="5" format="HH:mm" style="width: 100%" :disabled="form.Is_CoDinh === 1" />
+                            <a-time-picker v-model:value="form[thu + '_C2_RaCa']" placeholder="hh:mm" :minuteStep="5" format="HH:mm" style="width: 100%" :disabled="form.Is_CoDinh === 1" />
                         </a-col>
                         <a-col :span="6" style="display: flex; flex-direction: column; gap: 8px; align-self: center">
-                            <uc-select-ca-mau v-model:value="form[thu + '_C1_CaMau_Id']" :initData="[{ text: form[thu + '_C1_MaCaMau'], value: form[thu + '_C1_CaMau_Id'] }]" />
-                            <uc-select-ca-mau v-model:value="form[thu + '_C2_CaMau_Id']" :initData="[{ text: form[thu + '_C2_MaCaMau'], value: form[thu + '_C2_CaMau_Id'] }]" />
+                            <!-- <uc-select-ca-mau v-model:value="form[thu + '_C1_CaMau_Id']" :initData="[{ text: form[thu + '_C1_MaCaMau'], value: form[thu + '_C1_CaMau_Id'] }]" /> -->
+                            <!-- <uc-select-ca-mau v-model:value="form[thu + '_C2_CaMau_Id']" :initData="[{ text: form[thu + '_C2_MaCaMau'], value: form[thu + '_C2_CaMau_Id'] }]" /> -->
+                            <a-select v-model:value="form[thu + '_C1_CaMau_Id']" placeholder="Chọn ca mẫu..." @change="loadCaMau_C1_Select_By_Id(form[thu + '_C1_CaMau_Id'], thu)">
+                                <a-select-option v-for="item in DSCaMau" :value="item.CaMau_Id">[{{ item.MaCaMau }}] {{ item.TenCa }}</a-select-option>
+                            </a-select>
+                            <a-select v-model:value="form[thu + '_C2_CaMau_Id']" placeholder="Chọn ca mẫu..." @change="loadCaMau_C2_Select_By_Id(form[thu + '_C2_CaMau_Id'], thu)">
+                                <a-select-option v-for="item in DSCaMau" :value="item.CaMau_Id">[{{ item.MaCaMau }}] {{ item.TenCa }}</a-select-option>
+                            </a-select>
                         </a-col>
                     </a-row>
                 </template>
@@ -87,7 +93,7 @@
 <script>
 export default {
     emits: ['onFinish'],
-    props: ['isOpen', 'mauBangCong'],
+    props: ['isOpen', 'mauBangCong', 'DSCaMau'],
     data() {
         return {
             form: {
@@ -151,6 +157,23 @@ export default {
                 this.handleCancel()
                 this.$message.success('Chỉnh sửa lịch làm việc thành công')
                 this.$emit('onFinish')
+            }
+        },
+        async loadCaMau_C1_Select_By_Id(camauid, thu) {
+            const res = await caService.CaMau_Select_By_Id({ CaMau_Id: camauid })
+            if (res) {
+                this.$refs.refFormModal.$refs.formRef.clearValidate()
+                this.form[thu + '_C1_VaoCa'] = dayjs(res[0].GioBatDau, 'HH:mm')
+                this.form[thu + '_C1_RaCa'] = dayjs(res[0].GioKetThuc, 'HH:mm')
+            }
+        },
+        async loadCaMau_C2_Select_By_Id(camauid, thu) {
+            const res = await caService.CaMau_Select_By_Id({ CaMau_Id: camauid })
+            if (res) {
+                console.log('this.form[thu + _C2_VaoCa]', this.form[thu + '_C2_VaoCa'])
+                this.$refs.refFormModal.$refs.formRef.clearValidate()
+                this.form[thu + '_C2_VaoCa'] = dayjs(res[0].GioBatDau, 'HH:mm')
+                this.form[thu + '_C2_RaCa'] = dayjs(res[0].GioKetThuc, 'HH:mm')
             }
         },
     },

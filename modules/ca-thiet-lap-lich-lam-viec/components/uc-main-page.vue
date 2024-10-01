@@ -4,7 +4,7 @@
             <template #extra>
                 <a-space>
                     <a-input placeholder="Tìm theo mã, tên lịch làm việc..." />
-                    <a-button type="primary" @click="formAction.IsShowModalAdd = true"><uc-icon name="plus" />Thêm lịch làm việc</a-button>
+                    <a-button type="primary" @click="onOpenModalAddLichLamViec()"><uc-icon name="plus" />Thêm lịch làm việc</a-button>
                 </a-space>
             </template>
         </a-card>
@@ -51,8 +51,8 @@
                 </template>
             </template>
         </a-table>
-        <uc-modal-add v-model:isOpen="formAction.IsShowModalAdd" @onFinish="onAddFinish"></uc-modal-add>
-        <uc-modal-edit v-model:isOpen="formAction.IsShowModalEdit" @onFinish="onAddFinish" :mauBangCong="mauBangCongItem"></uc-modal-edit>
+        <uc-modal-add v-model:isOpen="formAction.IsShowModalAdd" @onFinish="onAddFinish" :DSCaMau />
+        <uc-modal-edit v-model:isOpen="formAction.IsShowModalEdit" @onFinish="onAddFinish" :mauBangCong="mauBangCongItem" :DSCaMau />
     </uc-layout>
 </template>
 
@@ -130,10 +130,12 @@ export default {
                 IsShowModalCongThuc: false,
             },
             mauBangCongItem: null,
+            DSCaMau: [],
         }
     },
     async mounted() {
         this.DSMauBangCong = await mauBangCongService.MauBangCong_Select()
+        this.onLoadCaMau()
     },
     computed: {},
     watch: {},
@@ -215,6 +217,15 @@ export default {
                         })
                 },
             })
+        },
+        onOpenModalAddLichLamViec() {
+            this.formAction.IsShowModalAdd = true
+        },
+        async onLoadCaMau() {
+            const res = await caMauService.CaMau_Select()
+            if (res) {
+                this.DSCaMau = res
+            }
         },
     },
 }

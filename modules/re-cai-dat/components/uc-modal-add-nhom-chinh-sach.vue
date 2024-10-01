@@ -1,6 +1,6 @@
 <template>
     <uc-form-modal :isOpen="isOpen" title="Thêm nhóm chính sách" :width="450" :rules="rules" ref="modalRef" :formData="formData" @onClose="onCancel()" @onSubmit="onSubmit()" :isSubmit="state.isLoadingModal">
-        <a-row>
+        <a-row :gutter="[10]">
             <a-col :span="24">
                 <a-form-item label="Tên nhóm chính sách" name="TenNhomChinhSach_LamThem" >
                     <a-input v-model:value="formData.TenNhomChinhSach_LamThem" />
@@ -34,7 +34,7 @@
         data(){
             return {
                 state: {
-                    isLoadingModal: true
+                    isLoadingModal: false
                 },
                 formData: {
                     TenNhomChinhSach_LamThem: null,

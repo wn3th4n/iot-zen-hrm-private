@@ -3,25 +3,49 @@
         <a-card class="card-title-page">
             <template #title>
                 <div class="d-flex flex-row">
-                    <b class="me-3">Time sheet</b>
+                    <b class="me-3">Lịch cố định</b>
                     <a-select v-model:value="LichLamViec_Id" placeholder="Chọn chu kỳ" @change="onChangeChuKy()" class="me-2 min-w-200px">
                         <a-select-option v-for="item in DSChuKy" :value="item.LichLamViec_Id" :key="item.LichLamViec_Id">Tháng {{ item.Thang }}/{{ item.Nam }}</a-select-option>
                     </a-select>
                     <a-select v-model:value="MauBangCong_Id" placeholder="Chọn lịch làm việc" @change="onChangeLichLamViec()" :disabled="isDisabled" class="min-w-300px">
                         <a-select-option v-for="item in DSMauBangCong.filter((item) => item.LichLamViec_Id === LichLamViec_Id && item.Is_CoDinh === true)" :value="item.MauBangCong_Id" :key="item.MauBangCong_Id">{{ item.TenMauBangCong }}</a-select-option>
                     </a-select>
+                    <div class="w-100 ps-5 d-flex align-items-center">
+                        <a-steps style="max-width: 400px" :current="currentSteps" :items="steps" @change="onChangeStep(currentSteps)" />
+                    </div>
                 </div>
             </template>
         </a-card>
-        <a-table :columns="columns" :data-source="DSPhanCa" bordered :pagination="false">
+        <a-card size="small" class="text-center card-title-page border-top-0 border-bottom-0">
+            <a-space size="middle">
+                <div v-for="(item, index) in DSTrangThaiChamCong" :key="item.id">
+                    <div>
+                        <uc-icon :name="item.Icon" :color="item.Color" />
+                        {{ item.TenTrangThai }}
+                    </div>
+                </div>
+            </a-space>
+        </a-card>
+        <a-table :columns="columns" :data-source="DSPhanCa" bordered :pagination="false" v-if="currentSteps === 0">
             <template #bodyCell="{ column, record }">
                 <template v-for="item in Object.keys(record)">
                     <template v-if="column?.key === item">
-                        <div class="border border-1 rounded-5 my-2" style="max-height: fit-content">
-                            <div class="d-flex justify-content-between px-2 text-white align-items-center" style="height: 30px" :style="{ 'background-color': !CompareDate(record[item]?.NgayThangNam) ? '#fd6a6a' : '#34c759' }">
-                                <b>{{ record[item]?.Ngay.toString().padStart('2', 0) }}/{{ record[item]?.Thang.toString().padStart('2', 0) }}</b> <b><uc-icon name="clock-outline" class="me-2" />--:-- - --:--</b>
+                        <div class="my-2" style="min-height: fit-content">
+                            <div class="d-flex justify-content-between px-2 align-items-center" style="height: 30px">
+                                <b> {{ record[item]?.Ngay.toString().padStart('2', 0) }}/{{ record[item]?.Thang.toString().padStart('2', 0) }} ({{ Object.keys(record[item]).filter((x) => x.startsWith('Ca')).length }} ca) </b>
                             </div>
-                            <a-row style="height: 100px" :style="{ 'background-color': !CompareDate(record[item]?.NgayThangNam) ? '#fff0f0' : '#ebfae6' }">
+                            <a-divider class="my-1" />
+                            <div class="d-flex flex-column cursor-pointer w-100 justify-content-center px-2 justify-content-around" style="height: 100px" @click="onOpenModalCheckInOut(record[item])">
+                                <a-tag v-for="(i, index) in Object.keys(record[item]).filter((x) => x.startsWith('Ca'))" class="gap-2 w-100 d-flex flex-row align-items-center" :color="record[item][i]?.TrangThai_Mau">
+                                    <uc-icon :name="record[item][i].TrangThai_Icon" size="20" />
+                                    <div class="d-flex flex-column">
+                                        <span> Ca {{ index + 1 }}</span>
+                                        <span>{{ record[item][i].GioBatDau }} → {{ record[item][i].GioKetThuc }}</span>
+                                    </div>
+                                </a-tag>
+                            </div>
+
+                            <!-- <a-row style="height: 106px" :style="{ 'background-color': !CompareDate(record[item]?.NgayThangNam) ? '#fff0f0' : '#ebfae6' }">
                                 <a-col :span="8">
                                     <div class="h-50 border-bottom border-end border-success d-flex align-items-center justify-content-center">
                                         <b>7.75</b>
@@ -36,24 +60,14 @@
                                         <span><uc-icon name="umbrella" /> Ca 2: {{ record[item][item + `_C2_VaoCa`] }}-{{ record[item][item + `_C2_RaCa`] }}</span>
                                     </div>
                                 </a-col>
-                            </a-row>
+                            </a-row> -->
                         </div>
                     </template>
                 </template>
             </template>
         </a-table>
-
-        <!-- <a-card>
-
-            <a-calendar v-modal:value="selectedDate">
-
-                <template #dateCellRender="{ current }">
-                    <div>
-                        hello
-                    </div>
-                </template>
-            </a-calendar>
-        </a-card> -->
+        <uc-table-tinh-cong v-else-if="currentSteps === 1" />
+        <uc-modal-check-in-out v-model:isOpen="isShowModalCheckInOut" :dschamcong="DSCheckInOut" :dsca="DSCa" />
     </uc-layout>
 </template>
 
@@ -65,6 +79,15 @@ export default {
         const LichLamViec_Id = parseInt(urlParam.get('llvid'))
         const MauBangCong_Id = parseInt(urlParam.get('mbcid'))
         return {
+            steps: [
+                {
+                    title: 'Xem công',
+                },
+                {
+                    title: 'Tính và chỉnh sửa công',
+                },
+            ],
+            currentSteps: 0,
             selectedDate: null,
             LichLamViec_Id: isNaN(LichLamViec_Id) ? null : LichLamViec_Id,
             MauBangCong_Id: isNaN(MauBangCong_Id) ? null : MauBangCong_Id,
@@ -72,58 +95,116 @@ export default {
             DSChuKy: [],
             isDisabled: false,
             Thang: 1,
+            DSTrangThaiChamCong: [
+                {
+                    id: 1,
+                    TenTrangThai: 'Chưa xuất bản',
+                    Color: 'muted',
+                    Icon: 'progress-pencil',
+                },
+                {
+                    id: 2,
+                    TenTrangThai: 'Đã xuất bản',
+                    Color: 'primary',
+                    Icon: 'account-check',
+                },
+                {
+                    id: 3,
+                    TenTrangThai: 'Đủ vào, ra',
+                    Color: 'success',
+                    Icon: 'check-circle-outline',
+                },
+                {
+                    id: 4,
+                    TenTrangThai: 'Vắng mặt',
+                    Color: 'red',
+                    Icon: 'close-circle-outline',
+                },
+                {
+                    id: 5,
+                    TenTrangThai: 'Đi muộn',
+                    Color: 'warning',
+                    Icon: 'clock-minus-outline',
+                },
+                {
+                    id: 6,
+                    TenTrangThai: 'Nghỉ tính công',
+                    Color: 'success',
+                    Icon: 'currency-usd',
+                },
+                {
+                    id: 7,
+                    TenTrangThai: 'Nghỉ lễ',
+                    Color: 'success',
+                    Icon: 'white-balance-sunny',
+                },
+                {
+                    id: 8,
+                    TenTrangThai: 'Không tính công',
+                    Color: 'red',
+                    Icon: 'currency-usd-off',
+                },
+                {
+                    id: 9,
+                    TenTrangThai: 'Chưa tính công',
+                    Color: 'primary',
+                    Icon: 'square-rounded',
+                    ShowAtStep: 1,
+                },
+                {
+                    id: 10,
+                    TenTrangThai: 'Đã tính công',
+                    Color: 'success',
+                    Icon: 'square-rounded',
+                    ShowAtStep: 1,
+                },
+                {
+                    id: 11,
+                    TenTrangThai: 'Đã chốt công',
+                    Color: 'warning',
+                    Icon: 'square-rounded',
+                    ShowAtStep: 1,
+                },
+            ],
             columns: [
                 {
                     title: 'Thứ 2',
                     dataIndex: 'Thu_2',
                     key: 'T2',
-                    align: 'center',
                 },
                 {
                     title: 'Thứ 3',
                     dataIndex: 'Thu_3',
                     key: 'T3',
-                    align: 'center',
                 },
                 {
                     title: 'Thứ 4',
                     dataIndex: 'Thu_4',
                     key: 'T4',
-                    align: 'center',
                 },
                 {
                     title: 'Thứ 5',
                     dataIndex: 'Thu_5',
                     key: 'T6',
-                    align: 'center',
                 },
                 {
                     title: 'Thứ 7',
                     dataIndex: 'Thu_7',
                     key: 'T7',
-                    align: 'center',
                 },
                 {
                     title: 'Chủ nhật',
                     dataIndex: 'Chu_Nhat',
                     key: 'CN',
-                    align: 'center',
-                },
-            ],
-            data_Thang: [
-                {
-                    Thu_2: '2',
-                    Thu_3: '3',
-                    Thu_4: '4',
-                    Thu_5: '5',
-                    Thu_6: '6',
-                    Thu_7: '7',
-                    Thu_CN: 'CN',
-                    Thang: 9,
                 },
             ],
             DSNgay: [],
             DSPhanCa: [],
+            listData: [],
+            value: dayjs(),
+            isShowModalCheckInOut: false,
+            DSCheckInOut: [],
+            DSCa: [],
         }
     },
     mounted() {
@@ -356,50 +437,29 @@ export default {
                     MauBangCong_Id: $this.MauBangCong_Id,
                 })
                 this.DSNgay = DSNgay
-                const columns = []
-                for (var item of DSNgay.slice(0, 7)) {
-                    let obj = {}
-                    switch (item?.Thu) {
-                        case 'CN':
-                            obj.title = 'Chủ nhật'
-                            break
-                        case 'T2':
-                            obj.title = 'Thứ 2'
-                            break
-                        case 'T3':
-                            obj.title = 'Thứ 3'
-                            break
-                        case 'T4':
-                            obj.title = 'Thứ 4'
-                            break
-                        case 'T5':
-                            obj.title = 'Thứ 5'
-                            break
-                        case 'T6':
-                            obj.title = 'Thứ 6'
-                            break
-                        case 'T7':
-                            obj.title = 'Thứ 7'
-                            break
-                    }
-                    obj.dataIndex = 'Ngay_' + item?.Ngay + '_Thu_' + item?.Thu
-                    obj.align = 'center'
-                    obj.key = item.Thu
-                    columns.push(obj)
-                }
-                // this.columns = columns
-                console.log('columns', columns)
                 let obj = {}
                 for (var item of DSNgay) {
-                    let DSPhanCaFilter = Object.keys(DSPhanCa)
-                        .filter((x) => x.startsWith(item.Thu))
-                        .reduce((x, key) => {
-                            x[key] = DSPhanCa[key]
-                            return x
-                        }, {})
-                    obj[item.Thu] = { ...item, ...DSPhanCaFilter }
-                    console.log('obj', obj)
-                    if (obj.Thu_So === 1) {
+                    // let DSPhanCaFilter = Object.keys(DSPhanCa)
+                    //     .filter((x) => x.startsWith(item.Thu))
+                    //     .reduce((x, key) => {
+                    //         x[key] = DSPhanCa[key]
+                    //         return x
+                    //     }, {})
+                    // obj[item.Thu] = { ...item, ...DSPhanCaFilter }
+                    // if (obj.hasOwnProperty('CN')) {
+                    //     this.DSPhanCa.push(obj)
+                    //     obj = {}
+                    // }
+                    // if (item.Ngay === DSNgay.length) {
+                    //     this.DSPhanCa.push(obj)
+                    // }
+
+                    obj[item.Thu] = { ...item }
+                    const DSFilterPhanCaNgay = DSPhanCa.filter((x) => x.Ngay === item.Ngay)
+                    for (var phanCa of DSFilterPhanCaNgay) {
+                        obj[item.Thu]['Ca_' + phanCa.MaCaMau] = phanCa
+                    }
+                    if (obj.hasOwnProperty('CN')) {
                         this.DSPhanCa.push(obj)
                         obj = {}
                     }
@@ -408,7 +468,6 @@ export default {
                     }
                 }
             }
-            console.log('this.DSPhanCa', this.DSPhanCa)
         },
         async getDSChuKy() {
             const $this = this
@@ -417,7 +476,6 @@ export default {
                 $this.DSMauBangCong = DSMauBangCong
             })
         },
-
         onChangeChuKy() {
             const $this = this
             $this.isDisabled = false
@@ -432,15 +490,44 @@ export default {
         CompareDate(item) {
             return dayjs(item || '').isSame(dayjs(), 'day')
         },
+        async onOpenModalCheckInOut(record) {
+            const $this = this
 
-        async onOpenModalLichSuChamCong(record) {
-            const res = await checkInOutService.CheckInOut_Select_By_NhanVien_Id({
-                // NhanVien_Id: record.NhanVien_Id,
-                Ngay: record.Ngay,
+            const res = await checkInOutService.CheckInOut_Select_By_NgayThangNam({
                 Thang: record.Thang,
                 Nam: record.Nam,
+                Ngay: record.Ngay,
+                MauBangCong_Id: $this.MauBangCong_Id,
             })
-            console.log('record', record)
+            if (res) {
+                $this.DSCheckInOut = res
+            }
+            $this.isShowModalCheckInOut = true
+            $this.DSCa = Object.keys(record)
+                .filter((x) => x.startsWith('Ca'))
+                .map((x) => {
+                    return { ...record[x] }
+                })
+            console.log('$this.DSCa', $this.DSCa)
+        },
+        onChangeStep(current) {
+            console.log('current', current)
+            if (this.LichLamViec_Id && this.MauBangCong_Id) {
+                let content = current === 0 ? 'Tính và chỉnh sửa công' : 'Xem công'
+                Confirm.confirm({
+                    content: `Bạn có chắc muốn chuyển sang bước ${content}?`,
+                    onOk: () => {
+                        if (content === 'Xem công') {
+                            this.currentSteps--
+                        } else {
+                            this.currentSteps++
+                        }
+                    },
+                    onCancel: () => {
+                        this.currentSteps = current
+                    },
+                })
+            }
         },
     },
 }

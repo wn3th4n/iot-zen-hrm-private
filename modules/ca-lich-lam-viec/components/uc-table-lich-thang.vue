@@ -1,49 +1,5 @@
 <template>
     <uc-layout>
-        <a-card class="card-title-page">
-            <template #title>
-                <div class="d-flex flex-row">
-                    <b class="me-3">{{ pageTitle }}</b>
-                    <a-select v-model:value="LichLamViec_Id" placeholder="Chọn chu kỳ" @change="onChangeChuKy()" class="me-2 min-w-200px">
-                        <a-select-option v-for="item in DSChuKy" :value="item.LichLamViec_Id" :key="item.LichLamViec_Id">Tháng {{ item.Thang }}/{{ item.Nam }}</a-select-option>
-                    </a-select>
-                    <a-select v-model:value="MauBangCong_Id" placeholder="Chọn lịch làm việc" @change="onChangeLichLamViec()" :disabled="isDisabled" class="min-w-300px">
-                        <a-select-option v-for="item in DSMauBangCong.filter((item) => item.LichLamViec_Id === LichLamViec_Id)" :value="item.MauBangCong_Id" :key="item.MauBangCong_Id">{{ item.TenMauBangCong }}</a-select-option>
-                    </a-select>
-                    <div class="w-100 ps-5 d-flex align-items-center">
-                        <a-steps style="width: 300px" :current="current" :items="steps" @change="onChangeStep(current)" />
-                    </div>
-                </div>
-            </template>
-            <template #extra>
-                <div>
-                    <a-space size="small" v-if="LichLamViec_Id > 0 && MauBangCong_Id > 0" class="d-flex justify-content-end">
-                        <a-dropdown :trigger="['click']" v-if="current === 1">
-                            <a-button type="primary"><uc-icon name="apps" />Thao tác<uc-icon name="chevron-down" /></a-button>
-                            <template #overlay>
-                                <a-menu>
-                                    <a-menu-item @click="onOpenModalTinhToan()"><uc-icon name="calculator-variant-outline" />Tính toán</a-menu-item>
-                                    <a-divider class="my-1"></a-divider>
-                                    <a-menu-item @click="onKhoaCong()"> <uc-icon name="lock-outline" /> Khóa công </a-menu-item>
-                                    <a-menu-item @click="onHuyKhoaCong()"> <uc-icon name="lock-open-outline" />Hủy khóa công </a-menu-item>
-                                    <a-divider class="my-1"></a-divider>
-                                    <a-menu-item @click="isShowModalDongBoDuLieu = true"> <uc-icon name="sync" />Đồng bộ dữ liệu </a-menu-item>
-                                </a-menu>
-                            </template>
-                        </a-dropdown>
-                        <a-dropdown :trigger="['click']" v-if="current === 0">
-                            <a-button type="primary"><uc-icon name="apps" />Tùy chỉnh<uc-icon name="chevron-down" /></a-button>
-                            <template #overlay>
-                                <a-menu>
-                                    <a-menu-item @click="RedirectPhanCa()"><uc-icon name="calendar-plus-outline" />Phân ca</a-menu-item>
-                                    <a-menu-item @click="RedirectCheckInOut()"><uc-icon name="calendar-account-outline" />Chấm công</a-menu-item>
-                                </a-menu>
-                            </template>
-                        </a-dropdown>
-                    </a-space>
-                </div>
-            </template>
-        </a-card>
         <a-card size="small" class="text-center card-title-page border-top-0 border-bottom-0">
             <a-space size="middle">
                 <div v-for="(item, index) in current === 0 ? DSTrangThaiChamCong.filter((item) => item.ShowAtStep !== 1) : DSTrangThaiChamCong" :key="item.id">
@@ -54,7 +10,6 @@
                 </div>
             </a-space>
         </a-card>
-
         <a-table
             :scroll="{ x: 'max-content', y: 'calc(100vh - 185px)' }"
             :columns="columns"

@@ -34,7 +34,7 @@
         data(){
             return {
                 state: {
-                    isLoadingModal: true
+                    isLoadingModal: false
                 },
                 rules: {
                     TenNhomChinhSach_LamThem: [{required: true, message: 'Tên nhóm chính sách không được để trống', trigger: 'change'}]

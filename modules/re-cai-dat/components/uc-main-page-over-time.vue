@@ -6,7 +6,7 @@
                     <a-button type="primary" @click.prevent><uc-icon name="plus" />Thêm</a-button>
                     <template #overlay>
                         <a-menu>
-                            <a-menu-item key="0"><uc-icon name="plus" />Thêm chính sách</a-menu-item>
+                            <a-menu-item key="0"  @click="states.isOpenModalAddChinhSach = true"><uc-icon name="plus" />Thêm chính sách</a-menu-item>
                             <a-menu-item key="1" @click="states.isOpenModalAddNhomChinhSach = true"><uc-icon name="plus" />Thêm nhóm chính sách</a-menu-item>
                         </a-menu>
                     </template>
@@ -56,6 +56,8 @@
         </a-tab-pane>
     </a-tabs>
 
+    <uc-modal-add-chinh-sach :dsNhomChinhSach="values.dsNhomChinhSach" v-model:isOpen="states.isOpenModalAddChinhSach" @onFinish="loadDSChinhSach()" />
+
     <uc-modal-add-nhom-chinh-sach v-model:isOpen="states.isOpenModalAddNhomChinhSach" @onFinish="loadDSNhomChinhSach()" />
     <uc-modal-edit-nhom-chinh-sach :record="values.record.NhomChinhSach" v-model:isOpen="states.isOpenModalEditNhomChinhSach" @onFinish="loadDSNhomChinhSach()" />
 </template>
@@ -66,6 +68,9 @@ export default {
         return {
             states: {
                 isLoadingTableNhomChinhSach: false,
+
+                isOpenModalAddChinhSach: false,
+                isOpenModalEditChinhSach: false,
                 isOpenModalAddNhomChinhSach: false,
                 isOpenModalEditNhomChinhSach: false,
             },

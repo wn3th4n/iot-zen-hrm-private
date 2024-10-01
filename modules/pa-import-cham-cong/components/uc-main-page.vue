@@ -24,7 +24,7 @@
 			<hot-column title="Tên vị trí" data="TenViTri" :readOnly="true"></hot-column>
 			<hot-column title="Mẫu chấm công" data="MauChamCong" :readOnly="true"></hot-column>
 			<hot-column v-for="(date, index) in dsNgay" :title="date" :data="'Ngay_' + date.toString().padStart('2', 0)"
-				width="90" :readOnly="isViewedTemplate" style="background-color:red"></hot-column>
+				width="90" :readOnly="isViewedTemplate" style="background-color:red"  :className="getColumnClass(date, index, dsThu)"></hot-column>
 		</uc-handsontable>
 	</uc-layout>
 </template>
@@ -45,6 +45,7 @@
 	            isLoading: false,
 	            dsNhanVien: [],
 	            dsNgay: [],
+				dsThu: [],
 	            templateHeader: [[]],
 	            isViewedTemplate: false,
 	            ctLichLamViec: null,
@@ -63,16 +64,6 @@
 	        cellStyle(row, col) {
 	            const $this = this
 	            const cellProperties = {};
-	            // Thiết lập background color cho cell ở dòng 1, cột 1 (index từ 0)
-
-				// Lấy tiêu đề của cột từ templateHeader
-				const columnTitle = this.templateHeader[0][col]; // Giả sử hàng thứ 2 (index 1) là header
-				console.log(columnTitle);
-				
-				// Kiểm tra nếu tiêu đề cột là "CN"
-				if (columnTitle === 'CN') {
-					cellProperties.className = 'thu-cn'; // Gán lớp CSS cho cột có tiêu đề là CN
-				}
 
 	            if (row === 1 && col === 1) {
 	                cellProperties.className = 'my-custom-cell';
@@ -102,6 +93,24 @@
 	            console.log('cell style');
 	            return cellProperties;
 	        },
+
+			getColumnClass(date, index, dsThu) {
+				if(index > 3){
+					const thu = dsThu[index]; // Kiểm tra vị trí của ngày trong arrThu
+					if(thu=== 'CN'){
+						console.log(thu);
+						console.log(date);
+						return 'thu-cn-new';
+					}
+				}else{
+					return '';
+				}
+				
+			},
+			// getCSSTenViTri(TenViTri){
+
+			// }
+			
 	        validateTemplate() {
 	            const $this = this
 	            let isError = false
@@ -143,7 +152,9 @@
 	            ]
 	            $this.dsNhanVien = DSNhanVien
 	            $this.dsNgay = arrNgay
+				$this.dsThu	= arrThu
 	            $this.isViewedTemplate = false
+				
 	        },
 	        async onSave() {
 	            const $this = this

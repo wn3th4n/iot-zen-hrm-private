@@ -1,6 +1,6 @@
 <template>
     <uc-layout>
-        <a-card class="card-titlt-page">
+        <a-card class="card-title-page">
             <template #title>
                 <b>Công thức tính công - Lịch làm việc: {{ MauBangCong_Item.TenMauBangCong }}</b>
             </template>
@@ -35,8 +35,8 @@
                 </template>
             </template>
         </a-table>
-        <uc-modal-add-cong-thuc v-model:isOpen="modal.isShowModalAddCot" @onFinish="onCreateFinish" :maubangcongid="MauBangCongID" :DSBienHeThong="DSBienHeThong" />
-        <uc-modal-edit-cong-thuc :cauhinhcot="CauHinhCot_Item" v-model:isOpen="modal.isShowModalEditCot" @onFinish="onCreateFinish" :maubangcongid="MauBangCongID" :DSBienHeThong="DSBienHeThong" />
+        <uc-modal-add-cong-thuc v-model:isOpen="modal.isShowModalAddCot" @onFinish="onCreateFinish" :maubangcongid="MauBangCongID" :DSBienHeThong="DSBienHeThong" :DSCauHinhCot="DSCauHinhCot" :MauBangCong_Item="MauBangCong_Item" />
+        <uc-modal-edit-cong-thuc :cauhinhcot="CauHinhCot_Item" v-model:isOpen="modal.isShowModalEditCot" @onFinish="onCreateFinish" :maubangcongid="MauBangCongID" :DSBienHeThong="DSBienHeThong" :MauBangCong_Item="MauBangCong_Item" />
     </uc-layout>
 </template>
 
@@ -74,13 +74,13 @@ export default {
                     width: '90px',
                     fixed: 'left',
                 },
-                // {
-                //     title: 'Cách tính',
-                //     dataIndex: 'istheongay',
-                //     key: 'istheongay',
-                //     align: 'center',
-                //     width: '100px',
-                // },
+                {
+                    title: 'Cách tính',
+                    dataIndex: 'istheongay',
+                    key: 'istheongay',
+                    align: 'center',
+                    width: '100px',
+                },
                 // {
                 //     title: 'Loại',
                 //     dataIndex: 'LoaiThuocTinh_Ten',
@@ -161,6 +161,7 @@ export default {
             this.modal.isShowModalEditCot = true
             this.CauHinhCot_Item = Object.assign({}, record)
             this.CauHinhCot_Item.Is_HienThi = this.CauHinhCot_Item.Is_HienThi ? 1 : 0
+            this.CauHinhCot_Item.Is_TheoNgay = this.CauHinhCot_Item.Is_TheoNgay ? 1 : 0
         },
         onDelete(record) {
             Confirm.delete({

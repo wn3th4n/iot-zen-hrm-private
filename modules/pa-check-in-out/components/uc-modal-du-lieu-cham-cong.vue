@@ -33,8 +33,10 @@
                         </template>
                         <template #avatar>
                             <a-space :size="12">
-                                <a-watermark :height="30" :width="130" content="Watermark Text" :zIndex="50" :fontSize="40" font="14px Arial" :gap="[100, 100]" v-if="item.HinhAnh">
-                                    <a-image :width="100" :src="apiReturnFile + item.HinhAnh" />
+                                <a-watermark :height="30" :width="130" content="Watermark Text" :style="{ zIndex: 1 }" :fontSize="40" :gap="[100, 100]" v-if="item.HinhAnh">
+                                    <a-image :width="100" :src="apiReturnFile + item.HinhAnh" alt="hehehehheqưeqqưeqweqwweqw">
+                                        <div>Helloo</div>
+                                    </a-image>
                                 </a-watermark>
 
                                 <a-image

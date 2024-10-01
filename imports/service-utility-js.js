@@ -439,7 +439,7 @@ const lichLamViecService = {
         // @MauBangCong_Id INT,
         const res = await apiUtilWork.CA('LichLamViec_CoDinh_Select_Lich', params)
         const DSNgay = res.data[0]
-        const DSPhanCa = res.data[1][0]
+        const DSPhanCa = res.data[1]
         const TTMauBangCong = res.data[2][0]
         const TTChuKy = res.data[3][0]
         return { DSNgay, DSPhanCa, TTMauBangCong, TTChuKy }
@@ -1478,7 +1478,19 @@ const checkInOutService = {
         } else {
             return false
         }
-    }
+    },
+    CheckInOut_Select_By_NgayThangNam: async (params) => {
+        //     @NhanVien_Id INT,
+        // @Ngay INT,
+        // @Thang INT,
+        // @Nam INT
+        const res = await apiUtilWork.IO('CheckInOut_Select_By_NgayThangNam', params)
+        if (res.data) {
+            return res.data
+        } else {
+            return false
+        }
+    },
 }
 
 const nhanVienService = {

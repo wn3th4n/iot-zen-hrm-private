@@ -208,6 +208,10 @@ body .handsontable .myCols {
 .ant-table-body{
     scrollbar-width: thin;
 }
-.thu-cn {
-    background-color: lightgreen; /* Màu xanh cho cột CN */
+.thu-cn-new {
+    background: linear-gradient(135deg, #e3e146 0%, #e3e146 5%, transparent 5%, transparent 10%, #e3e146 10%, #e3e146 15%, transparent 15%, transparent 20%, #e3e146 20%, #e3e146 25%, transparent 25%, transparent 30%, #e3e146 30%, #e3e146 35%, transparent 35%, transparent 40%, #e3e146 40%, #e3e146 45%, transparent 45%, transparent 50%, #e3e146 50%, #e3e146 55%, transparent 55%, transparent 60%, #e3e146 60%, #e3e146 65%, transparent 65%, transparent 70%, #e3e146 70%, #e3e146 75%, transparent 70%, transparent 80%, #e3e146 80%, #e3e146 85%, transparent 85%, transparent 90%, #e3e146 90%, #e3e146 95%, transparent 95%);
+    background-size: 3em 3em;
+    background-color: #ffffff;
+    opacity: 1;
+    color:red;
 }

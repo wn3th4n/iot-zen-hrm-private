@@ -40,7 +40,7 @@
             <a-col :xs="24" :md="6" v-for="item in dsCongThuc" :key="item.LichLamViec_TinhCong_Id">
                 <div class="d-flex flex-row justify-content-between">
                     <b>{{ item?.TenThuocTinh }}:</b>
-                    <a-input-number :controls="false" size="small" class="input-number-align-right mb-1" v-if="item.LoaiDuLieu === 'NUM'" v-model:value="formData['GiaTri_' + item.LichLamViec_TinhCong_Id]" />
+                    <a-input-number :disabled="item.Is_TheoNgay" :controls="false" size="small" class="input-number-align-right mb-1" v-if="item.LoaiDuLieu === 'NUM'" v-model:value="formData['GiaTri_' + item.LichLamViec_TinhCong_Id]" />
                     <a-input v-if="item.LoaiDuLieu === 'TEXT'" v-model:value="formData['GiaTri_' + item.LichLamViec_TinhCong_Id]" />
                 </div>
             </a-col>
@@ -67,6 +67,7 @@ export default {
     watch: {
         isOpen(val) {
             if (val) {
+                console.log('record', this.record)
                 this.loadCongThuc()
                 this.loadCheckInOut()
             }
