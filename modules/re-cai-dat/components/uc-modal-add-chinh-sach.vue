@@ -1,5 +1,6 @@
 <template>
-    <uc-form-modal :isOpen="isOpen" title="Thêm chính sách" :formData="formData" :rules="rules" @onClose="oncancel()" @onSubmit="onsubmit()" :isSubmit="states.isLoadingModal" :width="1200">
+    <uc-form-modal :isOpen="isOpen" title="Thêm chính sách" :formData="formData" :rules="rules" @onClose="oncancel()"
+        @onSubmit="onsubmit()" :isSubmit="states.isLoadingModal" :width="1200">
         <a-row :gutter="[25]">
             <a-col :span="12">
                 <a-row :gutter="[10]">
@@ -94,18 +95,27 @@
                 <a-row :gutter="[10]">
                     <a-col :span="24">
                         <a-form-item label="">
-                            <a-checkbox v-model:checked="formData.Is_KhongTrungThoiGianLamViec">Yêu cầu đề xuất thời gian tăng ca không trùng với ca làm việc.</a-checkbox>
-                            <a-checkbox v-model:checked="formData.Is_KhungGio_DinhNghia">Yêu cầu đề xuất thời gian tăng ca trong khung giờ đã định nghĩa.</a-checkbox>
+                            <a-checkbox v-model:checked="formData.Is_KhongTrungThoiGianLamViec">Yêu cầu đề xuất thời
+                                gian tăng ca
+                                không trùng với ca làm việc.</a-checkbox>
+                            <a-checkbox v-model:checked="formData.Is_KhungGio_DinhNghia">Yêu cầu đề xuất thời gian tăng
+                                ca trong
+                                khung giờ đã định nghĩa.</a-checkbox>
                         </a-form-item>
                     </a-col>
-                    <a-col :span="24" >
-                        <uc-form-modal v-if="formData.Is_KhungGio_DinhNghia" title="Khung giờ tăng ca" >
-                        </uc-form-modal>
+                    <a-col :span="24" v-if="formData.Is_KhungGio_DinhNghia">
+                        <a-card title="Giờ trong ngày">
+                            <a-table columns="columns" :data-source="formData.DS_KhungGio_TrongNgay"
+                                :pagination="false">
+                            </a-table>
+                        </a-card>
+                        <a @click=""></a>
                     </a-col>
                 </a-row>
             </a-col>
         </a-row>
     </uc-form-modal>
+    <uc-modal-add-khung-gio :isOpen="states.isOpenModalKhungGioSang" @onFinish="onFinishAddKhungGioSang" />
 </template>
 
 <script>
@@ -116,6 +126,7 @@ export default {
         return {
             states: {
                 isLoadingModal: false,
+                isOpenModalKhungGioSang: false,
             },
             formData: {
                 NhomChinhSach_LamThem_Id: null,
@@ -138,7 +149,31 @@ export default {
                 Is_KhungGio_DinhNghia: false,
                 DS_KhungGio_TrongNgay: [],
                 DS_KhungGio_QuaDem: [],
+                /*
+                    {
+                        GioBatDau: "",
+                        GioKetThuc: """
+                    }
+                */
             },
+            columns: [
+                {
+                    title: "giờ bắt đầu",
+                    dataIndex: "",
+                    align: 'center'
+                },
+                {
+                    title: "giờ kết thúc",
+                    dataIndex: "",
+                    align: 'center'
+                },
+                {
+                    title: '',
+                    key: 'Action',
+                    align: 'center',
+                }
+
+            ],
             rules: {},
         }
     },
@@ -146,7 +181,10 @@ export default {
         oncancel() {
             this.$emit('update:isOpen', false)
         },
-        async onsubmit() {},
+        async onsubmit() { },
+        onFinishAddKhungGioSang(record){
+            this.formData.DS_KhungGio_TrongNgay.push(record)
+        }
     },
 }
 </script>
