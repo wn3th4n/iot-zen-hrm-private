@@ -142,7 +142,8 @@ export default {
             }
         },
         onEditNhomChinhSach(record) {
-            this.values.record.NhomChinhSach = { ...record, Is_TamKhoa: record.Is_TamKhoa ? 1 : 0 }
+            this.values.record.NhomChinhSach = Object.assign({}, record)
+            this.values.record.NhomChinhSach.Is_TamKhoa = record.Is_TamKhoa ? 1 : 0 
             this.states.isOpenModalEditNhomChinhSach = true
         },
         async onDeleteNhomChinhSach(record) {

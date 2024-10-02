@@ -1,6 +1,6 @@
 <template>
     <uc-form-modal :isOpen="isOpen" title="Thêm chính sách" :formData="formData" :rules="rules" @onClose="oncancel()"
-        @onSubmit="onsubmit()" :isSubmit="states.isLoadingModal" :width="1200">
+        @onSubmit="onsubmit()" :isSubmit="states.isLoadingModal" :width="1000">
         <a-row :gutter="[25]">
             <a-col :span="12">
                 <a-row :gutter="[10]">
@@ -24,11 +24,6 @@
                             </a-select>
                         </a-form-item>
                     </a-col>
-
-                  
-
-                    <a-col span="12"></a-col>
-
                     <a-col :span="12">
                         <a-form-item label="Mã hệ số" name="MaHeSo">
                             <a-input v-model:value="formData.MaHeSo" />
@@ -68,20 +63,29 @@
                             </a-input-number>
                         </a-form-item>
                     </a-col>
+                    <a-col :span="24">
+                        <a-form-item label="Mô tả">
+                            <a-textarea v-model:value="formData.MoTa" class="w-100" />
+                        </a-form-item>
+                    </a-col>
+
+
+                    <a-col :span="12">
+                        <a-select v-model:value="formData.Is_TamKhoa">
+                            <a-select-option :value="0">Không</a-select-option>
+                            <a-select-option :value="1">Tạm Khoá</a-select-option>
+                        </a-select>
+                    </a-col>
                 </a-row>
-                <a-col :span="24">
-                    <a-form-item label="Mô tả">
-                        <a-textarea v-model:value="formData.MoTa" class="w-100" />
-                    </a-form-item>
-                </a-col>
-               
             </a-col>
+
             <a-col :span="12" class="border-start">
                 <a-row :gutter="[10]">
-                    <a-col :span="24">
-                        <a-form-item label="Người quản lý">
-                            
+                    <a-col :span="24" class="mb-3">
+                        <a-form-item label="Người quản lý hoặc người theo dõi">
+                            <a-table class="mb-3" size="small" :columns="columns.NguoiQuanLy" :pagination="false"></a-table>
                         </a-form-item>
+                        <a @click="states.isOpenModalKhungGioSang = true"><uc-icon name="plus" />Thêm nhân sự.</a>
                     </a-col>
                     <a-col :span="24">
                         <a-form-item label="">
@@ -93,18 +97,35 @@
                                 khung giờ đã định nghĩa.</a-checkbox>
                         </a-form-item>
                     </a-col>
-
-                    <a-col :span="24" v-if="formData.Is_KhungGio_DinhNghia">
-                        <a-table size="small" :columns="columns" :dataSource="formData.DS_KhungGio" :pagination="false"></a-table>
-                        <a @click="states.isOpenModalKhungGioSang = true"><uc-icon name="plus" />Thêm khung giờ.</a>
+                    <a-col :span="24" v-if="formData.Is_KhungGio_DinhNghia" class="mb-3">
+                        <a-table class="mb-3" size="small" :columns="columns.KhungGio" :dataSource="formData.DS_KhungGio"
+                            :pagination="false">
+                            <template #bodyCell="{  record, index, column }">
+                                <template v-if="column.key === 'Action'">
+                                    <a-dropdown :trigger="['click']">
+                                        <a class="ant-dropdown-link">
+                                            <uc-icon name="dots-horizontal" />
+                                        </a>
+                                        <template #overlay>
+                                            <a-menu>
+                                                <a-menu-item @click="onEditKhungThoiGian(record,index)"><uc-icon class="text-primary"
+                                                        name="square-edit-outline" />Chỉnh sửa</a-menu-item>
+                                                <a-menu-item @click="onKhungThoiGianRemoveAt(index)"><uc-icon class="text-red"
+                                                        name="delete-outline" />Xoá</a-menu-item>
+                                            </a-menu>
+                                        </template>
+                                    </a-dropdown>
+                                </template>
+                            </template>
+                        </a-table>
+                        <a @click="states.isOpenModalAddKhungGio = true"><uc-icon name="plus" />Thêm khung giờ.</a>
                     </a-col>
-
-
                 </a-row>
             </a-col>
         </a-row>
-        <uc-modal-add-khung-thoi-gian v-model:isOpen="states.isOpenModalKhungGioSang" />
-    </uc-form-modal>
+        <uc-modal-add-khung-thoi-gian v-model:isOpen="states.isOpenModalAddKhungGio" @onFinish="onFinishAddKhungThoiGian" />
+        <uc-modal-edit-khung-thoi-gian :record="value.recordEditKhungThoiGian" v-model:isOpen="states.isOpenModalEditKhungGio" @onFinish="onFinishEditKhungThoiGian" />
+   </uc-form-modal>
 </template>
 
 <script>
@@ -115,8 +136,13 @@ export default {
         return {
             states: {
                 isLoadingModal: false,
-                isOpenModalKhungGioSang: false,
-
+                isOpenModalAddKhungGio: false,
+                isOpenModalEditKhungGio: false,
+            },
+            value: {
+                indexEdit: null,
+                recordEditKhungThoiGian: {}
+                
             },
             formData: {
                 NhomChinhSach_LamThem_Id: null,
@@ -141,36 +167,69 @@ export default {
                 DS_NguoiQuanLy: []
 
             },
-            columns: [
-                {
-                    title: "Giờ bắt đầu",
-                    dataIndex: "GioBatDau",
-                    align: 'center'
-                },
-                {
-                    title: "Giờ kết thúc",
-                    dataIndex: "GioKetThuc",
-                    align: 'center'
-                },
-                {
-                    title: '',
-                    key: 'Action',
-                    align: 'center',
-                }
-
-            ],
+            columns: {
+                KhungGio: [
+                    {
+                        title: "Giờ bắt đầu",
+                        dataIndex: "GioBatDau",
+                        align: 'center'
+                    },
+                    {
+                        title: "Giờ kết thúc",
+                        dataIndex: "GioKetThuc",
+                        align: 'center'
+                    },
+                    {
+                        title: '',
+                        key: 'Action',
+                        align: 'center',
+                    }
+                ],
+                NguoiQuanLy: [
+                    {
+                        title: "STT",
+                        dataIndex: "stt",
+                    },
+                    {
+                        title: "Họ Và Tên",
+                        dataIndex: "stt",
+                    },
+                    {
+                        tille: "Vai Trò",
+                        key: "VaiTro"
+                    }
+                ]
+            },
             rules: {},
         }
     },
     methods: {
         oncancel() {
             this.$emit('update:isOpen', false)
-            this.states.isOpenModalKhungGioSang = false
+            isOpenModalAddKhungGio = false
         },
         async onsubmit() { },
-        onFinishAddKhungGioSang(record) {
+        onFinishAddKhungThoiGian(record) {
             this.formData.DS_KhungGio.push(record)
-        }
+        },
+        onFinishEditKhungThoiGian(record) {
+            this.formData.DS_KhungGio = this.formData.DS_KhungGio.map((e,idx) => {
+                if(idx === this.value.indexEdit) {
+                    return e = record
+                }
+            })
+            this.value.indexEdit = null
+        },
+        onKhungThoiGianRemoveAt(index) {
+            this.formData.DS_KhungGio = this.formData.DS_KhungGio.filter((_, i) => i !== index);
+        },
+        onEditKhungThoiGian(record,index) { 
+            this.value.recordEditKhungThoiGian = Object.assign({},record)
+            this.value.recordEditKhungThoiGian.GioBatDau = dayjs(record.GioBatDau, 'HH:mm')
+            this.value.recordEditKhungThoiGian.GioKetThuc = dayjs(record.GioKetThuc, 'HH:mm')
+            this.states.isOpenModalEditKhungGio = true
+            this.value.indexEdit = index
+        },
     },
 }
 </script>

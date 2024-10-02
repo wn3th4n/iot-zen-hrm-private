@@ -1,14 +1,14 @@
 <template>
-    <uc-form-modal ref="modalRef2" :formData="formData" :rules="rules" :width="350" :isOpen="isOpen" title="Thêm khung thời gian" @onClose="onClose()" @onSubmit="onFinish()" :isSubmit="state.isLoading">
+    <uc-form-modal ref="modalRef2" :formData="record" :rules="rules" :width="350" :isOpen="isOpen" title="Thêm khung thời gian" @onClose="onClose()" @onSubmit="onFinish()" :isSubmit="state.isLoading">
         <a-row :gutter="[10]">
             <a-col :span="12">
                 <a-form-item label="Thời gian bắt đầu" name="GioBatDau">
-                    <a-time-picker format="HH:mm" v-model:value="formData.GioBatDau" placeholder="hh:mm" :minuteStep="5" />
+                    <a-time-picker format="HH:mm" v-model:value="record.GioBatDau" placeholder="hh:mm" :minuteStep="5" />
                 </a-form-item>
             </a-col>
             <a-col :span="12">
                 <a-form-item label="Thời gian kết thúc" name="GioKetThuc">
-                    <a-time-picker format="HH:mm" v-model:value="formData.GioKetThuc" placeholder="hh:mm" :minuteStep="5" />
+                    <a-time-picker format="HH:mm" v-model:value="record.GioKetThuc" placeholder="hh:mm" :minuteStep="5" />
                 </a-form-item>
             </a-col>
         </a-row>
@@ -18,7 +18,7 @@
 <script>
     export default {
         emits: ["update:isOpen", "onFinish"],
-        props: ["isOpen"],
+        props: ["isOpen","record"],
         data(){
             return {
                 state: {
@@ -40,14 +40,12 @@
         },
         methods: {
             onFinish(){
-                this.formData = {
-                    ...this.formData,
-                    GioBatDau: this.formData.GioBatDau.format("HH:mm"),
-                    GioKetThuc: this.formData.GioKetThuc.format("HH:mm")
+                this.$message.success("Sửa thành công");
+                const data = {
+                    GioBatDau: this.record.GioBatDau.format("HH:mm"),
+                    GioKetThuc: this.record.GioKetThuc.format("HH:mm")
                 }
-                this.$message.success("Thêm thành công");
-                this.$emit("onFinish", this.formData);
-                this.formData = { ...this.formDefault };
+                this.$emit("onFinish", data);
                 this.onClose();
             },
             onClose(){
