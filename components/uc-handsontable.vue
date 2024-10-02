@@ -31,7 +31,6 @@ export default {
                 colHeaders: true,
                 rowHeaders: true,
                 height: heightTable,
-                className: "thu-cn",
                 licenseKey: 'non-commercial-and-evaluation',
             },
         }

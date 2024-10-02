@@ -2506,3 +2506,61 @@ const loaiHopDongService = {
         return false
     },
 }
+
+const lyDoNghiViecService = {
+    LyDoNghiViec_Select: async () => {
+        const reps = await apiUtilWork.HR('LyDoNghiViec_Select')
+        if (reps.data)
+            return reps.data
+        return []
+    },
+    LyDoNghiViec_Insert: async (param) => {
+        const reps = await apiUtilWork.HR('LyDoNghiViec_Insert', param)
+        if (reps)
+            return true
+        return false
+    },
+    LyDoNghiViec_Delete: async (param) => {
+        const reps = await apiUtilWork.HR('LyDoNghiViec_Delete', param)
+        if (reps)
+            return true
+    },
+    LyDoNghiViec_Update: async (param) => {
+        const reps = await apiUtilWork.HR('LyDoNghiViec_Update', param)
+        if (reps)
+            return true
+        return false
+    }
+}
+
+const chinhSachNhanSuService = {
+    LoaiChinhSach_NhanSu_Select: async () => {
+        const reps = await apiUtilWork.HR('LoaiChinhSach_NhanSu_Select')
+        if (reps.data)
+            return reps.data
+        return []
+    },
+    ChinhSach_NhanSu_Insert: async (param) => {
+        const reps = await apiUtilWork.HR('ChinhSach_NhanSu_Insert', param)
+        if (reps)
+            return true
+        return false
+    },
+    ChinhSach_NhanSu_Delete: async (param) => {
+        const reps = await apiUtilWork.HR('ChinhSach_NhanSu_Delete', param)
+        if (reps)
+            return true
+        return false
+    },
+    ChinhSach_NhanSu_Select: async () => {
+        const reps = await apiUtilWork.HR('ChinhSach_NhanSu_Select')
+        if (reps.data)
+            return reps.data
+        return []
+    },
+    ChinhSach_NhanSu_Update: async (param) => {
+        const reps = await apiUtilWork.HR('ChinhSach_NhanSu_Update', param)
+        if (reps)
+            return true
+    },
+}

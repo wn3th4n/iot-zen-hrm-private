@@ -13,8 +13,8 @@
         </a-card>
         <a-table :columns="columns" :data-source="DSCauHinhCot" :pagination="false" size="small" :scroll="{ x: 300, y: `calc(100vh - 83px)` }" class="ant-table-striped" :row-class-name="rowClassName">
             <template #bodyCell="{ column, record }">
-                <template v-if="column.key === 'MaHeThong'">
-                    <b @click="onEdit(record)" class="back-link-hover cursor-pointer">{{ record.MaHeThong }}</b>
+                <template v-if="column.key === 'MaThuocTinh'">
+                    <b @click="onEdit(record)" class="back-link-hover cursor-pointer">{{ record.MaThuocTinh }}</b>
                 </template>
                 <template v-else-if="column.key === 'isshow'">
                     <uc-icon v-if="!record.Is_HienThi" color="red" name="eye-off-outline" />
@@ -96,6 +96,7 @@ export default {
                     title: 'Mã thuộc tính',
                     dataIndex: 'MaThuocTinh',
                     width: '250px',
+                    key: 'MaThuocTinh'
                 },
                 {
                     title: 'Tên thuộc tính',

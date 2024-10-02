@@ -17,46 +17,26 @@
                     <a-col :span="12">
                         <a-form-item label="Loại ngày áp dụng chính sách">
                             <a-select v-model:value="formData.LoaiNgayApDung">
-                                <a-select-option :value="0">tất cả</a-select-option>
-                                <a-select-option :value="1">Ngày đi làm</a-select-option>
-                                <a-select-option :value="2">Ngày nghỉ hằng tuần</a-select-option>
-                                <a-select-option :value="2">Ngày lễ</a-select-option>
+                                <a-select-option :value="1">tất cả</a-select-option>
+                                <a-select-option :value="2">Ngày đi làm</a-select-option>
+                                <a-select-option :value="3">Ngày nghỉ hằng tuần</a-select-option>
+                                <a-select-option :value="4">Ngày lễ</a-select-option>
                             </a-select>
-                        </a-form-item>
-                    </a-col>
-                    <a-col :span="12">
-                        <a-form-item label="Mã ca ngày">
-                            <a-input v-model:value="formData.MaCaNgay" />
-                        </a-form-item>
-                    </a-col>
-                    <a-col :span="12">
-                        <a-form-item label="Mã ca đêm">
-                            <a-input v-model:value="formData.MaCaDem" />
-                        </a-form-item>
-                    </a-col>
-                    <a-col :span="12">
-                        <a-form-item label="Luồng duyệt">
-                            <a-select v-model:value="formData.LuongDuyet_Id">
-                                <a-select-option :value="0">Một người duyệt</a-select-option>
-                                <a-select-option :value="1">Duyệt lần lượt</a-select-option>
-                                <a-select-option :value="2">Duyệt duyệt song song</a-select-option>
-                            </a-select>
-                        </a-form-item>
-                    </a-col>
-                    <a-col :span="12">
-                        <a-form-item label="Người theo dõi">
-                            <uc-select-nhan-vien v-model:value="formData.NguoiTheoDoi_Id" />
                         </a-form-item>
                     </a-col>
 
+                  
+
+                    <a-col span="12"></a-col>
+
                     <a-col :span="12">
-                        <a-form-item label="Hệ số nhân của tăng ca trong ngày">
-                            <a-input-number v-model:value="formData.HeSoCaNgay" :min="0" />
+                        <a-form-item label="Mã hệ số" name="MaHeSo">
+                            <a-input v-model:value="formData.MaHeSo" />
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
-                        <a-form-item label="Hệ số nhân của tăng ca qua đêm">
-                            <a-input-number v-model:value="formData.HeSoCaDem" :min="0" />
+                        <a-form-item label="Hệ số" name="HeSo">
+                            <a-input-number v-model:value="formData.HeSo" :step="0.01" class="w-100" />
                         </a-form-item>
                     </a-col>
 
@@ -89,10 +69,20 @@
                         </a-form-item>
                     </a-col>
                 </a-row>
+                <a-col :span="24">
+                    <a-form-item label="Mô tả">
+                        <a-textarea v-model:value="formData.MoTa" class="w-100" />
+                    </a-form-item>
+                </a-col>
+               
             </a-col>
             <a-col :span="12" class="border-start">
-                {{ formData }}
                 <a-row :gutter="[10]">
+                    <a-col :span="24">
+                        <a-form-item label="Người quản lý">
+                            
+                        </a-form-item>
+                    </a-col>
                     <a-col :span="24">
                         <a-form-item label="">
                             <a-checkbox v-model:checked="formData.Is_KhongTrungThoiGianLamViec">Yêu cầu đề xuất thời
@@ -103,19 +93,18 @@
                                 khung giờ đã định nghĩa.</a-checkbox>
                         </a-form-item>
                     </a-col>
+
                     <a-col :span="24" v-if="formData.Is_KhungGio_DinhNghia">
-                        <a-card title="Giờ trong ngày">
-                            <a-table columns="columns" :data-source="formData.DS_KhungGio_TrongNgay"
-                                :pagination="false">
-                            </a-table>
-                        </a-card>
-                        <a @click=""></a>
+                        <a-table size="small" :columns="columns" :dataSource="formData.DS_KhungGio" :pagination="false"></a-table>
+                        <a @click="states.isOpenModalKhungGioSang = true"><uc-icon name="plus" />Thêm khung giờ.</a>
                     </a-col>
+
+
                 </a-row>
             </a-col>
         </a-row>
+        <uc-modal-add-khung-thoi-gian v-model:isOpen="states.isOpenModalKhungGioSang" />
     </uc-form-modal>
-    <uc-modal-add-khung-gio :isOpen="states.isOpenModalKhungGioSang" @onFinish="onFinishAddKhungGioSang" />
 </template>
 
 <script>
@@ -127,6 +116,7 @@ export default {
             states: {
                 isLoadingModal: false,
                 isOpenModalKhungGioSang: false,
+
             },
             formData: {
                 NhomChinhSach_LamThem_Id: null,
@@ -134,12 +124,12 @@ export default {
                 MaChinhSach_LamThem: null,
                 MaCaNgay: null,
                 MaCaDem: null,
-                LoaiNgayApDung: 0,
-                LuongDuyet_Id: 0,
+                LoaiNgayApDung: null,
+                LuongDuyet_Id: null,
                 NgayGioiHan: 0,
                 NguoiTheoDoi_Id: null,
-                HeSoCaNgay: 0,
-                HeSoCaDem: 0,
+                HeSo: null,
+                MaHeSo: "",
                 MoTa: null,
                 ThoiHan_Duyet: 0,
                 GioiHan_OT_Ngay: 0,
@@ -147,24 +137,19 @@ export default {
                 Is_TamKhoa: 0,
                 Is_KhongTrungThoiGianLamViec: false,
                 Is_KhungGio_DinhNghia: false,
-                DS_KhungGio_TrongNgay: [],
-                DS_KhungGio_QuaDem: [],
-                /*
-                    {
-                        GioBatDau: "",
-                        GioKetThuc: """
-                    }
-                */
+                DS_KhungGio: [],
+                DS_NguoiQuanLy: []
+
             },
             columns: [
                 {
-                    title: "giờ bắt đầu",
-                    dataIndex: "",
+                    title: "Giờ bắt đầu",
+                    dataIndex: "GioBatDau",
                     align: 'center'
                 },
                 {
-                    title: "giờ kết thúc",
-                    dataIndex: "",
+                    title: "Giờ kết thúc",
+                    dataIndex: "GioKetThuc",
                     align: 'center'
                 },
                 {
@@ -180,10 +165,11 @@ export default {
     methods: {
         oncancel() {
             this.$emit('update:isOpen', false)
+            this.states.isOpenModalKhungGioSang = false
         },
         async onsubmit() { },
-        onFinishAddKhungGioSang(record){
-            this.formData.DS_KhungGio_TrongNgay.push(record)
+        onFinishAddKhungGioSang(record) {
+            this.formData.DS_KhungGio.push(record)
         }
     },
 }

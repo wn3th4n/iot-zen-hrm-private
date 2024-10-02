@@ -3,7 +3,7 @@
         <template #extra>
             <a-space size="small">
                 <a-dropdown :trigger="['click']">
-                    <a-button type="primary" @click.prevent><uc-icon name="plus" />Thêm</a-button>
+                    <a-button type="primary" @click.prevent><uc-icon name="plus" />Thêm chính sách</a-button>
                     <template #overlay>
                         <a-menu>
                             <a-menu-item key="0" @click="states.isOpenModalAddChinhSach = true"><uc-icon

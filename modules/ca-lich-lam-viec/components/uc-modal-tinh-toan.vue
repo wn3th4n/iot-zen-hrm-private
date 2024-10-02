@@ -268,7 +268,7 @@ export default {
                             continue
                         }
                         DS_CongThucCong = DS_CongThucCong_CongThuc.map((x, index) => {
-                            x.MauBangCong_ThuocTinh_Id === DS_CongThucCong[index].MauBangCong_ThuocTinh_Id
+                            x.MauBangCong_ThuocTinh_Id === DS_CongThucCong[index]?.MauBangCong_ThuocTinh_Id
                             const slicedEntries = Object.entries(x).slice(3)
                             const result = Object.fromEntries(slicedEntries)
                             return { ...DS_CongThucCong[index], ...result }

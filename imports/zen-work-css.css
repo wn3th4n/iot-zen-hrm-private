@@ -215,3 +215,35 @@ body .handsontable .myCols {
     opacity: 1;
     color:red;
 }
+.phanca-bg-training {
+    background-color: #e6f7ff !important;
+    /* Màu nền sáng cho đào tạo */
+    color: #007bff !important;
+    /* Màu chữ xanh dương */
+    text-align: center;
+    /* Căn giữa chữ */
+    font-size: 14px;
+    /* Kích thước chữ nhỏ hơn */
+}
+
+.phanca-bg-schedule {
+    background-color: #fff3cd !important;
+    /* Màu nền sáng cho lịch làm việc */
+    color: #856404 !important;
+    /* Màu chữ nâu */
+    text-align: center;
+    /* Căn giữa chữ */
+    font-size: 14px;
+    /* Kích thước chữ nhỏ hơn */
+}
+
+.phanca-bg-role {
+    background-color: #d4edda !important;
+    /* Màu nền sáng cho loại vị trí */
+    color: #155724 !important;
+    /* Màu chữ xanh lá */
+    text-align: center;
+    /* Căn giữa chữ */
+    font-size: 14px;
+    /* Kích thước chữ nhỏ hơn */
+}

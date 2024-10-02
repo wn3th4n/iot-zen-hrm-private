@@ -1,7 +1,7 @@
 <template>
-    <uc-form-modal v-model:isOpen="isOpen" title="Chỉnh sửa cột" :width="1400" :formData="record" ref="modalRef" :rules="rules" :isLoading="isLoading" @onSubmit="onSubmit()" @onClose="handleCancel()">
+    <uc-form-modal v-model:isOpen="isOpen" title="Chỉnh sửa cột" :width="800" :formData="record" ref="modalRef" :rules="rules" :isLoading="isLoading" @onSubmit="onSubmit()" @onClose="handleCancel()">
         <a-row :gutter="[10]">
-            <a-col :span="8">
+            <a-col :span="9">
                 <a-tabs default-active-key="1">
                     <a-tab-pane key="1" tab="Biến hệ thống" style="max-height: 550px; overflow-y: auto" class="pt-3">
                         <a-collapse ghost>
@@ -30,11 +30,19 @@
                     </a-tab-pane>
                 </a-tabs>
             </a-col>
-            <a-col :span="16">
+            <a-col :span="15">
                 <a-row :gutter="[10]">
                     <a-col :span="4">
                         <a-form-item label="Thứ tự" name="ThuTu">
                             <a-input-number v-model:value="record.ThuTu" class="w-100" />
+                        </a-form-item>
+                    </a-col>
+                    <a-col :span="7">
+                        <a-form-item label="Dữ liệu" name="LoaiDuLieu">
+                            <a-select v-model:value="record.LoaiDuLieu">
+                                <a-select-option value="TEXT"> Văn bản </a-select-option>
+                                <a-select-option value="NUM"> Số </a-select-option>
+                            </a-select>
                         </a-form-item>
                     </a-col>
                     <a-col :span="8">
@@ -47,28 +55,20 @@
                             </a-select>
                         </a-form-item>
                     </a-col>
-                    <a-col :span="8">
-                        <a-form-item label="Dữ liệu" name="LoaiDuLieu">
-                            <a-select v-model:value="record.LoaiDuLieu">
-                                <a-select-option value="TEXT"> Văn bản </a-select-option>
-                                <a-select-option value="NUM"> Số </a-select-option>
-                            </a-select>
-                        </a-form-item>
-                    </a-col>
-                    <a-col :span="4">
+                    <a-col :span="5">
                         <a-form-item label="Hiển thị">
                             <a-select v-model:value="record.Is_HienThi">
-                                <a-select-option :value="0" key="0"> Không </a-select-option>
-                                <a-select-option :value="1" key="1"> Có </a-select-option>
+                                <a-select-option :value="0" key="0">Không</a-select-option>
+                                <a-select-option :value="1" key="1">Có</a-select-option>
                             </a-select>
                         </a-form-item>
                     </a-col>
-                    <a-col :span="9">
+                    <a-col :span="12">
                         <a-form-item label="ID hệ thống" name="MaHeThong">
                             <a-input v-model:value="record.MaHeThong" />
                         </a-form-item>
                     </a-col>
-                    <a-col :span="15">
+                    <a-col :span="12">
                         <a-form-item label="Mã thuộc tính" name="MaThuocTinh">
                             <a-input v-model:value="record.MaThuocTinh" />
                         </a-form-item>
@@ -86,14 +86,6 @@
                     <a-col :span="24">
                         <a-form-item label="Công thức" name="CongThuc">
                             <a-textarea v-model:value="record.CongThuc" :auto-size="{ minRows: 5 }" />
-                        </a-form-item>
-                    </a-col>
-                    <a-col :span="4">
-                        <a-form-item label="Tạm khóa">
-                            <a-select v-model:value="record.Is_TamKhoa">
-                                <a-select-option :value="0" key="0"> Không </a-select-option>
-                                <a-select-option :value="1" key="1"> Có </a-select-option>
-                            </a-select>
                         </a-form-item>
                     </a-col>
                 </a-row>

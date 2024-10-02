@@ -248,7 +248,7 @@ export default {
                 $this.recordChuKyLuong = Object.assign({}, ChuKyLuong)
                 $this.DSNhanVien = DSNhanVien
                 $this.DSCTLuong = DSCongThucLuong.filter((item) => item.NhanVien_Id === DSNhanVien[0].NhanVien_Id)
-                let columnsCongThuc = DSCongThucLuong.filter((item) => item.NhanVien_Id === DSNhanVien[0].NhanVien_Id).map((item) => {
+                let columnsCongThuc = DSCongThucLuong.filter((item) => (item.Is_HienThi && item.NhanVien_Id === DSNhanVien[0].NhanVien_Id)).map((item) => {
                     return {
                         title: item.TenThuocTinh,
                         dataIndex: item.MaThuocTinh,

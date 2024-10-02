@@ -17,14 +17,13 @@
 				</a-space>
 			</template>
 		</a-card>
-		<uc-handsontable :data="dsNhanVien" :nestedHeaders="templateHeader" :cell="cellStyle"
-			height="calc(100vh - 57px)">
+		<uc-handsontable :data="dsNhanVien" :nestedHeaders="templateHeader" :cell="cellStyle" height="calc(100vh - 57px)"  :afterGetColHeader="setHeaderClass">
 			<hot-column title="Mã" data="MaNhanVien" :readOnly="true"> </hot-column>
 			<hot-column title="Tên nhân viên" data="HoVaTenNhanVien" :readOnly="true"> </hot-column>
 			<hot-column title="Tên vị trí" data="TenViTri" :readOnly="true"></hot-column>
 			<hot-column title="Mẫu chấm công" data="MauChamCong" :readOnly="true"></hot-column>
 			<hot-column v-for="(date, index) in dsNgay" :title="date" :data="'Ngay_' + date.toString().padStart('2', 0)"
-				width="90" :readOnly="isViewedTemplate" style="background-color:red"  :className="getColumnClass(date, index, dsThu)"></hot-column>
+				width="90" :readOnly="isViewedTemplate" style="background-color:red"  :className="getColumnClassNgay(date, index, dsThu)"></hot-column>
 		</uc-handsontable>
 	</uc-layout>
 </template>
@@ -57,59 +56,68 @@
 	        const $this = this
 	        this.getTemplate()
 	    },
+		
 	    methods: {
 	        redirectToBack() {
 	            history.back()
 	        },
 	        cellStyle(row, col) {
-	            const $this = this
-	            const cellProperties = {};
+	            // const $this = this
+	            // const cellProperties = {};
+				// console.log($this.dsNhanVien[row][col]);
 
-	            if (row === 1 && col === 1) {
-	                cellProperties.className = 'my-custom-cell';
-	            }
-	            for (let i = 0; i <= $this.dsNhanVien.length; i++) {
-	                const item = $this.dsNhanVien[i]
-	                for (var key in item) {
-	                    const wordCheck = item[key]
-	                    console.log('wordCheck', wordCheck)
-	                    if (key.includes('Ngay_') && wordCheck) {
-	                        console.log(key, $this.dsNhanVien[i])
-	                        const isCheckLength = wordCheck?.length !== 11
-	                        const isCheckSubtractTime = !wordCheck.includes('-')
-	                        if (isCheckLength) {
-	                            $this.$message.error(`Giá trị ở dòng ${i + 1} và cột ${key} không đủ độ đài`)
-	                            isError = true
-	                        }
-	                        if (isCheckSubtractTime) {
-	                            $this.$message.error(`Giá trị ở dòng ${i + 1} và cột ${key} phải có dấu '-' ngăn cách giờ`)
-	                            isError = true
-	                        }
-	                    }
-	                }
-	            }
-
+	            // if (row === 1 && col === 1) {
+	            //     cellProperties.className = 'my-custom-cell';
+	            // }
+	            // for (let i = 0; i <= $this.dsNhanVien.length; i++) {
+	            //     const item = $this.dsNhanVien[i]
+	            //     for (var key in item) {
+	            //         const wordCheck = item[key]
+	            //         console.log('wordCheck', wordCheck)
+	            //         if (key.includes('Ngay_') && wordCheck) {
+	            //             console.log(key, $this.dsNhanVien[i])
+	            //             const isCheckLength = wordCheck?.length !== 11
+	            //             const isCheckSubtractTime = !wordCheck.includes('-')
+	            //             if (isCheckLength) {
+	            //                 $this.$message.error(`Giá trị ở dòng ${i + 1} và cột ${key} không đủ độ đài`)
+	            //                 isError = true
+	            //             }
+	            //             if (isCheckSubtractTime) {
+	            //                 $this.$message.error(`Giá trị ở dòng ${i + 1} và cột ${key} phải có dấu '-' ngăn cách giờ`)
+	            //                 isError = true
+	            //             }
+	            //         }
+	            //     }
+	            // }
 				
-	            console.log('cell style');
-	            return cellProperties;
+				const cellProperties = {};
+				console.log('cellStyle called', row, col); // Để kiểm tra xem hàm có được gọi không
+				return cellProperties;
 	        },
 
-			getColumnClass(date, index, dsThu) {
-				if(index > 3){
-					const thu = dsThu[index]; // Kiểm tra vị trí của ngày trong arrThu
-					if(thu=== 'CN'){
-						console.log(thu);
-						console.log(date);
-						return 'thu-cn-new';
-					}
-				}else{
+			getColumnClassNgay(date, index, dsThu) {
+				if (index <= 3) {
 					return '';
 				}
-				
-			},
-			// getCSSTenViTri(TenViTri){
 
-			// }
+				const thu = dsThu[index];
+				return thu === 'CN' ? 'thu-cn-new' : '';
+			},
+
+			setHeaderClass(col, TH) {
+				// Sao chép mảng và thêm 4 phần tử vào đầu
+				const thu = ['', '', '', '', ...this.dsThu]; // Ví dụ giá trị thứ
+				const ngay = ['', '', '', '', ...this.dsNgay]; // Ví dụ các ngày
+				
+				const currentThu = thu[col]; // Lấy giá trị thứ từ mảng mới
+				const currentNgay = ngay[col]; // Lấy giá trị ngày từ mảng mới
+				
+				const columnLabel = TH.innerText.trim();
+				// Kiểm tra xem tiêu đề có phải là 'CN' không
+				if (currentThu === 'CN') {
+					TH.classList.add('thu-cn-new'); // Thêm class
+				}
+			},
 			
 	        validateTemplate() {
 	            const $this = this
@@ -134,6 +142,7 @@
 	            }
 	            return isError
 	        },
+
 	        async getTemplate() {
 	            const $this = this
 	            const params = {
