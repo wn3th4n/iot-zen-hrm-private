@@ -15,7 +15,7 @@ export default {
             selectedRowKeys: [],
             columns: [
                 {
-                    title: 'Nhân viên',
+                    title: 'Nhân sự',
                     dataIndex: 'NhanVien',
                     key: 'NhanVien',
                 },

@@ -91,13 +91,13 @@ export default {
         onDelete(record) {
             const $this = this
             Confirm.delete({
-                content: `Bạn có chắc muốn xóa nhân viên ${record.HoVaTenDem} ${record.TenNhanVien}?`,
+                content: `Bạn có chắc muốn xóa nhân sự ${record.HoVaTenDem} ${record.TenNhanVien}?`,
                 onOk: async () => {
                     const res = await nhanVienService.NhanVien_Delete({
                         NhanVien_Id: record.NhanVien_Id,
                     })
                     if (res) {
-                        $this.$message.success('Xóa nhân viên thành công!')
+                        $this.$message.success('Xóa nhân sự thành công!')
                         $this.$emit('onFinishDelete')
                     }
                 },

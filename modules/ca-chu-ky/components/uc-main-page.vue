@@ -84,6 +84,9 @@
                                     <a-list-item-meta>
                                         <template #title>
                                             <b class="cursor-pointer back-link-hover" @click="onRedirectLichLamViec(chuKy, item)">{{ item.TenMauBangCong }}</b>
+                                            <a-tag size="small" color="blue">
+                                                <small>{{ item.Is_CoDinh ? 'Cố định' : 'Theo ca' }}</small>
+                                            </a-tag>
                                         </template>
                                     </a-list-item-meta>
                                     <small v-if="item.Is_ChotCong" class="text-success">Đã chốt công</small>

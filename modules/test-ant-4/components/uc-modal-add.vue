@@ -30,7 +30,7 @@
                 </a-form-item>
             </a-col>
             <a-col :xs="24" :md="12">
-                <a-form-item label="Nhân viên" name="NhanVien_Id">
+                <a-form-item label="Nhân sự" name="NhanVien_Id">
                     <uc-select-nhan-vien v-model:value="formData.NhanVien_Id" :initData="[{ value: formData.NhanVien_Id, text: formData.TenNhanVien }]" />
                 </a-form-item>
             </a-col>
@@ -104,7 +104,7 @@ export default {
             rules: {
                 MaNhomCaMau: RULE_VALIDATE.CODE,
                 TenNhomCaMau: [{ required: true, message: 'Vui lòng nhập tên nhóm ca mẫu', trigger: 'change' }],
-                NhanVien_Id: [{ required: true, message: 'Vui lòng chọn nhân viên', trigger: 'change' }],
+                NhanVien_Id: [{ required: true, message: 'Vui lòng chọn nhân sự', trigger: 'change' }],
                 NhanVien_NhomCaMau_Id: [{ required: true, message: 'Vui lòng chọn nhóm ca mẫu nhé', trigger: 'change' }],
                 VanPhong_Id: [{ required: true, message: 'Vui lòng chọn văn phòng', trigger: 'change' }],
                 MauBangCong_Id_Selected: [{ required: true, message: 'Vui lòng chọn mẫu bảng công', trigger: 'change' }],

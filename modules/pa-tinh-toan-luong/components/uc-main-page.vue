@@ -248,7 +248,7 @@ export default {
                 $this.recordChuKyLuong = Object.assign({}, ChuKyLuong)
                 $this.DSNhanVien = DSNhanVien
                 $this.DSCTLuong = DSCongThucLuong.filter((item) => item.NhanVien_Id === DSNhanVien[0].NhanVien_Id)
-                let columnsCongThuc = DSCongThucLuong.filter((item) => (item.Is_HienThi && item.NhanVien_Id === DSNhanVien[0].NhanVien_Id)).map((item) => {
+                let columnsCongThuc = DSCongThucLuong.filter((item) => item.Is_HienThi && item.NhanVien_Id === DSNhanVien[0].NhanVien_Id).map((item) => {
                     return {
                         title: item.TenThuocTinh,
                         dataIndex: item.MaThuocTinh,
@@ -268,7 +268,7 @@ export default {
                 }
                 let columnNhanVien = [
                     {
-                        title: 'Nhân viên',
+                        title: 'Nhân sự',
                         key: 'NhanVien',
                         dataIndex: 'NhanVien',
                         width: 300,
@@ -652,7 +652,7 @@ export default {
         onChotLuong(record) {
             const $this = this
             Confirm.confirm({
-                content: 'Xác nhận chốt lương tất cả nhân viên?',
+                content: 'Xác nhận chốt lương tất cả nhân sự?',
                 onOk: async () => {
                     const res = await chuKyLuongService.ChuKyLuong_TinhCong_ChotLuong({
                         MauBangLuong_Id: $this.MauBangLuong_Id,
@@ -668,7 +668,7 @@ export default {
         onHuyChotLuong(record) {
             const $this = this
             Confirm.confirm({
-                content: 'Xác nhận hủy chốt lương tất cả nhân viên?',
+                content: 'Xác nhận hủy chốt lương tất cả nhân sự?',
                 onOk: async () => {
                     const res = await chuKyLuongService.ChuKyLuong_TinhCong_HuyChotLuong({
                         MauBangLuong_Id: $this.MauBangLuong_Id,

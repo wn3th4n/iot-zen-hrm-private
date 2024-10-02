@@ -22,7 +22,7 @@
                 <a-col :xs="24" :md="6"> <b>Đi muộn:</b> {{ record?.SoPhutDiTre }} </a-col>
                 <a-col :xs="24" :md="6"> <b>Về sớm:</b> {{ record?.SoPhutVeSom }} </a-col>
                 <a-col :xs="24" :md="24">
-                    <b>Loại vị trí:</b> <a-tag color="warning" v-for="item in record?.TenMaLoaiViTri_List_HienThi.split(', ')">{{ item }}</a-tag>
+                    <b>Loại vị trí:</b> <a-tag color="warning" v-if="record?.TenMaLoaiViTri_List_HienThi" v-for="item in record?.TenMaLoaiViTri_List_HienThi.split(', ')">{{ item }}</a-tag>
                 </a-col>
                 <a-col :xs="24" :md="24"> <b>Ghi chú:</b> {{ record?.GhiChu }} </a-col>
             </a-row>
@@ -35,6 +35,13 @@
                             <span>IP: {{ item.DiaChi_IP }}</span
                             ><br />
                             <span>Ghi chú: {{ item.GhiChu }}</span>
+                            <br />
+                            <span class="cursor-pointer" @click="onOpenModalLocation()">Vị trí: {{ item.ViTri }}</span>
+                            <uc-modal :isOpen="isShowModalLocation" title="Vị trí" :width="800" @onClose="handleCancelLocation()" v-if="item.ViTri">
+                                <div>
+                                    <iframe :src="urlLocation + item.ViTri + urlLocationBack" width="100%" height="400px" style="border: 0" loading="lazy" allowfullscreen></iframe>
+                                </div>
+                            </uc-modal>
                         </template>
                         <template #title>
                             <b>{{ item.HoVaTenNhanVien }}</b> -
@@ -68,16 +75,24 @@ export default {
         TitleModal: function () {
             return `Lịch sử chấm công - ${this.dschamcong[0]?.Ngay.toString().padStart('2', 0)}/${this.dschamcong[0]?.Thang.toString().padStart('2', 0)}/${this.dschamcong[0]?.Nam}`
         },
-        LoaiViTri_List: function (record) {
-            return record.TenMaLoaiViTri_List_HienThi.split(', ')
-        },
     },
     data() {
-        return {}
+        return {
+            isShowModalLocation: false,
+            urlLocation: 'https://maps.google.com/maps?q=',
+            urlLocationBack: '&z=15&output=embed',
+        }
     },
     methods: {
         onCloseModal() {
             this.$emit('update:isOpen', false)
+        },
+
+        onOpenModalLocation() {
+            this.isShowModalLocation = true
+        },
+        handleCancelLocation() {
+            this.isShowModalLocation = false
         },
     },
 }

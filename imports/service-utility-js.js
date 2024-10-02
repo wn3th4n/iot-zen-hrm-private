@@ -2533,6 +2533,14 @@ const lyDoNghiViecService = {
     }
 }
 
+const truongDuLieuService = {
+    TruongDuLieu_Select: async () => {
+        const reps = await apiUtilWork.CT('TruongDuLieu_Select')
+        if (reps.data)
+            return reps.data
+    },
+}
+
 const chinhSachNhanSuService = {
     LoaiChinhSach_NhanSu_Select: async () => {
         const reps = await apiUtilWork.HR('LoaiChinhSach_NhanSu_Select')
@@ -2562,5 +2570,6 @@ const chinhSachNhanSuService = {
         const reps = await apiUtilWork.HR('ChinhSach_NhanSu_Update', param)
         if (reps)
             return true
+        return false
     },
 }

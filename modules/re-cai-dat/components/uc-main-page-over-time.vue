@@ -16,10 +16,52 @@
             </a-space>
         </template>
     </a-card>
-
     <a-tabs>
         <a-tab-pane key="1" tab="Tất cả chính sách">
-            <a-table></a-table>
+            <uc-container :width="900">
+                <a-collapse expand-icon-position="left" class="bg-white">
+                    <a-collapse-panel v-for="item in values.dsNhomChinhSach" :key="item.NhomChinhSach_LamThem_Id">
+
+                        <template #header>
+                            <b>{{ item.TenNhomChinhSach_LamThem }}</b>
+                            <br />
+                            {{ item.MoTa }}
+                        </template>
+                        <a-table :columns="columns.ChinhSach"
+                            :dataSource="values.dsChinhSach.filter((i) => { return i.NhomChinhSach_LamThem_Id === item.NhomChinhSach_LamThem_Id })"
+                            :pagination="false">
+                            <template #bodyCell="{ column, record, index }">
+                                <template v-if="column.key === 'stt'">
+                                    <span>{{ index + 1 }}</span>
+                                </template>
+                                <template v-else-if="column.key === 'Is_TamKhoa'">
+                                    <uc-icon v-if="record.Is_TamKhoa" class="text-red" name="lock-outline" />
+                                </template>
+                                <template v-else-if="column.key === 'Action'">
+                                    <a-dropdown :trigger="['click']">
+                                        <a class="ant-dropdown-link">
+                                            <uc-icon name="dots-horizontal" />
+                                        </a>
+                                        <template #overlay>
+                                            <a-menu>
+                                                <a-menu-item @click="onEditChinhSach(record)"><uc-icon
+                                                        class="text-primary" name="bookmark-box-outline" />xem chi tiết</a-menu-item>
+                                                        <a-divider class="my-1"></a-divider>
+                                                        <a-menu-item @click="onEditChinhSach(record)"><uc-icon
+                                                        class="text-primary" name="square-edit-outline" />Chỉnh
+                                                    sửa</a-menu-item>
+                                                <a-menu-item @click="onDeleteChinhSach(record)"><uc-icon
+                                                        class="text-red" name="delete-outline" />Xoá</a-menu-item>
+                                            </a-menu>
+                                        </template>
+                                    </a-dropdown>
+                                </template>
+                            </template>
+                        </a-table>
+
+                    </a-collapse-panel>
+                </a-collapse>
+            </uc-container>
         </a-tab-pane>
         <a-tab-pane key="2" tab="Tất cả nhóm">
             <uc-container :width="900">
@@ -60,14 +102,12 @@
             </uc-container>
         </a-tab-pane>
     </a-tabs>
-
     <uc-modal-add-chinh-sach :dsNhomChinhSach="values.dsNhomChinhSach" v-model:isOpen="states.isOpenModalAddChinhSach"
-        @onFinish="loadDSChinhSach()" />
+        @onFinish="loadData()" />
 
-    <uc-modal-add-nhom-chinh-sach v-model:isOpen="states.isOpenModalAddNhomChinhSach"
-        @onFinish="loadDSNhomChinhSach()" />
+    <uc-modal-add-nhom-chinh-sach v-model:isOpen="states.isOpenModalAddNhomChinhSach" @onFinish="loadData()" />
     <uc-modal-edit-nhom-chinh-sach :record="values.record.NhomChinhSach"
-        v-model:isOpen="states.isOpenModalEditNhomChinhSach" @onFinish="loadDSNhomChinhSach()" />
+        v-model:isOpen="states.isOpenModalEditNhomChinhSach" @onFinish="loadData()" />
 </template>
 
 <script>
@@ -83,6 +123,41 @@ export default {
                 isOpenModalEditNhomChinhSach: false,
             },
             columns: {
+                ChinhSach: [
+                    {
+                        title: '#',
+                        dataIndex: 'stt',
+                        key: 'stt',
+                        width: '50px',
+                        align: 'center',
+                    },
+                    {
+                        title: 'Tên chính sách',
+                        dataIndex: 'TenChinhSach_LamThem',
+                        key: 'chinhsach',
+                    },
+                    {
+                        title: 'Hệ số',
+                        dataIndex: 'HeSo',
+                        key: 'HeSo',
+                        width: '150px',
+                    },
+                    {
+                        title: 'Mô tả',
+                        dataIndex: 'MoTa',
+                    },
+                    {
+                        title: 'Trạng thái',
+                        dataIndex: 'Is_TamKhoa',
+                        key: 'trangthai',
+                        align: 'center',
+                    },
+                    {
+                        title: '',
+                        key: 'Action',
+                        align: 'center',
+                    },
+                ],
                 NhomChinhSach: [
                     {
                         title: '#',
@@ -103,7 +178,6 @@ export default {
                     },
                     {
                         title: '',
-                        dataIndex: 'Action',
                         key: 'Action',
                         align: 'center',
                     },
@@ -120,8 +194,7 @@ export default {
         }
     },
     mounted() {
-        this.loadDSChinhSach()
-        this.loadDSNhomChinhSach()
+        this.loadData()
     },
     methods: {
         async loadDSNhomChinhSach() {
@@ -132,18 +205,18 @@ export default {
             if (resp) this.values.dsNhomChinhSach = resp
         },
         async loadDSChinhSach() {
-            const resp = await nhomChinhSachService.ChinhSach_LamThem_Select()
-            if (resp) this.values.dsChinhSach = resp
-        },
-        async loadDSChinhSach() {
             const res = await chinhSachService.ChinhSach_LamThem_Select()
             if (res) {
-                this.values.DSChinhSach = res
+                this.values.dsChinhSach = res
             }
+        },
+        loadData() {
+            this.loadDSChinhSach()
+            this.loadDSNhomChinhSach()
         },
         onEditNhomChinhSach(record) {
             this.values.record.NhomChinhSach = Object.assign({}, record)
-            this.values.record.NhomChinhSach.Is_TamKhoa = record.Is_TamKhoa ? 1 : 0 
+            this.values.record.NhomChinhSach.Is_TamKhoa = record.Is_TamKhoa ? 1 : 0
             this.states.isOpenModalEditNhomChinhSach = true
         },
         async onDeleteNhomChinhSach(record) {
@@ -161,6 +234,23 @@ export default {
                 },
             })
         },
+        onEditChinhSach(record) {
+
+        },
+        onDeleteChinhSach(record) {
+            Confirm.delete({
+                content: `Bạn có chắc muốn xóa ${record.TenChinhSach_LamThem}?`,
+                onOk: async () => {
+                    const res = await chinhSachService.ChinhSach_LamThem_Delete({
+                        ChinhSach_LamThem_Id: record.ChinhSach_LamThem_Id,
+                    })
+                    if (res) {
+                        this.$message.success(`Xóa nhóm chính sách ${record.TenChinhSach_LamThem}!`)
+                        this.loadDSChinhSach()
+                    }
+                },
+            })
+        }
     },
 }
 </script>

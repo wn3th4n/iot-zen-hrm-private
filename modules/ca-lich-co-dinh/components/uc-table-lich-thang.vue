@@ -1,8 +1,8 @@
 <template>
-    <uc-layout>
+    <div>
         <a-card size="small" class="text-center card-title-page border-top-0 border-bottom-0">
             <a-space size="middle">
-                <div v-for="(item, index) in current === 0 ? DSTrangThaiChamCong.filter((item) => item.ShowAtStep !== 1) : DSTrangThaiChamCong" :key="item.id">
+                <div v-for="(item, index) in DSTrangThaiChamCong" :key="item.id">
                     <div>
                         <uc-icon :name="item.Icon" :color="item.Color" />
                         {{ item.TenTrangThai }}
@@ -10,30 +10,13 @@
                 </div>
             </a-space>
         </a-card>
-        <a-table
-            :scroll="{ x: 'max-content', y: 'calc(100vh - 185px)' }"
-            :columns="columns"
-            :data-source="DSPhanCa"
-            size="small"
-            bordered
-            class="table-vertical-top"
-            :loading="isLoading"
-            :pagination="{
-                current: currentPage,
-                total: DSPhanCa.length,
-                pageSize: 30,
-                size: 'small',
-                showTotal: (total, range) => showTotal(total, range),
-                showSizeChanger: false,
-            }"
-            @change="handleTableChange"
-        >
+        <a-table :columns="columns" :data-source="DSPhanCa" bordered :pagination="false" :scroll="{ x: 'max-content', y: 'calc(100vh - 185px)' }" :loading="isLoading">
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'NhanVien'">
                     <a-flex gap="small">
                         <uc-avatar :src="record.AnhDaiDien_Url" :text="record.HoVaTenNhanVien" />
                         <div>
-                            <b>{{ record.HoVaTenNhanVien }} {{ record.NhanVien_Id }}</b> <br />
+                            <b>{{ record.HoVaTenNhanVien }}</b> <br />
                             <small>
                                 <b>[{{ record.MaNhanVien }}]</b>
                                 <a @click="onModalThuocTinh(record)">
@@ -61,69 +44,22 @@
                         </div>
                     </template>
                 </template>
-                <!-- <template v-for="item in record">
-                    <template v-if="column.key === record[item]">
-                        <div v-for="ca in record[item]" class="cursor-pointer">
-                            <a-tag class="mt-1 w-100" :color="ca?.TrangThai_Mau" :style="{ ...(ca?.GioCheckIn ? { borderLeft: '5px solid' } : {}), ...(ca?.GioCheckOut ? { borderRight: '5px solid' } : {}) }" @click="onOpenModalThongTinCa(ca)">
-                                <template #icon><uc-icon :name="ca?.TrangThai_Icon" /></template>
-                                <span>{{ ca?.GioBatDau }} - {{ ca?.GioKetThuc }} </span>
-                                <span class="float-end shift-number" :class="ca?.TrangThai_Cong_Mau" v-if="current === 1">{{ ca.SoCongChuan }}</span>
-                            </a-tag>
-                        </div>
-                    </template>
-                </template> -->
             </template>
         </a-table>
-        <uc-modal-thong-tin-ca v-model:isOpen="isShowModalThongTinCa" :record="recordThongTinCa" :dsloaica="DSLoaiCa" :dsvaitro="DSVaiTro" :dsvanphong="DSVanPhong" :dscamau="DSCaMau" @onFinish="renderLichPhanCa()" :lichlamviecid="LichLamViec_Id" />
         <uc-modal-thuoc-tinh v-model:isOpen="isShowModalThuocTinh" :dsthuoctinh="DSThuocThuocTinh" />
+        <uc-modal-thong-tin-ca v-model:isOpen="isShowModalThongTinCa" :record="recordThongTinCa" :dsloaica="DSLoaiCa" :dsvaitro="DSVaiTro" :dsvanphong="DSVanPhong" :dscamau="DSCaMau" @onFinish="renderLichPhanCa()" :lichlamviecid="LichLamViec_Id" />
         <uc-modal-thong-tin-ca-step-2 v-model:isOpen="isShowModalThongTinCaStep2" :record="recordThongTinCa" :dsloaica="DSLoaiCa" :dsvaitro="DSVaiTro" :dsvanphong="DSVanPhong" :dscamau="DSCaMau" @onFinish="renderLichPhanCa()" :lichlamviecid="LichLamViec_Id" />
-        <uc-modal-tinh-toan v-model:isOpen="isShowModalTinhToan" :thangchuky="thangChuKy" :namchuky="namChuKy" :ctbangcong="CTBangCong" :lichlamviecid="LichLamViec_Id" :maubangcongid="MauBangCong_Id" :dsphanca="DS_PhanCa_Origin" :dsnhanvien="DS_NhanVien" @onFinish="renderLichPhanCa()" />
-        <uc-modal-khoa-cong v-model:isOpen="isShowModalKhoaCong" :thangchuky="thangChuKy" :namchuky="namChuKy" :lichlamviecid="LichLamViec_Id" :maubangcongid="MauBangCong_Id" @onFinish="renderLichPhanCa()" />
-        <uc-modal-huy-khoa-cong v-model:isOpen="isShowModalHuyKhoaCong" :thangchuky="thangChuKy" :namchuky="namChuKy" :lichlamviecid="LichLamViec_Id" :maubangcongid="MauBangCong_Id" @onFinish="renderLichPhanCa()" />
-        <uc-modal-dong-bo-du-lieu v-model:isOpen="isShowModalDongBoDuLieu" :lichlamviecid="LichLamViec_Id" :maubangcongid="MauBangCong_Id" />
-    </uc-layout>
+    </div>
 </template>
 <script>
 export default {
-    props: [],
+    props: ['llvid', 'mbcid', 'currentSteps'],
     data() {
-        const urlParam = new URL(window.location.href).searchParams
-        const LichLamViec_Id = parseInt(urlParam.get('llvid'))
-        const MauBangCong_Id = parseInt(urlParam.get('mbcid'))
         return {
-            currentPage: 1,
-            current: null,
-            steps: [
-                {
-                    title: 'Xem công',
-                },
-                {
-                    title: 'Chỉnh sửa công',
-                },
-            ],
-            pageTitle: 'Lịch làm việc',
-            LichLamViec_Id: isNaN(LichLamViec_Id) ? null : LichLamViec_Id,
-            MauBangCong_Id: isNaN(MauBangCong_Id) ? null : MauBangCong_Id,
-            DSChuKy: [],
-            DSMauBangCong: [],
+            isDisabled: false,
             isShowModalThongTinCa: false,
             isShowModalThongTinCaStep2: false,
-            isShowModalTinhToan: false,
-            isShowModalKhoaCong: false,
-            isShowModalHuyKhoaCong: false,
-            isShowModalDongBoDuLieu: false,
-            columns: [],
-            DSNgay: [],
-            DSPhanCa: [],
-            CTLichLamViec: null,
-            CTBangCong: null,
-            recordThongTinCa: null,
-            ChuKy: null,
-            statusStep: '1',
-            DSLoaiCa: [],
-            DSVanPhong: [],
-            DSVaiTro: [],
-            DSCaMau: [],
+            recordThongTinCa: {},
             DSTrangThaiChamCong: [
                 {
                     id: 1,
@@ -195,28 +131,66 @@ export default {
                     ShowAtStep: 1,
                 },
             ],
-            NhanVien_Id: null,
-            Ngay: null,
+            columns: [],
+            DSNgay: [],
+            DSPhanCa: [],
+            listData: [],
+            value: dayjs(),
+            DSCheckInOut: [],
+            DSCa: [],
+            isLoading: false,
             isShowModalThuocTinh: false,
             DSThuocThuocTinh: [],
-            DS_PhanCa_Origin: [],
-            DS_NhanVien: [],
-            isDisabled: LichLamViec_Id ? false : true,
-            thangChuKy: '',
-            namChuKy: '',
-            isLoading: false,
         }
     },
-    created() {
+    mounted() {
         this.renderLichPhanCa()
-        this.loadVaiTro()
-        this.loadVanPhong()
-        this.loadLoaiCa()
-        this.loadCaMau()
-        this.getDSChuKy()
     },
-    computed() {},
+    computed: {
+        LichLamViec_Id: function () {
+            return this.llvid
+        },
+        MauBangCong_Id: function () {
+            return this.mbcid
+        },
+    },
+    watch: {},
     methods: {
+        // async onLoadTable() {
+        //     const $this = this
+        //     if ($this.LichLamViec_Id && $this.MauBangCong_Id) {
+        //         const { DSNgay, DSPhanCa, TTMauBangCong, TTChuKy } = await lichLamViecService.LichLamViec_CoDinh_Select_Lich({
+        //             LichLamViec_Id: $this.LichLamViec_Id,
+        //             MauBangCong_Id: $this.MauBangCong_Id,
+        //         })
+        //         this.DSNgay = DSNgay
+        //         const columnDate = DSNgay.map((item) => {
+        //             const day = item.Ngay.toString().padStart('2', 0)
+        //             const month = item.Thang.toString().padStart('2', 0)
+        //             return {
+        //                 title: `${item.Thu} - ${day}/${month}`,
+        //                 key: item.Cot_Ngay,
+        //                 dataIndex: item.Cot_Ngay,
+        //                 width: 200,
+        //                 align: 'center',
+        //                 class: item.Thu === 'T7' || item.Thu === 'CN' ? `text-red ${item.Cot_Ngay}` : `${item.Cot_Ngay}`,
+        //             }
+        //         })
+        //         let DSPhanCaNew = []
+        //         for (let day of DSNgay) {
+        //             let cloneDay = { ...day }
+        //             let DSPhanCaFilter = DSPhanCa.filter((x) => x.Ngay === day.Ngay)
+        //             cloneDay['Ngay_' + day.Ngay.toString().padStart('2', 0)] = DSPhanCaFilter
+        //             // for (let ca of DSPhanCaFilter) {
+        //             // }
+        //             DSPhanCaNew.push(cloneDay)
+        //         }
+        //         this.DSPhanCa = Object.assign([], DSPhanCaNew)
+        //         console.log('DSPhanCaNew', DSPhanCaNew)
+        //         this.columns = [...columnDate]
+        //     }
+        // },
+
         async renderLichPhanCa() {
             const $this = this
             try {
@@ -283,48 +257,16 @@ export default {
                 }
             } catch (err) {}
         },
+
         onOpenModalThongTinCa(record) {
             this.recordThongTinCa = record
-            if (this.current === 1) {
+            if (this.currentSteps === 1) {
                 this.isShowModalThongTinCaStep2 = true
             } else {
                 this.isShowModalThongTinCa = true
             }
         },
-        async getDSChuKy() {
-            const $this = this
-            return lichLamViecService.LichLamViec_Select().then(({ DSChuKy, DSMauBangCong }) => {
-                $this.DSChuKy = DSChuKy
-                $this.DSMauBangCong = DSMauBangCong
-            })
-        },
-        loadVaiTro() {
-            ajaxCALL('/work/HR_VaiTro_Select', {}, (res) => {
-                this.DSVaiTro = res.data
-            })
-        },
-        loadVanPhong() {
-            ajaxCALL('/work/HR_VanPhong_Select', {}, (res) => {
-                this.DSVanPhong = res.data
-            })
-        },
-        loadLoaiCa() {
-            ajaxCALL('/work/CA_LoaiCa_Select', {}, (res) => {
-                this.DSLoaiCa = res.data
-            })
-        },
-        async loadCaMau() {
-            const res = await caMauService.CaMau_Select()
-            if (res.length > 0) {
-                this.DSCaMau = res
-            }
-        },
-        RedirectPhanCa() {
-            redirect(`/ca-phan-ca?llvid=${this.LichLamViec_Id}&mbcid=${this.MauBangCong_Id}`)
-        },
-        RedirectCheckInOut() {
-            redirect(`/pa-check-in-out?llvid=${this.LichLamViec_Id}&mbcid=${this.MauBangCong_Id}`)
-        },
+
         async onModalThuocTinh(record) {
             const res = await caService.LichLamViec_TinhCong_Select_Thang_By_NhanVien_Id({
                 LichLamViec_Id: this.LichLamViec_Id,
@@ -346,87 +288,6 @@ export default {
                 ]
             }
             this.isShowModalThuocTinh = true
-        },
-        onChangeStep(current) {
-            if (this.LichLamViec_Id && this.MauBangCong_Id) {
-                let content = current === 0 ? 'chỉnh sửa công' : 'xem công'
-                Confirm.confirm({
-                    content: `Bạn có chắc muốn chuyển sang bước ${content}?`,
-                    onOk: () => {
-                        if (content === 'xem công') {
-                            this.current--
-                            const res = lichLamViecService.LichLamViec_MauBangCong_Update_Status({
-                                LichLamViec_Id: this.LichLamViec_Id,
-                                MauBangCong_Id: this.MauBangCong_Id,
-                                TrangThai: this.current + 1,
-                            })
-                        } else {
-                            this.current++
-                            const res = lichLamViecService.LichLamViec_MauBangCong_Update_Status({
-                                LichLamViec_Id: this.LichLamViec_Id,
-                                MauBangCong_Id: this.MauBangCong_Id,
-                                TrangThai: this.current + 1,
-                            })
-                        }
-                    },
-                    onCancel: () => {
-                        this.current = current
-                    },
-                })
-            }
-        },
-        onOpenModalTinhToan() {
-            this.isShowModalTinhToan = true
-        },
-        onChangeChuKy() {
-            const $this = this
-            $this.isDisabled = false
-            $this.MauBangCong_Id = null
-        },
-        onChangeLichLamViec() {
-            const $this = this
-            if ($this.LichLamViec_Id && $this.MauBangCong_Id) {
-                redirect(`/ca-lich-lam-viec?llvid=${this.LichLamViec_Id}&mbcid=${this.MauBangCong_Id}`)
-            }
-        },
-        onKhoaCong() {
-            Confirm.confirm({
-                content: 'Xác nhận khóa công?',
-                onOk: async () => {
-                    const $this = this
-                    const res = await lichLamViecService.LichLamViec_TinhCong_ChotCong({
-                        MauBangCong_Id: $this.MauBangCong_Id,
-                        LichLamViec_Id: $this.LichLamViec_Id,
-                    })
-                    if (res) {
-                        $this.$message.success('Khóa công thành công!')
-                        $this.renderLichPhanCa()
-                    }
-                },
-            })
-        },
-        onHuyKhoaCong() {
-            Confirm.confirm({
-                content: 'Xác nhận hủy khóa công?',
-                onOk: async () => {
-                    const $this = this
-                    const res = await lichLamViecService.LichLamViec_TinhCong_HuyChotCong({
-                        MauBangCong_Id: $this.MauBangCong_Id,
-                        LichLamViec_Id: $this.LichLamViec_Id,
-                    })
-                    if (res) {
-                        $this.$message.success('Hủy khóa công thành công!')
-                        $this.renderLichPhanCa()
-                    }
-                },
-            })
-        },
-
-        showTotal(total, range) {
-            return `${range[0]} - ${range[1]} / ${total} mục`
-        },
-        handleTableChange(pagination) {
-            this.currentPage = pagination.current
         },
     },
 }

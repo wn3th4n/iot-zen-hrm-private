@@ -12,7 +12,7 @@
         </a-card>
         <a-row :gutter="[10]">
             <a-col :sm="24" :md="24">
-                <a-form-item label="Nhóm nhân viên">
+                <a-form-item label="Nhóm nhân sự">
                     <uc-select-nhom-nhan-vien v-model:value="record.NhomNhanVien_Id" />
                 </a-form-item>
             </a-col>

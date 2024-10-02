@@ -60,8 +60,7 @@
                         </a-col>
                         <a-col :sm="24" :md="5">
                             <a-form-item label="Ngày sinh" name="DayOfBirth">
-                                <a-date-picker v-model:value="formData.DayOfBirth" format="DD/MM/YYYY" class="w-100"
-                                    placeholder="Chọn ngày" />
+                                <a-date-picker v-model:value="formData.DayOfBirth" format="DD/MM/YYYY" class="w-100" placeholder="Chọn ngày" />
                             </a-form-item>
                         </a-col>
 
@@ -96,18 +95,16 @@
                         </a-col>
                         <a-col :sm="24" :md="5">
                             <a-form-item label="Ngày bắt đầu" name="NgayBatDau">
-                                <a-date-picker v-model:value="formData.NgayBatDau" format="DD/MM/YYYY" class="w-100"
-                                    placeholder="Chọn ngày" />
+                                <a-date-picker v-model:value="formData.NgayBatDau" format="DD/MM/YYYY" class="w-100" placeholder="Chọn ngày" />
                             </a-form-item>
                         </a-col>
                         <a-col :sm="24" :md="5">
                             <a-form-item label="Ngày chính thức" name="NgayChinhThuc">
-                                <a-date-picker v-model:value="formData.NgayChinhThuc" format="DD/MM/YYYY" class="w-100"
-                                    placeholder="Chọn ngày" />
+                                <a-date-picker v-model:value="formData.NgayChinhThuc" format="DD/MM/YYYY" class="w-100" placeholder="Chọn ngày" />
                             </a-form-item>
                         </a-col>
                         <a-col :sm="24" :md="8">
-                            <a-form-item label="Nhóm nhân viên" name="NhomNhanVien_Id">
+                            <a-form-item label="Nhóm nhân sự" name="NhomNhanVien_Id">
                                 <uc-select-nhom-nhan-vien v-model:value="formData.NhomNhanVien_Id" />
                             </a-form-item>
                         </a-col>
@@ -142,8 +139,7 @@
 
                         <a-col :sm="24" :md="12">
                             <a-form-item label="Lương cơ bản" name="LuongCoBan">
-                                <a-input-number v-model:value="formData.LuongCoBan" :formatter="formatter"
-                                    :parser="parser" class="w-100" />
+                                <a-input-number v-model:value="formData.LuongCoBan" :formatter="formatter" :parser="parser" class="w-100" />
                             </a-form-item>
                         </a-col>
                         <a-col :sm="24" :md="24" class="my-2">
@@ -182,8 +178,7 @@
                         </a-col>
                         <a-col :sm="24" :md="8">
                             <a-form-item label="Ngày cấp" name="NgayCap_CCCD">
-                                <a-date-picker v-model:value="formData.NgayCap_CCCD" format="DD/MM/YYYY" class="w-100"
-                                    placeholder="Chọn ngày" />
+                                <a-date-picker v-model:value="formData.NgayCap_CCCD" format="DD/MM/YYYY" class="w-100" placeholder="Chọn ngày" />
                             </a-form-item>
                         </a-col>
                         <a-col :sm="24" :md="8">
@@ -204,8 +199,7 @@
                         </a-col>
                         <a-col :sm="24" :md="8">
                             <a-form-item label="Hết hạn thông tin cá nhân" name="NgayHetHan">
-                                <a-date-picker placeholder="Chọn ngày" format="DD/MM/YYYY"
-                                    v-model:value="formData.NgayHetHan" class="w-100" />
+                                <a-date-picker placeholder="Chọn ngày" format="DD/MM/YYYY" v-model:value="formData.NgayHetHan" class="w-100" />
                             </a-form-item>
                         </a-col>
 
@@ -253,8 +247,7 @@
                             <b class="fs-5">Hồ sơ xin việc</b>
                         </a-col>
                         <a-col :sm="24" :md="24">
-                            <uc-file-upload v-model:modelValue="fileList" :multiple="true"
-                                title="Upload hồ sơ" accept=".pdf, .docx, .doc, .docs"></uc-file-upload>
+                            <uc-file-upload v-model:modelValue="fileList" :multiple="true" title="Upload hồ sơ" accept=".pdf, .docx, .doc, .docs"></uc-file-upload>
                         </a-col>
                         <a-col :sm="24" :md="24" class="mt-4">
                             <b class="fs-5">Các thông tin khác</b>
@@ -264,9 +257,7 @@
                             <a-divider class="mt-3 mb-3" />
                         </a-col>
 
-                        <a-col :sm="24" :md="24" class="mb-3"> <a-switch v-model:checked="switch_TTPL" class="me-2" />
-                            <b>Nhập
-                                thông tin pháp lý </b></a-col>
+                        <a-col :sm="24" :md="24" class="mb-3"> <a-switch v-model:checked="switch_TTPL" class="me-2" /> <b>Nhập thông tin pháp lý </b></a-col>
                         <a-col :sm="24" :md="12" v-if="switch_TTPL">
                             <a-form-item label="Số sổ BHXH">
                                 <a-input v-model:value="formData.So_BHXH" />
@@ -290,9 +281,7 @@
                                 </a-select>
                             </a-form-item>
                         </a-col>
-                        <a-col :sm="24" :md="24" class="mb-3"> <a-switch v-model:checked="switch_TTHV" class="me-2" />
-                            <b>Nhập
-                                thông tin học vấn </b></a-col>
+                        <a-col :sm="24" :md="24" class="mb-3"> <a-switch v-model:checked="switch_TTHV" class="me-2" /> <b>Nhập thông tin học vấn </b></a-col>
                         <a-col :sm="24" :md="24" v-if="switch_TTHV" class="mb-3">
                             <a-table :data-source="dataTTHV" :columns="headersTTHV" size="small" :pagination="false">
                                 <template #bodyCell="{ column, record }">
@@ -303,13 +292,9 @@
                             </a-table>
 
                             <div class="mt-2">
-                                <a-button type="link" class="ps-0" @click="onOpenModalTTHV"><uc-icon name="plus" /> Thêm
-                                    thông
-                                    tin học vấn</a-button>
+                                <a-button type="link" class="ps-0" @click="onOpenModalTTHV"><uc-icon name="plus" /> Thêm thông tin học vấn</a-button>
                             </div>
-                            <uc-form-modal v-model:isOpen="isShowModalThongTinHocVan" title="Thêm thông tin học vấn"
-                                :width="600" :formData="formDataTTHV" ref="modalRefTTHV" :rules="rulesTTHV"
-                                @onSubmit="onSubmitTTHV()" @onClose="handleCancelTTHV()">
+                            <uc-form-modal v-model:isOpen="isShowModalThongTinHocVan" title="Thêm thông tin học vấn" :width="600" :formData="formDataTTHV" ref="modalRefTTHV" :rules="rulesTTHV" @onSubmit="onSubmitTTHV()" @onClose="handleCancelTTHV()">
                                 <a-row :gutter="[10]">
                                     <a-col :sm="24" :md="12" v-if="switch_TTHV">
                                         <a-form-item label="Trường học" name="TruongHoc">
@@ -332,29 +317,20 @@
                                         </a-form-item>
                                     </a-col>
                                     <a-col :sm="24" :md="24" v-if="switch_TTHV" class="mb-3">
-                                        <a-form-item name="Is_BangCapCaoNhat"> <a-checkbox
-                                                v-model:checked="formDataTTHV.Is_BangCapCaoNhat"> Đó là bằng cấp cao
-                                                nhất?
-                                            </a-checkbox></a-form-item>
+                                        <a-form-item name="Is_BangCapCaoNhat"> <a-checkbox v-model:checked="formDataTTHV.Is_BangCapCaoNhat"> Đó là bằng cấp cao nhất? </a-checkbox></a-form-item>
                                     </a-col>
                                 </a-row>
                             </uc-form-modal>
                         </a-col>
-                        <a-col :sm="24" :md="24" class="mb-3"> <a-switch v-model:checked="switch_LSLamViec"
-                                class="me-2" />
-                            <b>Nhập lịch sử làm việc </b></a-col>
+                        <a-col :sm="24" :md="24" class="mb-3"> <a-switch v-model:checked="switch_LSLamViec" class="me-2" /> <b>Nhập lịch sử làm việc </b></a-col>
                         <a-col :sm="24" :md="24" v-if="switch_LSLamViec" class="mb-3">
                             <a-table :data-source="dataLSLV" :columns="headersLSLV" size="small" :pagination="false">
                                 <template #bodyCell="{ column, record }"> </template>
                             </a-table>
                             <div class="mt-2">
-                                <a-button type="link" class="ps-0" @click="onOpenModalLSLV"><uc-icon name="plus" /> Thêm
-                                    lịch sử
-                                    làm việc</a-button>
+                                <a-button type="link" class="ps-0" @click="onOpenModalLSLV"><uc-icon name="plus" /> Thêm lịch sử làm việc</a-button>
                             </div>
-                            <uc-form-modal v-model:isOpen="isShowModalLichSuLamViec" title="Thêm lịch sử làm việc"
-                                :width="600" :formData="formDataLSLV" ref="modalRefLSLV" :rules="rulesLSLV"
-                                @onSubmit="onSubmitLSLV()" @onClose="handleCancelLSLV()">
+                            <uc-form-modal v-model:isOpen="isShowModalLichSuLamViec" title="Thêm lịch sử làm việc" :width="600" :formData="formDataLSLV" ref="modalRefLSLV" :rules="rulesLSLV" @onSubmit="onSubmitLSLV()" @onClose="handleCancelLSLV()">
                                 <a-row :gutter="[10]">
                                     <a-col :sm="24" :md="12">
                                         <a-form-item label="Công ty" name="CongTy">
@@ -385,22 +361,16 @@
                             </uc-form-modal>
                         </a-col>
 
-                        <a-col :sm="24" :md="24" class="mb-3"> <a-switch v-model:checked="switch_TTNguoiThan"
-                                class="me-2" /><b>Nhập thông tin gia đình, người phụ thuộc và liên hệ khác </b></a-col>
+                        <a-col :sm="24" :md="24" class="mb-3"> <a-switch v-model:checked="switch_TTNguoiThan" class="me-2" /><b>Nhập thông tin gia đình, người phụ thuộc và liên hệ khác </b></a-col>
 
                         <a-col :sm="24" :md="24" v-if="switch_TTNguoiThan" class="mb-3">
                             <a-table :data-source="dataTTNT" :columns="headersTTNT" size="small" :pagination="false">
                                 <template #bodyCell="{ column, record }"> </template>
                             </a-table>
                             <div class="mt-2">
-                                <a-button type="link" class="ps-0" @click="onOpenModalTTNT"><uc-icon name="plus" /> Thêm
-                                    thông
-                                    tin gia đình, người phụ thuộc và liên hệ khác</a-button>
+                                <a-button type="link" class="ps-0" @click="onOpenModalTTNT"><uc-icon name="plus" /> Thêm thông tin gia đình, người phụ thuộc và liên hệ khác</a-button>
                             </div>
-                            <uc-form-modal v-model:isOpen="isShowModalThongTinNguoiThan"
-                                title="Thêm thông tin người thân" :width="600" :formData="formDataTTNT"
-                                ref="modalRefTTNT" :rules="rulesTTNT" @onSubmit="onSubmitTTNT()"
-                                @onClose="handleCancelTTNT()">
+                            <uc-form-modal v-model:isOpen="isShowModalThongTinNguoiThan" title="Thêm thông tin người thân" :width="600" :formData="formDataTTNT" ref="modalRefTTNT" :rules="rulesTTNT" @onSubmit="onSubmitTTNT()" @onClose="handleCancelTTNT()">
                                 <a-row :gutter="[10]">
                                     <a-col :sm="24" :md="12">
                                         <a-form-item label="Họ và tên" name="TTNT_HoVaTen">
@@ -419,8 +389,7 @@
                                     </a-col>
                                     <a-col :sm="24" :md="12">
                                         <a-form-item label="Ngày sinh">
-                                            <a-date-picker placeholder="Chọn ngày" format="DD/MM/YYYY"
-                                                v-model:value="formDataTTNT.NgaySinh" class="w-100" />
+                                            <a-date-picker placeholder="Chọn ngày" format="DD/MM/YYYY" v-model:value="formDataTTNT.NgaySinh" class="w-100" />
                                         </a-form-item>
                                     </a-col>
                                     <a-col :sm="24" :md="12">
@@ -434,21 +403,17 @@
                                         </a-form-item>
                                     </a-col>
                                     <a-col :sm="24" :md="12" class="mb-3">
-                                        <a-checkbox v-model:checked="formDataTTNT.Is_NguoiPhuThuoc">Là người phụ
-                                            thuộc?</a-checkbox>
+                                        <a-checkbox v-model:checked="formDataTTNT.Is_NguoiPhuThuoc">Là người phụ thuộc?</a-checkbox>
                                     </a-col>
                                     <a-col :sm="24" :md="12" class="mb-3">
-                                        <a-checkbox v-model:checked="formDataTTNT.Is_LienHeKhanCap">Là người liên hệ
-                                            khẩn
-                                            cấp?</a-checkbox>
+                                        <a-checkbox v-model:checked="formDataTTNT.Is_LienHeKhanCap">Là người liên hệ khẩn cấp?</a-checkbox>
                                     </a-col>
                                 </a-row>
                             </uc-form-modal>
                         </a-col>
                     </a-row>
                 </a-form>
-                <a-button class="float-end" type="primary" @click="onSubmit()"><uc-icon name="content-save-outline" />Thêm nhân
-                    sự</a-button>
+                <a-button class="float-end" type="primary" @click="onSubmit()"><uc-icon name="content-save-outline" />Thêm nhân sự</a-button>
             </a-card>
         </uc-container>
     </uc-layout>
@@ -456,7 +421,6 @@
 
 <script>
 export default {
-    
     props: [],
     data() {
         return {
@@ -471,18 +435,18 @@ export default {
                 // So_CCCD:[{required: true, message: 'Vui Lòng nhập số căn cước công dân' , trigger: 'change'}],
                 // NoiCap_CCCD:[{required: true, message: 'Vui Lòng nhập nơi cấp' , trigger: 'change'}],
                 // NgayCap_CCCD:[{required: true, message: 'Vui Lòng nhập ngày cấp' , trigger: 'change'}],
-                DayOfBirth: [{required: true, message: 'Vui Lòng nhập ngày sinh' , trigger: 'change'}],
+                DayOfBirth: [{ required: true, message: 'Vui Lòng nhập ngày sinh', trigger: 'change' }],
                 DienThoai: [{ required: true, message: 'Vui lòng nhập số điện thoại', trigger: 'change' }],
                 ChucDanh_Id: [{ required: true, message: 'Vui lòng chọn chức danh', trigger: 'change' }],
                 ViTri_Id: [{ required: true, message: 'Vui lòng chọn vị trí', trigger: 'change' }],
                 MaChamCong: [{ required: true, message: 'Vui lòng nhập mã chấm công', trigger: 'change' }],
                 HoVaTenDem: [{ required: true, message: 'Vui lòng nhập họ và tên đệm', trigger: 'change' }],
-                TenNhanVien: [{ required: true, message: 'Vui lòng nhập tên nhân viên', trigger: 'change' }],
+                TenNhanVien: [{ required: true, message: 'Vui lòng nhập tên nhân sự', trigger: 'change' }],
                 VanPhong_Id: [{ required: true, message: 'Vui lòng chọn văn phòng', trigger: 'change' }],
                 HinhThuc_Id: [{ required: true, message: 'Vui lòng chọn phân loại nhân sự', trigger: 'change' }],
                 NgayBatDau: [{ required: true, message: 'Vui lòng chọn ngày bắt đầu', trigger: 'change' }],
                 NgayChinhThuc: [{ required: true, message: 'Vui lòng chọn ngày chính thức', trigger: 'change' }],
-                NhomNhanVien_Id: [{ required: true, message: 'Vui lòng chọn nhóm nhân viên', trigger: 'change' }],
+                NhomNhanVien_Id: [{ required: true, message: 'Vui lòng chọn nhóm nhân sự', trigger: 'change' }],
                 MauBangCong_Id: [{ required: true, message: 'Vui lòng chọn lịch làm việc', trigger: 'change' }],
                 MauBangLuong_Id: [{ required: true, message: 'Vui lòng chọn chính sách lương', trigger: 'change' }],
                 BacLuong_Id: [{ required: true, message: 'Vui lòng chọn bậc lương', trigger: 'change' }],
@@ -496,7 +460,7 @@ export default {
             rulesTTHV: {
                 TruongHoc: [{ required: true, message: 'Vui lòng nhập tên trường học', trigger: 'change' }],
             },
-            rulesTTNT : {
+            rulesTTNT: {
                 TTNT_HoVaTen: [{ required: true, message: 'Vui lòng nhập nhập tên', trigger: 'change' }],
                 TTNT_Mqh: [{ required: true, message: 'Vui lòng nhập mối quan hệ', trigger: 'change' }],
             },
@@ -648,7 +612,7 @@ export default {
             dataTTNT: [],
         }
     },
-    mounted() { },
+    mounted() {},
     computed: {},
     watch: {},
     methods: {

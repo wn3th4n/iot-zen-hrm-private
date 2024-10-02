@@ -1,44 +1,37 @@
 <template>
     <uc-layout>
         <a-row>
-            <a-col :span="4" style="
-                background-color:white; 
-                height: 100vh; 
-                overflow: auto; 
-                border-right: 1px solid rgba(5, 5, 5, 0.06);">
+            <a-col :span="4" style="background-color: white; height: 100vh; overflow: auto; border-right: 1px solid rgba(5, 5, 5, 0.06)">
                 <a-card :bordered="false" :bodyStyle="{ padding: '0 24px', 'border-radius': 0 }">
                     <template #title>
-                        <div onclick="window.history.go(-1); return false;" style="cursor:pointer; margin-top: 16px;">
+                        <div onclick="window.history.go(-1); return false;" style="cursor: pointer; margin-top: 16px">
                             <uc-icon name="chevron-left" size="18" />
                             Danh sách nhân sự
                         </div>
-                        <div class="d-flex flex-column justify-content-center align-items-center"
-                            style="margin-top:12px; margin-bottom: 12px">
-                            <uc-avatar :src="user?.ThongTinNhanSu?.AnhDaiDien_Url"
-                                :text="user?.ThongTinNhanSu?.HoVaTenNhanVien" :size="120"></uc-avatar>
-                            <span style="font-size:20px">{{ user?.ThongTinNhanSu?.HoVaTenNhanVien }}</span>
-                            <span style="color:grey; font-size:14px">{{ user?.ThongTinNhanSu?.MaNhanVien }}</span>
+                        <div class="d-flex flex-column justify-content-center align-items-center" style="margin-top: 12px; margin-bottom: 12px">
+                            <uc-avatar :src="user?.ThongTinNhanSu?.AnhDaiDien_Url" :text="user?.ThongTinNhanSu?.HoVaTenNhanVien" :size="120"></uc-avatar>
+                            <span style="font-size: 20px">{{ user?.ThongTinNhanSu?.HoVaTenNhanVien }}</span>
+                            <span style="color: grey; font-size: 14px">{{ user?.ThongTinNhanSu?.MaNhanVien }}</span>
                         </div>
                     </template>
                     <div class="d-flex flex-column" style="margin-top: 12px; margin-bottom: 12px">
                         <span class="mb-1">
-                            <uc-icon style="margin-right:8px" name="account" />
+                            <uc-icon style="margin-right: 8px" name="account" />
                             <span> {{ user?.ThongTinNhanSu?.MaNhanVien }}</span>
                         </span>
                         <span class="mb-1">
-                            <uc-icon style="margin-right:8px" name="email" />
+                            <uc-icon style="margin-right: 8px" name="email" />
                             <span> {{ user?.ThongTinNhanSu?.Email }}</span>
                         </span>
                         <span class="mb-1">
-                            <uc-icon style="margin-right:8px" name="phone" />
+                            <uc-icon style="margin-right: 8px" name="phone" />
                             <span> {{ user?.ThongTinNhanSu?.DienThoai }} </span>
                         </span>
                     </div>
                 </a-card>
-                <a-divider style="background-color:white; margin: 0" />
+                <a-divider style="background-color: white; margin: 0" />
                 <a-menu v-model:selectedKeys="menuItem">
-                    <a-menu-item v-for="item in items" :key="item.id" :title="item.subcontent"
-                        @click="selectItem(item)">
+                    <a-menu-item v-for="item in items" :key="item.id" :title="item.subcontent" @click="selectItem(item)">
                         <div class="d-flex flex-column">
                             <span> <uc-icon :name="item.icon" /> {{ item.tab }} </span>
                         </div>
@@ -151,7 +144,7 @@ export default {
                                 { title: 'Bằng cấp', dataIndex: 'BangCap' },
                                 { title: 'Bằng cấp cao nhất', dataIndex: 'Is_BangCapCaoNhat', key: 'Is_BangCapCaoNhat' },
                             ],
-                            DuLieu: []
+                            DuLieu: [],
                         },
                         {
                             id: 6,
@@ -166,7 +159,7 @@ export default {
                                 { title: 'Địa chỉ', dataIndex: 'DiaChi' },
                                 { title: 'Nhiệm vụ công việc', dataIndex: 'NhiemVuCongViec' },
                             ],
-                            DuLieu: []
+                            DuLieu: [],
                         },
                         {
                             id: 7,
@@ -181,7 +174,7 @@ export default {
                                 { title: 'Địa chỉ', dataIndex: 'DiaChi' },
                                 { title: 'Ngày sinh', dataIndex: 'NgaySinh', key: 'NgaySinh' },
                             ],
-                            DuLieu: []
+                            DuLieu: [],
                         },
                         {
                             id: 8,
@@ -189,10 +182,8 @@ export default {
                             MoTa: 'Danh sách hồ sơ xin việc',
                             isTable: true,
                             isNameTable: 'ho-so-xin-viec',
-                            Columns: [
-                                { title: 'Tên file', dataIndex: 'FileName', key: 'FileName' },
-                            ],
-                            DuLieu: []
+                            Columns: [{ title: 'Tên file', dataIndex: 'FileName', key: 'FileName' }],
+                            DuLieu: [],
                         },
                     ],
                 },
@@ -207,9 +198,9 @@ export default {
                             id: 1,
                             Ten: 'Thông tin công việc',
                             MoTa: 'Thông tin quan về công việc hiện tại',
-                            DuLieu: []
-                        }
-                    ]
+                            DuLieu: [],
+                        },
+                    ],
                 },
                 // { id: 3, icon: '', tab: 'Lương & phúc lợi', content: 'Lương & phúc lợi', subcontent: 'Bảng lương và phúc lợi' },
                 // { id: 4, icon: '', tab: 'Nghiệp vụ được giao', content: 'Nghiệp vụ', subcontent: 'Thông tin về công việc, sự nghiệp, các kế hoạch phát triển và các nghiệp vụ được giao' },
@@ -226,29 +217,29 @@ export default {
             DSTinhTrangKetHon: [
                 {
                     TrangThai_HonNhan: 1,
-                    text: 'Chưa kết hôn'
+                    text: 'Chưa kết hôn',
                 },
                 {
                     TrangThai_HonNhan: 2,
-                    text: 'Đã kết hôn'
+                    text: 'Đã kết hôn',
                 },
             ],
             DSGioiTinh: [
                 { GioiTinh: 1, text: 'Nam' },
                 { GioiTinh: 2, text: 'Nữ' },
                 { GioiTinh: 3, text: 'Khác' },
-            ]
+            ],
         }
     },
     async mounted() {
         this.selectItem(this.items[0])
         this.user = await nhanVienService.NhanVien_Select_By_Id({
-            NhanVien_Id: this.NhanVien_Id
+            NhanVien_Id: this.NhanVien_Id,
         })
         const thongTinNhanSu = this.user.ThongTinNhanSu
         const ngaySinh = `${thongTinNhanSu.NgaySinh.toString().padStart(2, '0')}/${thongTinNhanSu.ThangSinh.toString().padStart(2, '0')}/${thongTinNhanSu.NamSinh}`
-        const honNhan = this.DSTinhTrangKetHon.find(x => x.TrangThai_HonNhan === thongTinNhanSu.TrangThai_HonNhan)
-        const gioiTinh = this.DSGioiTinh.find(x => x.GioiTinh === thongTinNhanSu.GioiTinh)
+        const honNhan = this.DSTinhTrangKetHon.find((x) => x.TrangThai_HonNhan === thongTinNhanSu.TrangThai_HonNhan)
+        const gioiTinh = this.DSGioiTinh.find((x) => x.GioiTinh === thongTinNhanSu.GioiTinh)
 
         //Thông tin cá nhân - Thông tin chính
         this.items[0].Title[0].DuLieu = [
@@ -267,7 +258,7 @@ export default {
             { key: 'TenViTri', label: 'Vị trí', icon: '', value: thongTinNhanSu.TenViTri },
             { key: 'NgayBatDau', label: 'Ngày bắt đầu', icon: '', value: dayjs(thongTinNhanSu.NgayBatDau).format('DD/MM/YYYY') },
             { key: 'NgayChinhThuc', label: 'Ngày chính thức', icon: '', value: dayjs(thongTinNhanSu.NgayChinhThuc).format('DD/MM/YYYY') },
-            { key: 'TenNhomNhanVien', label: 'Nhóm nhân viên', icon: '', value: thongTinNhanSu.TenNhomNhanVien },
+            { key: 'TenNhomNhanVien', label: 'Nhóm nhân sự', icon: '', value: thongTinNhanSu.TenNhomNhanVien },
             { key: 'TrangThai_LamViec_Ten', label: 'Tình trạng việc làm', icon: '', value: thongTinNhanSu.TrangThai_LamViec_Ten },
             // { key: '', label: 'Hợp đồng hiện tại', icon: '', value: '' },
             // { key: '', label: 'Lịch làm việc', icon: '', value: '' },
@@ -311,7 +302,6 @@ export default {
         this.items[0].Title[6].DuLieu = this.user.ThongTinGiaDinhNguoiPhuThuoc
         this.items[0].Title[7].DuLieu = this.user.ThongTinHoSo
 
-
         this.items[1].Title[0].DuLieu = [
             { key: 'TenViTri', label: 'Vị trí', icon: '', value: thongTinNhanSu.TenViTri },
             { key: 'BacLuong', label: 'Bậc lương', icon: '', value: `${thongTinNhanSu.TenBacLuong} - ${thongTinNhanSu.GiaTri_BacLuong.toLocaleString('en-US')}` },
@@ -324,7 +314,6 @@ export default {
             { key: 'TenMauBangLuong', label: 'Mẫu bảng lương', icon: '', value: thongTinNhanSu.TenMauBangLuong },
             { key: 'TenHinhThuc', label: 'Phân loại nhân sự', icon: '', value: thongTinNhanSu.TenHinhThuc },
         ]
-
     },
     computed: {},
     watch: {},

@@ -1,14 +1,13 @@
 <template>
-    <uc-form-modal v-model:isOpen="isOpen" ref="refFormModal" title="Chỉnh sửa nhóm nhân viên" :formData="record"
-        :rules="rules" :width="600" @onSubmit="onFinish" :isSubmit="isLoading" @onClose="handleCancel()">
+    <uc-form-modal v-model:isOpen="isOpen" ref="refFormModal" title="Chỉnh sửa nhóm nhân sự" :formData="record" :rules="rules" :width="600" @onSubmit="onFinish" :isSubmit="isLoading" @onClose="handleCancel()">
         <a-row :gutter="[10]">
             <a-col :span="12">
-                <a-form-item label="Mã nhân viên" name="MaNhom">
+                <a-form-item label="Mã nhân sự" name="MaNhom">
                     <a-input v-model:value="record.MaNhom" />
                 </a-form-item>
             </a-col>
             <a-col :span="12">
-                <a-form-item label="Tên nhóm nhân viên" name="TenNhom">
+                <a-form-item label="Tên nhóm nhân sự" name="TenNhom">
                     <a-input v-model:value="record.TenNhom" />
                 </a-form-item>
             </a-col>
@@ -36,12 +35,12 @@ export default {
         return {
             isLoading: false,
             rules: {
-                MaNhom: [{ required: true, message: "Vui lòng nhập mã nhóm nhân viên", trigger: "change" }],
-                TenNhom: [{ required: true, message: "Vui lòng nhập tên nhóm nhân viên", trigger: "change" }],
-            }
+                MaNhom: [{ required: true, message: 'Vui lòng nhập mã nhóm nhân sự', trigger: 'change' }],
+                TenNhom: [{ required: true, message: 'Vui lòng nhập tên nhóm nhân sự', trigger: 'change' }],
+            },
         }
     },
-    mounted() { },
+    mounted() {},
     computed: {},
     watch: {},
     methods: {
@@ -57,12 +56,12 @@ export default {
                 MaNhom: $this.record.MaNhom,
                 TenNhom: $this.record.TenNhom,
                 MoTa: $this.record.MoTa,
-                Is_TamKhoa: $this.record.Is_TamKhoa
+                Is_TamKhoa: $this.record.Is_TamKhoa,
             })
             if (res) {
                 $this.handleCancel()
                 $this.$emit('onFinish')
-                $this.$message.success("Chỉnh sửa nhóm nhân viên thành công!")
+                $this.$message.success('Chỉnh sửa nhóm nhân sự thành công!')
                 $this.$refs.refFormModal.$refs.formRef.resetFields()
             }
             $this.isLoading = false

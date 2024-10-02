@@ -29,7 +29,7 @@ export default {
                 { key: '3', label: 'Vị trí' },
                 { key: '4', label: 'Khu vực chuyên môn' },
                 { key: '5', label: 'Chức danh' },
-                { key: '6', label: 'Nhóm nhân viên' },
+                { key: '6', label: 'Nhóm nhân sự' },
                 { key: '7', label: 'Phòng ban' },
             ],
             selectedKeyMenu: ['1'],

@@ -172,7 +172,7 @@ export default {
     created() {},
     computed: {
         Title: function () {
-            return `Kết quả tính công - Chu kỳ: ${this.thangchuky}/${this.namchuky} - Lịch làm việc: ${this.ctbangcong?.TenMauBangCong}`
+            return `Tính công - Chu kỳ: ${this.thangchuky}/${this.namchuky} - Lịch làm việc: ${this.ctbangcong?.TenMauBangCong}`
         },
         defaultPickerValue: function () {
             let thangNamChuKy = '01/' + this.thangchuky + '/' + this.namchuky
@@ -180,7 +180,7 @@ export default {
             return dayjs(thangNamChuKy, 'DD/MM/YYYY')
         },
         titleModalLoi: function () {
-            return `Kết quả lỗi [${this.nhanVienLoi.MaNhanVien}] ${this.nhanVienLoi.HoVaTenNhanVien}`
+            return `Công lỗi [${this.nhanVienLoi.MaNhanVien}] ${this.nhanVienLoi.HoVaTenNhanVien}`
         },
     },
     methods: {

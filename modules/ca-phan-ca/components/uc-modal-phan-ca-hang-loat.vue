@@ -21,11 +21,11 @@
                     </a-col>
                     <a-col :span="24">
                         <a-form-item name="Is_TatCaNhanVien">
-                            <a-checkbox v-model:checked="formData.Is_TatCaNhanVien">Tất cả nhân viên</a-checkbox>
+                            <a-checkbox v-model:checked="formData.Is_TatCaNhanVien">Tất cả nhân sự</a-checkbox>
                         </a-form-item>
                     </a-col>
                     <a-col :span="24" v-if="formData.Is_TatCaNhanVien === false">
-                        <a-form-item label="Nhân viên" name="NhanVien_Id_List">
+                        <a-form-item label="Nhân sự" name="NhanVien_Id_List">
                             <a-select mode="multiple" v-model:value="formData.NhanVien_Id_List" class="w-100">
                                 <a-select-option v-for="item in dsNhanVien" :value="item.NhanVien_Id" :key="item.NhanVien_Id"> [{{ item.MaNhanVien }}] {{ item.HoVaTenNhanVien }} </a-select-option>
                             </a-select>
@@ -179,7 +179,7 @@ export default {
                 Thu_List: [{ required: true, message: 'Vui lòng chọn ít nhất 1 thứ', trigger: 'change' }],
                 TuNgay: [{ required: true, message: 'Vui lòng chọn từ ngày', trigger: 'change' }],
                 DenNgay: [{ required: true, message: 'Vui lòng chọn đến ngày', trigger: 'change' }],
-                NhanVien_Id_List: [{ required: true, message: 'Vui lòng chọn nhân viên', trigger: 'change' }],
+                NhanVien_Id_List: [{ required: true, message: 'Vui lòng chọn nhân sự', trigger: 'change' }],
                 GioBatDau: [{ required: true, message: 'Vui lòng chọn giờ vào ca', trigger: 'change' }],
                 GioKetThuc: [{ required: true, message: 'Vui lòng chọn giờ ra ca', trigger: 'change' }],
                 BatDauCa_Som_Phut: [{ required: true, message: 'Vui lòng nhập số phút vào ca sớm nhất', trigger: 'change' }],

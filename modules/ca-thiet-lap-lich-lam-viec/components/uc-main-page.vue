@@ -76,7 +76,7 @@ export default {
                     width: '250px',
                 },
                 {
-                    title: 'Tổng nhân viên',
+                    title: 'Tổng nhân sự',
                     dataIndex: 'TongNhanVien',
                     align: 'center',
                 },

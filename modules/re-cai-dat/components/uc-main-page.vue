@@ -2,7 +2,7 @@
 	<uc-layout>
 		<a-row>
 			<a-col :span="4" class="menu-left">
-                <p class="menu-left-title">Chính sách đề xuất</p>
+                <p class="menu-left-title">Loại đề xuất</p>
                 <a-menu v-model:selectedKeys="selectedKeyMenu" mode="vertical" :items="itemMenus" />
             </a-col>
 			<a-col :span="20">
@@ -18,9 +18,9 @@
 		data() {
 			return {
 				itemMenus: [
-				{ key: '1', label: 'Tăng ca' },
+				{ key: '1', label: 'Làm thêm giờ' },
 				{ key: '2', label: 'Nghỉ phép' },
-                { key: '3', label: 'Ứng Lương' },
+                { key: '3', label: 'Ứng lương' },
                 { key: '4', label: 'Chấm công' },
 				],
 				selectedKeyMenu: ['1'],

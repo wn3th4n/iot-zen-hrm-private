@@ -1,8 +1,6 @@
 <template>
     <uc-layout>
-        <a-card class="card-title-page" title="Sửa nhân sự">
-
-        </a-card>
+        <a-card class="card-title-page" title="Sửa nhân sự"> </a-card>
         <uc-container :width="800">
             <a-card>
                 <a-form :model="formData" ref="formNhanVien" layout="vertical" :rules="rulesForm">
@@ -53,8 +51,7 @@
                         </a-col>
                         <a-col :sm="24" :md="5">
                             <a-form-item label="Ngày sinh" name="DayOfBirth">
-                                <a-date-picker v-model:value="formData.DayOfBirth" format="DD/MM/YYYY" class="w-100"
-                                    placeholder="Chọn ngày" />
+                                <a-date-picker v-model:value="formData.DayOfBirth" format="DD/MM/YYYY" class="w-100" placeholder="Chọn ngày" />
                             </a-form-item>
                         </a-col>
 
@@ -89,18 +86,16 @@
                         </a-col>
                         <a-col :sm="24" :md="6">
                             <a-form-item label="Ngày bắt đầu" name="NgayBatDau">
-                                <a-date-picker v-model:value="formData.NgayBatDau" format="DD/MM/YYYY" class="w-100"
-                                    placeholder="Chọn ngày" />
+                                <a-date-picker v-model:value="formData.NgayBatDau" format="DD/MM/YYYY" class="w-100" placeholder="Chọn ngày" />
                             </a-form-item>
                         </a-col>
                         <a-col :sm="24" :md="6">
                             <a-form-item label="Ngày chính thức" name="NgayChinhThuc">
-                                <a-date-picker v-model:value="formData.NgayChinhThuc" format="DD/MM/YYYY" class="w-100"
-                                    placeholder="Chọn ngày" />
+                                <a-date-picker v-model:value="formData.NgayChinhThuc" format="DD/MM/YYYY" class="w-100" placeholder="Chọn ngày" />
                             </a-form-item>
                         </a-col>
                         <a-col :sm="24" :md="8">
-                            <a-form-item label="Nhóm nhân viên" name="NhomNhanVien_Id">
+                            <a-form-item label="Nhóm nhân sự" name="NhomNhanVien_Id">
                                 <uc-select-nhom-nhan-vien v-model:value="formData.NhomNhanVien_Id" />
                             </a-form-item>
                         </a-col>
@@ -141,8 +136,7 @@
                         </a-col>
                         <a-col :sm="24" :md="8">
                             <a-form-item label="Ngày cấp" name="NgayCap_CCCD">
-                                <a-date-picker v-model:value="formData.NgayCap_CCCD" format="DD/MM/YYYY" class="w-100"
-                                    placeholder="Chọn ngày" />
+                                <a-date-picker v-model:value="formData.NgayCap_CCCD" format="DD/MM/YYYY" class="w-100" placeholder="Chọn ngày" />
                             </a-form-item>
                         </a-col>
                         <a-col :sm="24" :md="8">
@@ -163,8 +157,7 @@
                         </a-col>
                         <a-col :sm="24" :md="8">
                             <a-form-item label="Hết hạn thông tin cá nhân" name="NgayHetHan">
-                                <a-date-picker placeholder="Chọn ngày" format="DD/MM/YYYY"
-                                    v-model:value="formData.NgayHetHan" class="w-100" />
+                                <a-date-picker placeholder="Chọn ngày" format="DD/MM/YYYY" v-model:value="formData.NgayHetHan" class="w-100" />
                             </a-form-item>
                         </a-col>
 
@@ -238,16 +231,14 @@
 
                         <a-col :sm="24" :md="12">
                             <a-form-item label="Lương cơ bản">
-                                <a-input-number v-model:value="formData.LuongCoBan" :formatter="formatter"
-                                    :parser="parser" class="w-100" />
+                                <a-input-number v-model:value="formData.LuongCoBan" :formatter="formatter" :parser="parser" class="w-100" />
                             </a-form-item>
                         </a-col>
                         <a-col :sm="24" :md="24" class="my-2">
                             <b class="fs-5">Hồ sơ xin việc</b>
                         </a-col>
                         <a-col :sm="24" :md="24">
-                            <uc-file-upload v-model:modelValue="fileList" :multiple="true" title="Upload hồ sơ"
-                                @onDelete="onDeleteFileHoSo" @onInsert="onInsertFileHoSo" />
+                            <uc-file-upload v-model:modelValue="fileList" :multiple="true" title="Upload hồ sơ" @onDelete="onDeleteFileHoSo" @onInsert="onInsertFileHoSo" />
                         </a-col>
                         <a-col :sm="24" :md="24" class="mt-4">
                             <b class="fs-5">Các thông tin khác</b>
@@ -284,7 +275,8 @@
                                 </a-select>
                             </a-form-item>
                         </a-col>
-                        <a-col :sm="24" :md="24" class="mb-3"> <a-switch v-model:checked="switch_TTHV" class="me-2" />
+                        <a-col :sm="24" :md="24" class="mb-3">
+                            <a-switch v-model:checked="switch_TTHV" class="me-2" />
                             <b>Nhập thông tin học vấn </b>
                         </a-col>
                         <a-col :sm="24" :md="24" v-if="switch_TTHV" class="mb-3">
@@ -304,9 +296,7 @@
                                                         <uc-icon class="text-primary" name="square-edit-outline" />
                                                         Chỉnh sửa
                                                     </a-menu-item>
-                                                    <a-menu-item @click="onDeleteTTHV(record)">
-                                                        <uc-icon class="text-red" name="delete-outline" />Xoá
-                                                    </a-menu-item>
+                                                    <a-menu-item @click="onDeleteTTHV(record)"> <uc-icon class="text-red" name="delete-outline" />Xoá </a-menu-item>
                                                 </a-menu>
                                             </template>
                                         </a-dropdown>
@@ -315,13 +305,9 @@
                             </a-table>
 
                             <div class="mt-2">
-                                <a-button type="link" class="ps-0" @click="onOpenModalTTHV">
-                                    <uc-icon name="plus" /> Thêm thông tin học vấn
-                                </a-button>
+                                <a-button type="link" class="ps-0" @click="onOpenModalTTHV"> <uc-icon name="plus" /> Thêm thông tin học vấn </a-button>
                             </div>
-                            <uc-form-modal v-model:isOpen="isShowModalThongTinHocVan" title="Thêm thông tin học vấn"
-                                :width="600" :formData="formDataTTHV" ref="modalRefTTHV" :rules="rulesTTHV"
-                                @onSubmit="onSubmitTTHV()" @onClose="handleCancelTTHV()">
+                            <uc-form-modal v-model:isOpen="isShowModalThongTinHocVan" title="Thêm thông tin học vấn" :width="600" :formData="formDataTTHV" ref="modalRefTTHV" :rules="rulesTTHV" @onSubmit="onSubmitTTHV()" @onClose="handleCancelTTHV()">
                                 <a-row :gutter="[10]">
                                     <a-col :sm="24" :md="12" v-if="switch_TTHV">
                                         <a-form-item label="Trường học" name="TruongHoc">
@@ -345,16 +331,12 @@
                                     </a-col>
                                     <a-col :sm="24" :md="24" v-if="switch_TTHV" class="mb-3">
                                         <a-form-item name="Is_BangCapCaoNhat">
-                                            <a-checkbox v-model:checked="formDataTTHV.Is_BangCapCaoNhat">
-                                                Đó là bằng cấp cao nhất?
-                                            </a-checkbox>
+                                            <a-checkbox v-model:checked="formDataTTHV.Is_BangCapCaoNhat"> Đó là bằng cấp cao nhất? </a-checkbox>
                                         </a-form-item>
                                     </a-col>
                                 </a-row>
                             </uc-form-modal>
-                            <uc-form-modal v-model:isOpen="isShowModalEditThongTinHocVan" title="Sửa thông tin học vấn"
-                                :width="600" :formData="formDataTTHV" ref="modalRefTTHV" :rules="rulesTTHV"
-                                @onSubmit="onUpdateTTHV()" @onClose="handleCancelTTHV()">
+                            <uc-form-modal v-model:isOpen="isShowModalEditThongTinHocVan" title="Sửa thông tin học vấn" :width="600" :formData="formDataTTHV" ref="modalRefTTHV" :rules="rulesTTHV" @onSubmit="onUpdateTTHV()" @onClose="handleCancelTTHV()">
                                 <a-row :gutter="[10]">
                                     <a-col :sm="24" :md="12" v-if="switch_TTHV">
                                         <a-form-item label="Trường học" name="TruongHoc">
@@ -378,16 +360,14 @@
                                     </a-col>
                                     <a-col :sm="24" :md="24" v-if="switch_TTHV" class="mb-3">
                                         <a-form-item name="Is_BangCapCaoNhat">
-                                            <a-checkbox v-model:checked="formDataTTHV.Is_BangCapCaoNhat">
-                                                Đó là bằng cấp cao nhất?
-                                            </a-checkbox>
+                                            <a-checkbox v-model:checked="formDataTTHV.Is_BangCapCaoNhat"> Đó là bằng cấp cao nhất? </a-checkbox>
                                         </a-form-item>
                                     </a-col>
                                 </a-row>
                             </uc-form-modal>
                         </a-col>
-                        <a-col :sm="24" :md="24" class="mb-3"> <a-switch v-model:checked="switch_LSLamViec"
-                                class="me-2" />
+                        <a-col :sm="24" :md="24" class="mb-3">
+                            <a-switch v-model:checked="switch_LSLamViec" class="me-2" />
                             <b>Nhập lịch sử làm việc </b>
                         </a-col>
                         <a-col :sm="24" :md="24" v-if="switch_LSLamViec" class="mb-3">
@@ -404,9 +384,7 @@
                                                         <uc-icon class="text-primary" name="square-edit-outline" />
                                                         Chỉnh sửa
                                                     </a-menu-item>
-                                                    <a-menu-item @click="onDeleteLSLV(record)">
-                                                        <uc-icon class="text-red" name="delete-outline" />Xoá
-                                                    </a-menu-item>
+                                                    <a-menu-item @click="onDeleteLSLV(record)"> <uc-icon class="text-red" name="delete-outline" />Xoá </a-menu-item>
                                                 </a-menu>
                                             </template>
                                         </a-dropdown>
@@ -414,13 +392,12 @@
                                 </template>
                             </a-table>
                             <div class="mt-2">
-                                <a-button type="link" class="ps-0" @click="onOpenModalLSLV"><uc-icon name="plus" />
+                                <a-button type="link" class="ps-0" @click="onOpenModalLSLV"
+                                    ><uc-icon name="plus" />
                                     Thêm lịch sử làm việc
                                 </a-button>
                             </div>
-                            <uc-form-modal v-model:isOpen="isShowModalLichSuLamViec" title="Thêm lịch sử làm việc"
-                                :width="600" :formData="formDataLSLV" ref="modalRefLSLV" :rules="rulesLSLV"
-                                @onSubmit="onSubmitLSLV()" @onClose="handleCancelLSLV()">
+                            <uc-form-modal v-model:isOpen="isShowModalLichSuLamViec" title="Thêm lịch sử làm việc" :width="600" :formData="formDataLSLV" ref="modalRefLSLV" :rules="rulesLSLV" @onSubmit="onSubmitLSLV()" @onClose="handleCancelLSLV()">
                                 <a-row :gutter="[10]">
                                     <a-col :sm="24" :md="12">
                                         <a-form-item label="Công ty">
@@ -449,9 +426,7 @@
                                     </a-col>
                                 </a-row>
                             </uc-form-modal>
-                            <uc-form-modal v-model:isOpen="isShowModalEditLichSuLamViec" title="Sửa lịch sử làm việc"
-                                :width="600" :formData="formDataLSLV" ref="modalRefLSLV" :rules="rulesLSLV"
-                                @onSubmit="onUpdateLSLV()" @onClose="handleCancelLSLV()">
+                            <uc-form-modal v-model:isOpen="isShowModalEditLichSuLamViec" title="Sửa lịch sử làm việc" :width="600" :formData="formDataLSLV" ref="modalRefLSLV" :rules="rulesLSLV" @onSubmit="onUpdateLSLV()" @onClose="handleCancelLSLV()">
                                 <a-row :gutter="[10]">
                                     <a-col :sm="24" :md="12">
                                         <a-form-item label="Công ty">
@@ -504,9 +479,7 @@
                                                         <uc-icon class="text-primary" name="square-edit-outline" />
                                                         Chỉnh sửa
                                                     </a-menu-item>
-                                                    <a-menu-item @click="onDeleteTTNT(record)">
-                                                        <uc-icon class="text-red" name="delete-outline" />Xoá
-                                                    </a-menu-item>
+                                                    <a-menu-item @click="onDeleteTTNT(record)"> <uc-icon class="text-red" name="delete-outline" />Xoá </a-menu-item>
                                                 </a-menu>
                                             </template>
                                         </a-dropdown>
@@ -519,10 +492,7 @@
                                     Thêm thông tin gia đình, người phụ thuộc và liên hệ khác
                                 </a-button>
                             </div>
-                            <uc-form-modal v-model:isOpen="isShowModalThongTinNguoiThan"
-                                title="Thêm thông tin người thân" :width="600" :formData="formDataTTNT"
-                                ref="modalRefTTNT" :rules="rulesTTNT" @onSubmit="onSubmitTTNT()"
-                                @onClose="handleCancelTTNT()">
+                            <uc-form-modal v-model:isOpen="isShowModalThongTinNguoiThan" title="Thêm thông tin người thân" :width="600" :formData="formDataTTNT" ref="modalRefTTNT" :rules="rulesTTNT" @onSubmit="onSubmitTTNT()" @onClose="handleCancelTTNT()">
                                 <a-row :gutter="[10]">
                                     <a-col :sm="24" :md="12">
                                         <a-form-item label="Họ và tên">
@@ -541,8 +511,7 @@
                                     </a-col>
                                     <a-col :sm="24" :md="12">
                                         <a-form-item label="Ngày sinh">
-                                            <a-date-picker placeholder="Chọn ngày" format="DD/MM/YYYY"
-                                                v-model:value="formDataTTNT.NgaySinh" class="w-100" />
+                                            <a-date-picker placeholder="Chọn ngày" format="DD/MM/YYYY" v-model:value="formDataTTNT.NgaySinh" class="w-100" />
                                         </a-form-item>
                                     </a-col>
                                     <a-col :sm="24" :md="12">
@@ -556,21 +525,14 @@
                                         </a-form-item>
                                     </a-col>
                                     <a-col :sm="24" :md="12" class="mb-3">
-                                        <a-checkbox v-model:checked="formDataTTNT.Is_NguoiPhuThuoc">
-                                            Là người phụ thuộc?
-                                        </a-checkbox>
+                                        <a-checkbox v-model:checked="formDataTTNT.Is_NguoiPhuThuoc"> Là người phụ thuộc? </a-checkbox>
                                     </a-col>
                                     <a-col :sm="24" :md="12" class="mb-3">
-                                        <a-checkbox v-model:checked="formDataTTNT.Is_LienHeKhanCap">
-                                            Là người liên hệ khẩn cấp?
-                                        </a-checkbox>
+                                        <a-checkbox v-model:checked="formDataTTNT.Is_LienHeKhanCap"> Là người liên hệ khẩn cấp? </a-checkbox>
                                     </a-col>
                                 </a-row>
                             </uc-form-modal>
-                            <uc-form-modal v-model:isOpen="isShowModalEditThongTinNguoiThan"
-                                title="Sửa thông tin người thân" :width="600" :formData="formDataTTNT"
-                                ref="modalRefTTNT" :rules="rulesTTNT" @onSubmit="onUpdateTTNT()"
-                                @onClose="handleCancelTTNT()">
+                            <uc-form-modal v-model:isOpen="isShowModalEditThongTinNguoiThan" title="Sửa thông tin người thân" :width="600" :formData="formDataTTNT" ref="modalRefTTNT" :rules="rulesTTNT" @onSubmit="onUpdateTTNT()" @onClose="handleCancelTTNT()">
                                 <a-row :gutter="[10]">
                                     <a-col :sm="24" :md="12">
                                         <a-form-item label="Họ và tên">
@@ -589,8 +551,7 @@
                                     </a-col>
                                     <a-col :sm="24" :md="12">
                                         <a-form-item label="Ngày sinh">
-                                            <a-date-picker placeholder="Chọn ngày" format="DD/MM/YYYY"
-                                                v-model:value="formDataTTNT.NgaySinh" class="w-100" />
+                                            <a-date-picker placeholder="Chọn ngày" format="DD/MM/YYYY" v-model:value="formDataTTNT.NgaySinh" class="w-100" />
                                         </a-form-item>
                                     </a-col>
                                     <a-col :sm="24" :md="12">
@@ -604,21 +565,18 @@
                                         </a-form-item>
                                     </a-col>
                                     <a-col :sm="24" :md="12" class="mb-3">
-                                        <a-checkbox v-model:checked="formDataTTNT.Is_NguoiPhuThuoc">
-                                            Là người phụ thuộc?
-                                        </a-checkbox>
+                                        <a-checkbox v-model:checked="formDataTTNT.Is_NguoiPhuThuoc"> Là người phụ thuộc? </a-checkbox>
                                     </a-col>
                                     <a-col :sm="24" :md="12" class="mb-3">
-                                        <a-checkbox v-model:checked="formDataTTNT.Is_LienHeKhanCap">
-                                            Là người liên hệ khẩn cấp?
-                                        </a-checkbox>
+                                        <a-checkbox v-model:checked="formDataTTNT.Is_LienHeKhanCap"> Là người liên hệ khẩn cấp? </a-checkbox>
                                     </a-col>
                                 </a-row>
                             </uc-form-modal>
                         </a-col>
                     </a-row>
                 </a-form>
-                <a-button class="float-end" type="primary" @click="onSubmit()"><uc-icon name="content-save-outline" />
+                <a-button class="float-end" type="primary" @click="onSubmit()"
+                    ><uc-icon name="content-save-outline" />
                     Sửa nhân sự
                 </a-button>
             </a-card>
@@ -644,13 +602,13 @@ export default {
                 // So_CCCD:[{required: true, message: 'Vui Lòng nhập số căn cước công dân' , trigger: 'change'}],
                 // NoiCap_CCCD:[{required: true, message: 'Vui Lòng nhập nơi cấp' , trigger: 'change'}],
                 // NgayCap_CCCD:[{required: true, message: 'Vui Lòng nhập ngày cấp' , trigger: 'change'}],
-                DayOfBirth: [{required: true, message: 'Vui Lòng nhập ngày sinh' , trigger: 'change'}],
+                DayOfBirth: [{ required: true, message: 'Vui Lòng nhập ngày sinh', trigger: 'change' }],
                 DienThoai: [{ required: true, message: 'Vui lòng nhập số điện thoại', trigger: 'blur' }],
                 ChucDanh_Id: [{ required: true, message: 'Vui lòng chọn chức danh', trigger: 'change' }],
                 ViTri_Id: [{ required: true, message: 'Vui lòng chọn vị trí', trigger: 'change' }],
                 // MaChamCong: [{ required: true, message: 'Vui lòng nhập mã chấm công', trigger: 'blur' }],
                 HoVaTenDem: [{ required: true, message: 'Vui lòng nhập họ và tên đệm', trigger: 'blur' }],
-                TenNhanVien: [{ required: true, message: 'Vui lòng nhập tên nhân viên', trigger: 'blur' }],
+                TenNhanVien: [{ required: true, message: 'Vui lòng nhập tên nhân sự', trigger: 'blur' }],
                 VanPhong_Id: [{ required: true, message: 'Vui lòng chọn văn phòng', trigger: 'change' }],
                 HinhThuc_Id: [{ required: true, message: 'Vui lòng chọn phân loại nhân sự', trigger: 'change' }],
                 NgayBatDau: [{ required: true, message: 'Vui lòng chọn ngày bắt đầu', trigger: 'blur' }],
@@ -832,22 +790,18 @@ export default {
             dataTTNT: [],
             NhanVien_Id: NhanVien_Id,
             IsLoadingPage: false,
-            urlReadFile: vueData.v_Set.urlReadFile
+            urlReadFile: vueData.v_Set.urlReadFile,
         }
     },
     mounted() {
         this.IsLoadingPage = true
-        nhanVienService.NhanVien_Select_By_Id({ NhanVien_Id: this.NhanVien_Id })
-            .then(({
-                ThongTinNhanSu,
-                ThongTinHoSo,
-                ThongTinHocVan,
-                ThongTinLichSuLamViec,
-                ThongTinGiaDinhNguoiPhuThuoc
-            }) => {
+        nhanVienService
+            .NhanVien_Select_By_Id({ NhanVien_Id: this.NhanVien_Id })
+            .then(({ ThongTinNhanSu, ThongTinHoSo, ThongTinHocVan, ThongTinLichSuLamViec, ThongTinGiaDinhNguoiPhuThuoc }) => {
                 const NgaySinh = `${ThongTinNhanSu.NamSinh}-${ThongTinNhanSu.ThangSinh.toString().padStart(2, '0')}-${ThongTinNhanSu.NgaySinh.toString().padStart(2, '0')}`
                 this.formData = {
-                    ...this.formData, ...ThongTinNhanSu,
+                    ...this.formData,
+                    ...ThongTinNhanSu,
                     DayOfBirth: dayjs(NgaySinh, 'YYYY-MM-DD'),
                     NgayBatDau: ThongTinNhanSu.NgayBatDau ? dayjs(ThongTinNhanSu.NgayBatDau, 'YYYY-MM-DD') : '',
                     NgayChinhThuc: ThongTinNhanSu.NgayChinhThuc ? dayjs(ThongTinNhanSu.NgayChinhThuc, 'YYYY-MM-DD') : '',
@@ -857,14 +811,14 @@ export default {
                     BacLuong_Id: ThongTinNhanSu.BacLuong_Id === 0 ? null : ThongTinNhanSu.BacLuong_Id,
                     BacThuong_Id: ThongTinNhanSu.BacThuong_Id === 0 ? null : ThongTinNhanSu.BacThuong_Id,
                     NhomNhanVien_Id: ThongTinNhanSu.NhomNhanVien_Id === 0 ? null : ThongTinNhanSu.NhomNhanVien_Id,
-                    Is_GiamTruThue: ThongTinNhanSu.ThongTinNhanSu ? 1 : 0
+                    Is_GiamTruThue: ThongTinNhanSu.ThongTinNhanSu ? 1 : 0,
                 }
                 if (ThongTinNhanSu.So_BHXH || ThongTinNhanSu.NoiDangKy_BHXH || ThongTinNhanSu.MaSoThue) {
                     this.switch_TTPL = true
                 }
                 if (ThongTinHocVan.length > 0) {
                     this.switch_TTHV = true
-                    this.fileList = ThongTinHoSo.map(x => {
+                    this.fileList = ThongTinHoSo.map((x) => {
                         return {
                             uid: x.File_Id,
                             name: x.FileName,
@@ -884,7 +838,7 @@ export default {
                     this.dataTTNT = ThongTinGiaDinhNguoiPhuThuoc
                 }
             })
-            .finally(() => this.IsLoadingPage = false)
+            .finally(() => (this.IsLoadingPage = false))
     },
     computed: {},
     watch: {},
@@ -896,7 +850,7 @@ export default {
                 $this.formData.NgaySinh = $this.formData.DayOfBirth.date()
                 $this.formData.ThangSinh = $this.formData.DayOfBirth.month() + 1
                 $this.formData.NamSinh = $this.formData.DayOfBirth.year()
-                console.log(' $this.formData', $this.formData.NgayCap_CCCD);
+                console.log(' $this.formData', $this.formData.NgayCap_CCCD)
 
                 const res = await nhanVienService.NhanVien_Update({
                     NhanVien_Id: $this.NhanVien_Id,
@@ -949,13 +903,12 @@ export default {
                     NgayHetHan: $this.formData.NgayHetHan ? $this.formData.NgayHetHan.format('YYYY-MM-DD') : null,
                     GhiChu: $this.formData.GhiChu,
                     Is_GiamTruThue: $this.formData.Is_GiamTruThue,
-                    Is_CoNguoiPhuThuoc: $this.formData.Is_CoNguoiPhuThuoc
+                    Is_CoNguoiPhuThuoc: $this.formData.Is_CoNguoiPhuThuoc,
                 })
                 if (res) {
-                    $this.$message.success('Sửa nhân viên thành công!')
+                    $this.$message.success('Sửa nhân sự thành công!')
                 }
             })
-
         },
         onOpenModalTTHV(event) {
             this.formDataTTHV = Object.assign({}, this.formDataTTHV_Default)
@@ -972,10 +925,10 @@ export default {
                 content: 'Xác nhận xóa thông tin học vấn?',
                 onOk: async () => {
                     const isDelete = await nhanVienService.NhanVien_HocVan_Delete({
-                        NhanVien_HocVan_Id: record.NhanVien_HocVan_Id
+                        NhanVien_HocVan_Id: record.NhanVien_HocVan_Id,
                     })
                     if (isDelete) {
-                        $this.dataTTHV = $this.dataTTHV.filter(x => x.NhanVien_HocVan_Id !== record.NhanVien_HocVan_Id)
+                        $this.dataTTHV = $this.dataTTHV.filter((x) => x.NhanVien_HocVan_Id !== record.NhanVien_HocVan_Id)
                         $this.$message.success('Xóa thông tin học vấn thành công!')
                     }
                 },
@@ -1007,7 +960,7 @@ export default {
                 Is_BangCapCaoNhat: this.formDataTTHV.Is_BangCapCaoNhat,
             })
             if (isUpdate) {
-                const index = this.dataTTHV.findIndex(x => x.NhanVien_HocVan_Id === this.formDataTTHV.NhanVien_HocVan_Id)
+                const index = this.dataTTHV.findIndex((x) => x.NhanVien_HocVan_Id === this.formDataTTHV.NhanVien_HocVan_Id)
                 this.dataTTHV[index] = this.formDataTTHV
                 this.formDataTTHV = Object.assign({}, this.formDataTTHV_Default)
                 this.$message.success(`Sửa thông tin học vấn thành công`)
@@ -1033,10 +986,10 @@ export default {
                 content: 'Xác nhận xóa lịch sử làm việc?',
                 onOk: async () => {
                     const isDelete = await nhanVienService.NhanVien_LichSuLamViec_Delete({
-                        NhanVien_LichSuLamViec_Id: record.NhanVien_LichSuLamViec_Id
+                        NhanVien_LichSuLamViec_Id: record.NhanVien_LichSuLamViec_Id,
                     })
                     if (isDelete) {
-                        $this.dataLSLV = $this.dataLSLV.filter(x => x.NhanVien_LichSuLamViec_Id !== record.NhanVien_LichSuLamViec_Id)
+                        $this.dataLSLV = $this.dataLSLV.filter((x) => x.NhanVien_LichSuLamViec_Id !== record.NhanVien_LichSuLamViec_Id)
                         $this.$message.success('Xóa lịch sử làm việc thành công!')
                     }
                 },
@@ -1057,7 +1010,6 @@ export default {
                 this.formDataLSLV = Object.assign({}, this.formDataLSLV_Default)
                 this.$message.success(`Thêm lịch sử làm việc thành công`)
             }
-
         },
         async onUpdateLSLV() {
             const isUpdate = await nhanVienService.NhanVien_LichSuLamViec_Update({
@@ -1069,7 +1021,7 @@ export default {
                 NhiemVuCongViec: this.formDataLSLV.NhiemVuCongViec,
             })
             if (isUpdate) {
-                const index = this.dataLSLV.findIndex(x => x.NhanVien_LichSuLamViec_Id === this.formDataLSLV.NhanVien_LichSuLamViec_Id)
+                const index = this.dataLSLV.findIndex((x) => x.NhanVien_LichSuLamViec_Id === this.formDataLSLV.NhanVien_LichSuLamViec_Id)
                 this.dataLSLV[index] = this.formDataLSLV
                 this.formDataLSLV = Object.assign({}, this.formDataLSLV_Default)
                 this.$message.success(`Sửa lịch sử làm việc thành công`)
@@ -1096,10 +1048,10 @@ export default {
                 content: 'Xác nhận xóa thông tin người thânn?',
                 onOk: async () => {
                     const isDelete = await nhanVienService.NhanVien_GiaDinh_Delete({
-                        NhanVien_GiaDinh_Id: record.NhanVien_GiaDinh_Id
+                        NhanVien_GiaDinh_Id: record.NhanVien_GiaDinh_Id,
                     })
                     if (isDelete) {
-                        $this.dataTTNT = $this.dataTTNT.filter(x => x.NhanVien_GiaDinh_Id !== record.NhanVien_GiaDinh_Id)
+                        $this.dataTTNT = $this.dataTTNT.filter((x) => x.NhanVien_GiaDinh_Id !== record.NhanVien_GiaDinh_Id)
                         $this.$message.success('Xóa thông tin người thânn thành công!')
                     }
                 },
@@ -1124,7 +1076,6 @@ export default {
                 this.formDataTTNT = Object.assign({}, this.formDataTTNT_Default)
                 this.$message.success(`Thêm thông tin người thân thành công`)
             }
-
         },
         async onUpdateTTNT() {
             const isUpdate = await nhanVienService.NhanVien_GiaDinh_Update({
@@ -1140,7 +1091,7 @@ export default {
                 Is_LienHeKhanCap: this.formDataTTNT.Is_LienHeKhanCap,
             })
             if (isUpdate) {
-                const index = this.dataTTNT.findIndex(x => x.NhanVien_GiaDinh_Id === this.formDataTTNT.NhanVien_GiaDinh_Id)
+                const index = this.dataTTNT.findIndex((x) => x.NhanVien_GiaDinh_Id === this.formDataTTNT.NhanVien_GiaDinh_Id)
                 this.dataTTNT[index] = this.formDataTTNT
                 this.formDataTTNT = Object.assign({}, this.formDataTTNT_Default)
                 this.$message.success(`Sửa lịch sử làm việc thành công`)
@@ -1159,7 +1110,7 @@ export default {
         },
         async onDeleteFileHoSo(file) {
             const isDelete = await nhanVienService.NhanVien_HoSo_Delete({
-                NhanVien_HoSo_Id: file.NhanVien_HoSo_Id
+                NhanVien_HoSo_Id: file.NhanVien_HoSo_Id,
             })
             if (isDelete) {
                 this.$message.success('Xóa file hồ sơ thành công')
@@ -1168,13 +1119,13 @@ export default {
         async onInsertFileHoSo(file) {
             const isInsert = await nhanVienService.NhanVien_HoSo_Insert({
                 NhanVien_Id: this.NhanVien_Id,
-                File_Id: file.uid
+                File_Id: file.uid,
             })
             if (isInsert) {
                 this.$message.success('Thêm file hồ sơ thành công')
             }
         },
-        dayjs: dayjs
+        dayjs: dayjs,
     },
 }
 </script>

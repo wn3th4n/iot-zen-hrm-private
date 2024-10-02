@@ -281,7 +281,7 @@ export default {
                         newDSPhanCa.push(cloneNhanVien)
                     }
                     const columnNhanVien = {
-                        title: 'Nhân viên',
+                        title: 'Nhân sự',
                         key: 'NhanVien',
                         dataIndex: 'NhanVien',
                         width: 230,

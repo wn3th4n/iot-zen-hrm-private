@@ -49,6 +49,9 @@
 												<a-menu-item @click="onEdit(record)">
 													<uc-icon class="text-primary" name="square-edit-outline" />Chỉnh sửa
 												</a-menu-item>
+												<a-menu-item @click="onEditTruongDuLieu(record)">
+													<uc-icon class="text-primary" name="square-edit-outline" />Trường dữ liệu tùy chỉnh
+												</a-menu-item>
 												<a-menu-item @click="onDelete(record)">
 													<uc-icon class="text-red" name="delete-outline" />Xoá
 												</a-menu-item>
@@ -80,8 +83,9 @@
 		</a-tabs>
 
 		<uc-modal-add-hop-dong v-model:isOpen="state.isOpenModalAddHopDong"/>
-		<uc-modal-add-loai-hop-dong v-model:isOpen="state.isOpenModalAddLoaiHopDong" />
-		<uc-modal-edit-loai-hop-dong v-model:isOpen="state.isOpenModalEditLoaiHopDong" :record="value.recordEdit" />
+		<uc-modal-add-loai-hop-dong v-model:isOpen="state.isOpenModalAddLoaiHopDong" @onFinish="loadPhanLoaiHopDong"/>
+		<uc-modal-edit-loai-hop-dong v-model:isOpen="state.isOpenModalEditLoaiHopDong" @onFinish="loadPhanLoaiHopDong" :record="value.recordEdit" />
+		<uc-modal-edit-truong-du-lieu v-model:isOpen="state.isOpenModalEditTruongDuLieu" :record="value.recordEdit"/>
 	</uc-layout>
 </template>
 
@@ -96,7 +100,8 @@
 					isOpenModalChonLoaiHopDong: false,
 					isOpenModalAddHopDong: false,
 					isOpenModalAddLoaiHopDong: false,
-					isOpenModalEditLoaiHopDong: false
+					isOpenModalEditLoaiHopDong: false,
+					isOpenModalEditTruongDuLieu: false,
 				},	
 				value:{
 					recordModalAddHopDong: {},
@@ -190,10 +195,20 @@
 					this.value.dsLoaiHopDong = isSelect
 			},
 			onEdit(record){
-				console.log(record)
 				this.value.recordEdit = record
 				this.state.isOpenModalEditLoaiHopDong = true
-			}
+			},
+			onEditTruongDuLieu(record) {
+				this.value.recordEdit = record
+				this.state.isOpenModalEditTruongDuLieu = true
+			},
+			async onDelete(record){
+				console.log("delete", record)
+				Confirm.delete({
+					content: 'Bạn có muốn xóa loại hợp đồng này?',
+					onOk: await loaiHopDongService.LoaiHopDong_Delete(record.LoaiHopDong_Id)
+				})
+			},
 			
 		},
 	}

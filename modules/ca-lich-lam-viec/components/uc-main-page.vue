@@ -3,12 +3,12 @@
         <a-card class="card-title-page">
             <template #title>
                 <div class="d-flex flex-row">
-                    <b class="me-3">{{ pageTitle }}</b>
-                    <a-select v-model:value="LichLamViec_Id" placeholder="Chọn chu kỳ" @change="onChangeChuKy()" class="me-2 min-w-200px">
+                    <b class="me-3">Lịch làm việc</b>
+                    <a-select v-model:value="LichLamViec_Id" placeholder="Chọn chu kỳ" @change="onChangeChuKy()" class="me-2 min-w-200px" :loading="isLoadingSelect">
                         <a-select-option v-for="item in DSChuKy" :value="item.LichLamViec_Id" :key="item.LichLamViec_Id">Tháng {{ item.Thang }}/{{ item.Nam }}</a-select-option>
                     </a-select>
-                    <a-select v-model:value="MauBangCong_Id" placeholder="Chọn lịch làm việc" @change="onChangeLichLamViec()" :disabled="isDisabled" class="min-w-300px">
-                        <a-select-option v-for="item in DSMauBangCong.filter((item) => item.LichLamViec_Id === LichLamViec_Id)" :value="item.MauBangCong_Id" :key="item.MauBangCong_Id">{{ item.TenMauBangCong }}</a-select-option>
+                    <a-select v-model:value="MauBangCong_Id" placeholder="Chọn lịch làm việc" @change="onChangeLichLamViec()" :disabled="!LichLamViec_Id" class="min-w-300px">
+                        <a-select-option v-for="item in DSMauBangCong.filter((item) => item.LichLamViec_Id === LichLamViec_Id && item.Is_CoDinh === false)" :value="item.MauBangCong_Id" :key="item.MauBangCong_Id">{{ item.TenMauBangCong }}</a-select-option>
                     </a-select>
                     <div class="w-100 ps-5 d-flex align-items-center">
                         <a-steps style="width: 300px" :current="current" :items="steps" @change="onChangeStep(current)" />
@@ -78,7 +78,7 @@
                     <a-flex gap="small">
                         <uc-avatar :src="record.AnhDaiDien_Url" :text="record.HoVaTenNhanVien" />
                         <div>
-                            <b>{{ record.HoVaTenNhanVien }} {{ record.NhanVien_Id }}</b> <br />
+                            <b>{{ record.HoVaTenNhanVien }} </b> <br />
                             <small>
                                 <b>[{{ record.MaNhanVien }}]</b>
                                 <a @click="onModalThuocTinh(record)">
@@ -119,10 +119,10 @@
                 </template> -->
             </template>
         </a-table>
-        <uc-modal-thong-tin-ca v-model:isOpen="isShowModalThongTinCa" :record="recordThongTinCa" :dsloaica="DSLoaiCa" :dsvaitro="DSVaiTro" :dsvanphong="DSVanPhong" :dscamau="DSCaMau" @onFinish="renderLichPhanCa()" :lichlamviecid="LichLamViec_Id" />
         <uc-modal-thuoc-tinh v-model:isOpen="isShowModalThuocTinh" :dsthuoctinh="DSThuocThuocTinh" />
-        <uc-modal-thong-tin-ca-step-2 v-model:isOpen="isShowModalThongTinCaStep2" :record="recordThongTinCa" :dsloaica="DSLoaiCa" :dsvaitro="DSVaiTro" :dsvanphong="DSVanPhong" :dscamau="DSCaMau" @onFinish="renderLichPhanCa()" :lichlamviecid="LichLamViec_Id" />
-        <uc-modal-tinh-toan v-model:isOpen="isShowModalTinhToan" :thangchuky="thangChuKy" :namchuky="namChuKy" :ctbangcong="CTBangCong" :lichlamviecid="LichLamViec_Id" :maubangcongid="MauBangCong_Id" :dsphanca="DS_PhanCa_Origin" :dsnhanvien="DS_NhanVien" @onFinish="renderLichPhanCa()" />
+        <uc-modal-thong-tin-ca v-model:isOpen="isShowModalThongTinCa" :record="recordThongTinCa" @onFinish="renderLichPhanCa()" :lichlamviecid="LichLamViec_Id" />
+        <uc-modal-thong-tin-ca-step-2 v-model:isOpen="isShowModalThongTinCaStep2" :record="recordThongTinCa" @onFinish="renderLichPhanCa()" :lichlamviecid="LichLamViec_Id" />
+        <uc-modal-tinh-toan v-model:isOpen="isShowModalTinhToan" :thangchuky="thangChuKy" :namchuky="namChuKy" :ctbangcong="CTBangCong" :lichlamviecid="LichLamViec_Id" :maubangcongid="MauBangCong_Id" :dsnhanvien="DS_NhanVien" @onFinish="renderLichPhanCa()" />
         <uc-modal-khoa-cong v-model:isOpen="isShowModalKhoaCong" :thangchuky="thangChuKy" :namchuky="namChuKy" :lichlamviecid="LichLamViec_Id" :maubangcongid="MauBangCong_Id" @onFinish="renderLichPhanCa()" />
         <uc-modal-huy-khoa-cong v-model:isOpen="isShowModalHuyKhoaCong" :thangchuky="thangChuKy" :namchuky="namChuKy" :lichlamviecid="LichLamViec_Id" :maubangcongid="MauBangCong_Id" @onFinish="renderLichPhanCa()" />
         <uc-modal-dong-bo-du-lieu v-model:isOpen="isShowModalDongBoDuLieu" :lichlamviecid="LichLamViec_Id" :maubangcongid="MauBangCong_Id" />
@@ -132,10 +132,8 @@
 export default {
     props: [],
     data() {
-        const urlParam = new URL(window.location.href).searchParams
-        const LichLamViec_Id = parseInt(urlParam.get('llvid'))
-        const MauBangCong_Id = parseInt(urlParam.get('mbcid'))
         return {
+            isLoadingSelect: false,
             currentPage: 1,
             current: null,
             steps: [
@@ -146,9 +144,8 @@ export default {
                     title: 'Chỉnh sửa công',
                 },
             ],
-            pageTitle: 'Lịch làm việc',
-            LichLamViec_Id: isNaN(LichLamViec_Id) ? null : LichLamViec_Id,
-            MauBangCong_Id: isNaN(MauBangCong_Id) ? null : MauBangCong_Id,
+            LichLamViec_Id: null,
+            MauBangCong_Id: null,
             DSChuKy: [],
             DSMauBangCong: [],
             isShowModalThongTinCa: false,
@@ -157,18 +154,13 @@ export default {
             isShowModalKhoaCong: false,
             isShowModalHuyKhoaCong: false,
             isShowModalDongBoDuLieu: false,
+            isShowModalThuocTinh: false,
             columns: [],
             DSNgay: [],
             DSPhanCa: [],
             CTLichLamViec: null,
             CTBangCong: null,
             recordThongTinCa: null,
-            ChuKy: null,
-            statusStep: '1',
-            DSLoaiCa: [],
-            DSVanPhong: [],
-            DSVaiTro: [],
-            DSCaMau: [],
             DSTrangThaiChamCong: [
                 {
                     id: 1,
@@ -240,25 +232,20 @@ export default {
                     ShowAtStep: 1,
                 },
             ],
-            NhanVien_Id: null,
-            Ngay: null,
-            isShowModalThuocTinh: false,
             DSThuocThuocTinh: [],
-            DS_PhanCa_Origin: [],
             DS_NhanVien: [],
-            isDisabled: LichLamViec_Id ? false : true,
+            isDisabled: false,
             thangChuKy: '',
             namChuKy: '',
             isLoading: false,
         }
     },
     created() {
-        this.renderLichPhanCa()
-        this.loadVaiTro()
-        this.loadVanPhong()
-        this.loadLoaiCa()
-        this.loadCaMau()
         this.getDSChuKy()
+    },
+    async mounted() {
+        await this.getParamURL()
+        await this.renderLichPhanCa()
     },
     computed() {},
     methods: {
@@ -314,9 +301,8 @@ export default {
                     }
                     $this.DSPhanCa = newDSPhanCa
                     $this.current = $this.CTBangCong.TrangThai_Buoc
-                    $this.DS_PhanCa_Origin = DSPhanCa
                     const columnNhanVien = {
-                        title: 'Nhân viên',
+                        title: 'Nhân sự',
                         key: 'NhanVien',
                         dataIndex: 'NhanVien',
                         width: 230,
@@ -338,31 +324,12 @@ export default {
         },
         async getDSChuKy() {
             const $this = this
+            $this.isLoadingSelect = true
             return lichLamViecService.LichLamViec_Select().then(({ DSChuKy, DSMauBangCong }) => {
                 $this.DSChuKy = DSChuKy
                 $this.DSMauBangCong = DSMauBangCong
+                $this.isLoadingSelect = false
             })
-        },
-        loadVaiTro() {
-            ajaxCALL('/work/HR_VaiTro_Select', {}, (res) => {
-                this.DSVaiTro = res.data
-            })
-        },
-        loadVanPhong() {
-            ajaxCALL('/work/HR_VanPhong_Select', {}, (res) => {
-                this.DSVanPhong = res.data
-            })
-        },
-        loadLoaiCa() {
-            ajaxCALL('/work/CA_LoaiCa_Select', {}, (res) => {
-                this.DSLoaiCa = res.data
-            })
-        },
-        async loadCaMau() {
-            const res = await caMauService.CaMau_Select()
-            if (res.length > 0) {
-                this.DSCaMau = res
-            }
         },
         RedirectPhanCa() {
             redirect(`/ca-phan-ca?llvid=${this.LichLamViec_Id}&mbcid=${this.MauBangCong_Id}`)
@@ -472,6 +439,14 @@ export default {
         },
         handleTableChange(pagination) {
             this.currentPage = pagination.current
+        },
+
+        getParamURL() {
+            const urlParam = new URL(window.location.href).searchParams
+            const LichLamViec_Id = parseInt(urlParam.get('llvid'))
+            const MauBangCong_Id = parseInt(urlParam.get('mbcid'))
+            this.LichLamViec_Id = isNaN(LichLamViec_Id) ? null : LichLamViec_Id
+            this.MauBangCong_Id = isNaN(MauBangCong_Id) ? null : MauBangCong_Id
         },
     },
 }

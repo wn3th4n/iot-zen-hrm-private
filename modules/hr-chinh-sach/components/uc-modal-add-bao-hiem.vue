@@ -31,7 +31,7 @@
                 </a-form-item>
             </a-col>
             <a-col :span="8">
-                <a-form-item label="Phần trăm nhân viên" name="PhanTram_NhanVien">
+                <a-form-item label="Phần trăm nhân sự" name="PhanTram_NhanVien">
                     <a-input-number v-model:value="form.PhanTram_NhanVien" style="width: 100%" :min="0" :max="100" :formatter="formatter" :parser="parser" />
                 </a-form-item>
             </a-col>
@@ -74,7 +74,7 @@ export default {
                 MauChinhSach: [{ required: true, message: 'Vui lòng nhập màu chính sách', trigger: 'change' }],
                 LoaiLuong: [{ required: true, message: 'Vui lòng chọn loại chính sách', trigger: 'change' }],
                 PhanTram_CongTy: [{ required: true, message: 'Vui lòng nhập phần trăm công ty', trigger: 'change' }],
-                PhanTram_NhanVien: [{ required: true, message: 'Vui lòng nhập phần trăm nhân viên', trigger: 'change' }],
+                PhanTram_NhanVien: [{ required: true, message: 'Vui lòng nhập phần trăm nhân sự', trigger: 'change' }],
             },
         }
     },

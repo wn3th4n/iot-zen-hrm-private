@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a-card title="Nhóm nhân viên" class="card-title-page">
+        <a-card title="Nhóm nhân sự" class="card-title-page">
             <template #extra>
                 <a-space size="small">
                     <a-button type="primary" @click="onAdd"><uc-icon name="plus" />Thêm</a-button>
@@ -28,10 +28,8 @@
                             </a>
                             <template #overlay>
                                 <a-menu>
-                                    <a-menu-item @click="onEdit(record)"><uc-icon class="text-primary"
-                                            name="square-edit-outline" />Chỉnh sửa</a-menu-item>
-                                    <a-menu-item @click="onDelete(record)"><uc-icon class="text-red"
-                                            name="delete-outline" />Xoá</a-menu-item>
+                                    <a-menu-item @click="onEdit(record)"><uc-icon class="text-primary" name="square-edit-outline" />Chỉnh sửa</a-menu-item>
+                                    <a-menu-item @click="onDelete(record)"><uc-icon class="text-red" name="delete-outline" />Xoá</a-menu-item>
                                 </a-menu>
                             </template>
                         </a-dropdown>
@@ -40,8 +38,7 @@
             </a-table>
         </uc-container>
         <uc-modal-add-nhom-nhan-vien v-model:isOpen="action.IsShowModalAdd" @onFinish="onAddFininsh" />
-        <uc-modal-edit-nhom-nhan-vien v-model:isOpen="action.IsShowModalEdit" @onFinish="onEditFininsh"
-            :record="recordItem" />
+        <uc-modal-edit-nhom-nhan-vien v-model:isOpen="action.IsShowModalEdit" @onFinish="onEditFininsh" :record="recordItem" />
     </div>
 </template>
 
@@ -58,7 +55,7 @@ export default {
             DSNhomNhanVien: [],
             columns: [
                 {
-                    title: 'Tên nhóm nhân viên',
+                    title: 'Tên nhóm nhân sự',
                     dataIndex: 'TenNhom',
                     key: 'TenNhom',
                 },
@@ -81,7 +78,7 @@ export default {
     created() {
         this.loadNhomNhanVien()
     },
-    mounted() { },
+    mounted() {},
     computed: {},
     watch: {},
     methods: {
@@ -102,14 +99,14 @@ export default {
         onDelete(record) {
             const $this = this
             Confirm.delete({
-                content: 'Xác nhận xóa nhóm nhân viên ' + record.TenNhom + '?',
+                content: 'Xác nhận xóa nhóm nhân sự ' + record.TenNhom + '?',
                 onOk: async () => {
                     const res = await nhomNhanVienService.NhomNhanVien_Delete({
-                        NhomNhanVien_Id: record.NhomNhanVien_Id
+                        NhomNhanVien_Id: record.NhomNhanVien_Id,
                     })
                     if (res) {
                         this.loadNhomNhanVien()
-                        this.$message.success('Xóa nhóm nhân viên thành công!')
+                        this.$message.success('Xóa nhóm nhân sự thành công!')
                     }
                 },
             })
