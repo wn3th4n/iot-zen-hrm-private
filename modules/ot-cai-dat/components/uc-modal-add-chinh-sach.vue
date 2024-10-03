@@ -1,15 +1,6 @@
 <template>
-  <uc-form-modal
-    v-model:isOpen="isOpen"
-    ref="modalRef"
-    title="Thêm chính sách"
-    :formData="form"
-    :rules="rules"
-    :width="500"
-    @onSubmit="onFinish()"
-    :isSubmit="isLoading"
-    @onClose="handleCancel()"
-  >
+  <uc-form-modal v-model:isOpen="isOpen" ref="modalRef" title="Thêm chính sách" :formData="form" :rules="rules"
+    :width="500" @onSubmit="onFinish()" :isSubmit="isLoading" @onClose="handleCancel()">
     <a-row :gutter="[10]">
       <a-col :span="24">
         <a-form-item label="Mã chính sách" name="MaChinhSach_LamThem">
@@ -24,11 +15,8 @@
       <a-col :span="24">
         <a-form-item label="Nhóm chính sách" name="NhomChinhSach_LamThem_Id">
           <a-select v-model:value="form.NhomChinhSach_LamThem_Id">
-            <a-select-option
-              v-for="item in dsnhomchinhsach"
-              :value="item.NhomChinhSach_LamThem_Id"
-              >{{ item.TenNhomChinhSach_LamThem }}</a-select-option
-            >
+            <a-select-option v-for="item in dsnhomchinhsach" :value="item.NhomChinhSach_LamThem_Id">{{
+              item.TenNhomChinhSach_LamThem }}</a-select-option>
           </a-select>
         </a-form-item>
       </a-col>
@@ -39,11 +27,7 @@
       </a-col>
       <a-col :span="12">
         <a-form-item label="Hệ số" name="HeSo">
-          <a-input-number
-            v-model:value="form.HeSo"
-            :step="0.01"
-            class="w-100"
-          />
+          <a-input-number v-model:value="form.HeSo" :step="0.01" class="w-100" />
         </a-form-item>
       </a-col>
       <a-col :span="24">
@@ -103,7 +87,7 @@ export default {
         HeSo: [
           {
             required: true,
-            message: "Vui lòng nhập hệ số tăng ca",
+            message: "Vui lòng nhập hệ sốtăng ca",
             trigger: "change",
           },
         ],
@@ -117,7 +101,7 @@ export default {
       },
     };
   },
-  mounted() {},
+  mounted() { },
   computed: {},
   watch: {},
   methods: {

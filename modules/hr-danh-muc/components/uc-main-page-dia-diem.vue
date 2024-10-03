@@ -7,7 +7,7 @@
                 </a-space>
             </template>
         </a-card>
-        <a-table :columns="columns" :data-source="DSVanPhong" :pagination="false" size="small" :scroll="{ y: 'calc(100vh - 95px)' }" :loading='isLoading'>
+        <a-table :columns="columns" :data-source="DSVanPhong" :pagination="false" size="small" :scroll="{ y: 'calc(100vh - 95px)' }" :loading="isLoading">
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'LichLamViec'">
                     <a @click="onAddLichLamViec(record)">
@@ -21,7 +21,7 @@
                     </div>
                 </template>
                 <template v-else-if="column.key === 'KhuVucChuyenMon'">
-                        <span>  {{ record.TenKhuVucChuyenMon }}</span>
+                    <span> {{ record.TenKhuVucChuyenMon }}</span>
                 </template>
                 <template v-else-if="column.key === 'DiaChiIP'">
                     <a-button type="link" @click="onOpenIPAddress(record)"><uc-icon name="ip-outline" size="18" /></a-button>
@@ -33,26 +33,18 @@
                         </a>
                         <template #overlay>
                             <a-menu>
-                                <a-menu-item @click="onOpenIPAddress(record)">
-                                    <uc-icon class="text-success" name="ip-outline" />Thiết lập IP
-                                </a-menu-item>
-                                <a-menu-item @click="onAddLichLamViec(record)">
-                                    <uc-icon class="text-warning" name="calendar-outline" />Thiết lập Lịch làm việc
-                                </a-menu-item>
-                                <a-menu-item @click="onEdit(record)">
-                                    <uc-icon class="text-primary" name="square-edit-outline" />Chỉnh sửa
-                                </a-menu-item>
-                                <a-menu-item @click="onDelete(record)">
-                                    <uc-icon class="text-red" name="delete-outline" />Xoá
-                                </a-menu-item>
+                                <a-menu-item @click="onOpenIPAddress(record)"> <uc-icon class="text-success" name="ip-outline" />Thiết lập IP </a-menu-item>
+                                <a-menu-item @click="onAddLichLamViec(record)"> <uc-icon class="text-warning" name="calendar-outline" />Thiết lập Lịch làm việc </a-menu-item>
+                                <a-menu-item @click="onEdit(record)"> <uc-icon class="text-primary" name="square-edit-outline" />Chỉnh sửa </a-menu-item>
+                                <a-menu-item @click="onDelete(record)"> <uc-icon class="text-red" name="delete-outline" />Xoá </a-menu-item>
                             </a-menu>
                         </template>
                     </a-dropdown>
                 </template>
             </template>
         </a-table>
-        <uc-modal-add-dia-diem v-model:isOpen="action.IsShowModalAdd" @onFinish="onAddFininsh" :dskhuvucchuyenmon="DSKhuVucChuyenMon" />
-        <uc-modal-edit-dia-diem v-model:isOpen="action.IsShowModalEdit" @onFinish="onEditFininsh" :record="recordItem" :dskhuvucchuyenmon="DSKhuVucChuyenMon" />
+        <uc-modal-add-dia-diem v-model:isOpen="action.IsShowModalAdd" @onFinish="onAddFininsh" :dskhuvucchuyenmon="DSKhuVucChuyenMon" :dskhuvucdialy="DSKhuVucDiaLy" />
+        <uc-modal-edit-dia-diem v-model:isOpen="action.IsShowModalEdit" @onFinish="onEditFininsh" :record="recordItem" :dskhuvucchuyenmon="DSKhuVucChuyenMon" :dskhuvucdialy="DSKhuVucDiaLy" />
         <uc-modal-lich-lam-viec-dia-diem v-model:isOpen="action.IsShowModalAddLichLamViec" :record="recordItem" @onFinish="onAddFinishLichLamViec" />
         <uc-modal-ip-address v-model:isOpen="action.IsShowModalIPAddress" :diadiemid="diaDiemId" :record="recordItem" />
     </div>
@@ -83,13 +75,17 @@ export default {
                     dataIndex: 'DiaChi',
                 },
                 {
-                    title: 'Điện thoại',
-                    dataIndex: 'DienThoai',
+                    title: 'Khu vực địa lý',
+                    dataIndex: 'TenKhuVucDiaLy',
                 },
+                // {
+                //     title: 'Điện thoại',
+                //     dataIndex: 'DienThoai',
+                // },
                 {
                     title: 'Khu vực chuyên môn',
                     dataIndex: 'TenKhuVucChuyenMon',
-                    key: 'KhuVucChuyenMon'
+                    key: 'KhuVucChuyenMon',
                 },
                 {
                     title: 'Thao tác',
@@ -100,18 +96,18 @@ export default {
             ],
             recordItem: {},
             diaDiemId: null,
+            DSKhuVucDiaLy: [],
         }
     },
-    created() {
-       
-    },
+    created() {},
     mounted() {
         this.loadVanPhong(), this.loadKVChuyenMon()
+        this.loadKVDiaLy()
     },
     computed: {
-        getTenKhuVucChuyenMon: function(param){
-            return DSKhuVucChuyenMon.find(i => i.KhuVucChuyenMon_Id === param.KhuVucChuyenMon_Id).TenKhuVucChuyenMon
-        }
+        getTenKhuVucChuyenMon: function (param) {
+            return DSKhuVucChuyenMon.find((i) => i.KhuVucChuyenMon_Id === param.KhuVucChuyenMon_Id).TenKhuVucChuyenMon
+        },
     },
     watch: {},
     methods: {
@@ -169,13 +165,19 @@ export default {
         },
         loadKVChuyenMon() {
             ajaxCALL('/work/HR_KhuVucChuyenMon_Select', {}, (res) => {
-                this.DSKhuVucChuyenMon = res.data;
+                this.DSKhuVucChuyenMon = res.data
             })
         },
         onOpenIPAddress(record) {
             this.action.IsShowModalIPAddress = true
             this.recordItem = Object.assign({}, record)
             this.diaDiemId = record.VanPhong_Id
+        },
+        async loadKVDiaLy() {
+            const res = await khuVucDiaLyService.KhuVucDiaLy_Select()
+            if (res) {
+                this.DSKhuVucDiaLy = res
+            }
         },
     },
 }

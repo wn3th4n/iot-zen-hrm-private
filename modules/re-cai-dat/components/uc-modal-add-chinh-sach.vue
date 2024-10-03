@@ -1,5 +1,5 @@
 <template>
-    <uc-form-modal :isOpen="isOpen" title="Thêm chính sách" :formData="formData" :rules="rules" @onClose="onCancel()"
+    <uc-form-modal :isOpen="isOpen" title="Thêm chính sách" :formData="formData" :rules="rules" @onClose="oncancel()"
         @onSubmit="onsubmit()" :isSubmit="states.isLoadingModal" :width="1000">
         <a-row :gutter="[25]">
             <a-col :span="12">
@@ -92,7 +92,7 @@
             <a-col :span="12" class="border-start">
                 <a-row :gutter="[10]">
                     <a-col :span="24" class="mb-3">
-                        <a-form-item label="Người quản lý hoặc người theo dõi">
+                        <a-form-item label="Người quản lý hoặc người theo dõi" class="mb-2">
                             <a-table size="small" :columns="columns.NguoiQuanLy" :dataSource="formData.DS_NguoiQuanLy"
                                 :pagination="false">
                                 <template #bodyCell="{ record, index, column }">
@@ -121,19 +121,18 @@
                         </a-form-item>
                         <a @click="states.isOpenModalAddNguoiQuanLy = true"><uc-icon name="plus" />Thêm nhân sự.</a>
                     </a-col>
-                    <a-col :span="24">
+                    <a-col :span="24" class="mb-3">
                         <a-form-item label="">
-                            <a-checkbox v-model:checked="formData.Is_TrungCa">Yêu cầu đề xuất thời
-                                gian tăng ca
-                                không trùng với ca làm việc.</a-checkbox>
+                            <a-checkbox v-model:checked="formData.Is_TrungCa">Yêu cầu đề xuất thời gian tăng ca không
+                                trùng với ca
+                                làm việc.</a-checkbox>
                             <a-checkbox v-model:checked="formData.Is_KhungGio_DinhNghia">Yêu cầu đề xuất thời gian tăng
                                 ca trong
                                 khung giờ đã định nghĩa.</a-checkbox>
                         </a-form-item>
                     </a-col>
                     <a-col :span="24" v-if="formData.Is_KhungGio_DinhNghia">
-                        <a-form-item>
-
+                        <a-form-item class="mb-2">
                             <a-table size="small" :columns="columns.KhungGio" :dataSource="formData.DS_KhungGio"
                                 :pagination="false">
                                 <template #bodyCell="{ record, index, column }">
@@ -155,9 +154,8 @@
                                     </template>
                                 </template>
                             </a-table>
-                            <a @click="states.isOpenModalAddKhungGio = true"><uc-icon name="plus" />Thêm khung giờ.</a>
                         </a-form-item>
-
+                        <a @click="states.isOpenModalAddKhungGio = true"><uc-icon name="plus" />Thêm khung giờ.</a>
                     </a-col>
                 </a-row>
             </a-col>
@@ -186,13 +184,12 @@ export default {
                 isOpenModalAddKhungGio: false,
                 isOpenModalEditKhungGio: false,
                 isOpenModalAddNguoiQuanLy: false,
-                isOpenModalEditNguoiQuanLy: false
+                isOpenModalEditNguoiQuanLy: false,
             },
             value: {
                 indexEdit: null,
                 recordEditKhungThoiGian: {},
-                recordNguoiQuanLy: {}
-
+                recordNguoiQuanLy: {},
             },
             formData: {
                 NhomChinhSach_LamThem_Id: null,
@@ -203,7 +200,7 @@ export default {
                 NgayGioiHan: 0,
                 NguoiTheoDoi_Id: null,
                 HeSo: null,
-                MaHeSo: "",
+                MaHeSo: '',
                 MoTa: null,
                 ThoiHan_Duyet: 0,
                 GioiHan_OT_Ngay: 0,
@@ -212,59 +209,78 @@ export default {
                 Is_TrungCa: false,
                 Is_KhungGio_DinhNghia: false,
                 DS_KhungGio: [],
-                DS_NguoiQuanLy: []
-
+                DS_NguoiQuanLy: [],
+            },
+            dataDefault: {
+                NhomChinhSach_LamThem_Id: null,
+                TenChinhSach_LamThem: null,
+                MaChinhSach_LamThem: null,
+                LoaiNgayApDung: null,
+                LuongDuyet_Id: null,
+                NgayGioiHan: 0,
+                NguoiTheoDoi_Id: null,
+                HeSo: null,
+                MaHeSo: '',
+                MoTa: null,
+                ThoiHan_Duyet: 0,
+                GioiHan_OT_Ngay: 0,
+                GioiHan_OT_ChuKy: 0,
+                Is_TamKhoa: 0,
+                Is_TrungCa: false,
+                Is_KhungGio_DinhNghia: false,
+                DS_KhungGio: [],
+                DS_NguoiQuanLy: [],
             },
             columns: {
                 KhungGio: [
                     {
-                        title: "Giờ bắt đầu",
-                        dataIndex: "GioBatDau",
-                        align: 'center'
+                        title: 'Giờ bắt đầu',
+                        dataIndex: 'GioBatDau',
+                        align: 'center',
                     },
                     {
-                        title: "Giờ kết thúc",
-                        dataIndex: "GioKetThuc",
-                        align: 'center'
+                        title: 'Giờ kết thúc',
+                        dataIndex: 'GioKetThuc',
+                        align: 'center',
                     },
                     {
                         title: '',
                         key: 'Action',
                         align: 'center',
-                    }
+                    },
                 ],
                 NguoiQuanLy: [
                     {
-                        title: "STT duyệt",
-                        dataIndex: "ThuTu",
+                        title: 'STT duyệt',
+                        dataIndex: 'ThuTu',
                     },
                     {
-                        title: "Họ và tên",
-                        dataIndex: "HoVaTenNhanVien",
+                        title: 'Họ và tên',
+                        dataIndex: 'HoVaTenNhanVien',
                     },
                     {
-                        title: "Vai trò",
-                        dataIndex: "Is_NguoiDuyet",
-                        key: "VaiTro"
+                        title: 'Vai trò',
+                        dataIndex: 'Is_NguoiDuyet',
+                        key: 'VaiTro',
                     },
                     {
                         title: '',
                         key: 'Action',
                         align: 'center',
-                    }
-                ]
+                    },
+                ],
             },
             rules: {
-                NhomChinhSach_LamThem_Id: [{ required: true, message: 'Vui lòng chọn nhóm chính sách', trigger: "change" }],
-                TenChinhSach_LamThem: [{ required: true, message: 'Vui lòng nhập tên chính sách', trigger: "change" }],
-                MaChinhSach_LamThem: [{ required: true, message: 'Vui lòng nhập mã chính sách', trigger: "change" }],
+                NhomChinhSach_LamThem_Id: [{ required: true, message: 'Vui lòng chọn nhóm chính sách', trigger: 'change' }],
+                TenChinhSach_LamThem: [{ required: true, message: 'Vui lòng nhập tên chính sách', trigger: 'change' }],
+                MaChinhSach_LamThem: [{ required: true, message: 'Vui lòng nhập mã chính sách', trigger: 'change' }],
             },
         }
     },
     methods: {
-        onCancel() {
+        oncancel() {
             this.$emit('update:isOpen', false)
-            isOpenModalAddKhungGio = false
+            this.formData = Object.assign({}, this.dataDefault)
         },
         async onsubmit() {
             this.states.isLoadingModal = true
@@ -285,15 +301,14 @@ export default {
                 Is_KhungGio: this.formData.Is_KhungGio ? 1 : 0,
                 KhungGio_JSON: this.formData.DS_KhungGio,
                 NguoiQuanLy_JSON: this.formData.DS_NguoiQuanLy,
-            };
+            }
             const res = await chinhSachService.ChinhSach_LamThem_Insert(params).finally(() => {
                 this.states.isLoadingModal = false
-            });
+            })
             if (res) {
-                this.$message.success("Thêm chính sách thành công!");
-                this.$emit("onFinish");
-                this.onCancel();
-                this.$refs.modalRef.$refs.formRef.resetFields();
+                this.oncancel()
+                this.$emit('onFinish')
+                this.$message.success('Thêm chính sách thành công!')
             }
         },
         onFinishAddKhungThoiGian(record) {
@@ -302,13 +317,13 @@ export default {
         onFinishEditKhungThoiGian(record) {
             this.formData.DS_KhungGio = this.formData.DS_KhungGio.map((e, idx) => {
                 if (idx === this.value.indexEdit) {
-                    return e = record
+                    return (e = record)
                 }
             })
             this.value.indexEdit = null
         },
         onKhungThoiGianRemoveAt(index) {
-            this.formData.DS_KhungGio = this.formData.DS_KhungGio.filter((_, i) => i !== index);
+            this.formData.DS_KhungGio = this.formData.DS_KhungGio.filter((_, i) => i !== index)
         },
         onEditKhungThoiGian(record, index) {
             this.value.recordEditKhungThoiGian = Object.assign({}, record)
@@ -319,16 +334,19 @@ export default {
         },
         async onFinishAddNguoiQuanLy(record) {
             this.states.isLoadingTableNGuoiQuanLy = true
-            const isSelect = await nhanVienService.NhanVien_Select_By_Id({
-                NhanVien_Id: record.NguoiQuanLy_Id
-            }).finally(() => {
-                this.states.isLoadingTableNGuoiQuanLy = false
-            })
+            const isSelect = await nhanVienService
+                .NhanVien_Select_By_Id({
+                    NhanVien_Id: record.NguoiQuanLy_Id,
+                })
+                .finally(() => {
+                    this.states.isLoadingTableNGuoiQuanLy = false
+                })
 
             if (isSelect) {
                 const temp = {
                     ...record,
-                    HoVaTenNhanVien: isSelect.ThongTinNhanSu.HoVaTenNhanVien
+                    "ThuTu": record.ThuTu ?? 0,
+                    HoVaTenNhanVien: isSelect.ThongTinNhanSu.HoVaTenNhanVien,
                 }
                 this.formData.DS_NguoiQuanLy.push(temp)
             }
@@ -336,19 +354,19 @@ export default {
         onFinishEditNguoiQuanLy(record) {
             this.formData.DS_NguoiQuanLy = this.formData.DS_NguoiQuanLy.map((e, idx) => {
                 if (idx === this.value.indexEdit) {
-                    return e = record
+                    return (e = record)
                 }
             })
             this.value.indexEdit = null
         },
         onRemoveNguoiQuanLyAt(index) {
-            this.formData.DS_NguoiQuanLy = this.formData.DS_NguoiQuanLy.filter((_, i) => i !== index);
+            this.formData.DS_NguoiQuanLy = this.formData.DS_NguoiQuanLy.filter((_, i) => i !== index)
         },
         onEditNguoiQuanLy(record, index) {
             this.value.recordNguoiQuanLy = Object.assign({}, record)
             this.states.isOpenModalEditNguoiQuanLy = true
             this.value.indexEdit = index
-        }
+        },
     },
 }
 </script>

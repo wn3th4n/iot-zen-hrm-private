@@ -1,5 +1,6 @@
 <template>
-    <a-card title="Cấu hình đề xuất làm thêm giờ" class="card-title-page">
+    <div>
+        <a-card title="Cấu hình đề xuất làm thêm giờ" class="card-title-page">
         <template #extra>
             <a-space size="small">
                 <a-dropdown :trigger="['click']">
@@ -103,11 +104,14 @@
         </a-tab-pane>
     </a-tabs>
     <uc-modal-add-chinh-sach :dsNhomChinhSach="values.dsNhomChinhSach" v-model:isOpen="states.isOpenModalAddChinhSach"
-        @onFinish="loadData()" />
+        @onFinish="loadDSChinhSach()" />
+        <uc-modal-edit-chinh-sach :dsNhomChinhSach="values.dsNhomChinhSach" v-model:isOpen="states.isOpenModalEditChinhSach"
+        @onFinish="loadDSChinhSach()" />
 
-    <uc-modal-add-nhom-chinh-sach v-model:isOpen="states.isOpenModalAddNhomChinhSach" @onFinish="loadData()" />
+    <uc-modal-add-nhom-chinh-sach v-model:isOpen="states.isOpenModalAddNhomChinhSach" @onFinish="loadDSNhomChinhSach()" />
     <uc-modal-edit-nhom-chinh-sach :record="values.record.NhomChinhSach"
-        v-model:isOpen="states.isOpenModalEditNhomChinhSach" @onFinish="loadData()" />
+        v-model:isOpen="states.isOpenModalEditNhomChinhSach" @onFinish="loadDSNhomChinhSach()" />
+    </div>
 </template>
 
 <script>
@@ -117,6 +121,7 @@ export default {
             states: {
                 isLoadingTableNhomChinhSach: false,
 
+                isOpenModalEditChinhSach: false,
                 isOpenModalAddChinhSach: false,
                 isOpenModalEditChinhSach: false,
                 isOpenModalAddNhomChinhSach: false,
@@ -234,8 +239,20 @@ export default {
                 },
             })
         },
-        onEditChinhSach(record) {
+        async onEditChinhSach(record) {
+            const resp = await chinhSachService.ChinhSach_LamThem_Select_By_Id({
+                ChinhSach_LamThem_Id: record.ChinhSach_LamThem_Id,
+            }).finally(() =>{
+                // this.values.record.ChinhSach = Object.assign({}, resp[0])
+            })
+            
+            console.log("=======>",resp)
 
+            if(resp) {
+                this.states.isOpenModalEditChinhSach = true
+            }
+            
+                    
         },
         onDeleteChinhSach(record) {
             Confirm.delete({

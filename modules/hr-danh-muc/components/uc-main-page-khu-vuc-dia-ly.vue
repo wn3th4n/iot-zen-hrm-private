@@ -1,19 +1,19 @@
 <template>
     <div>
-        <a-card title="Khu vực chuyên môn" class="card-title-page">
+        <a-card title="Khu vực địa lý" class="card-title-page">
             <template #extra>
                 <a-space size="small">
-                    <a-button type="primary" @click="onAdd"><uc-icon name="plus" />Thêm khu vực chuyên môn</a-button>
+                    <a-button type="primary" @click="onAdd"><uc-icon name="plus" />Thêm khu vực địa lý</a-button>
                 </a-space>
             </template>
         </a-card>
         <uc-container :width="700">
-            <a-table :columns="columns" :data-source="DSKhuVucChuyenMon" :pagination="false" size="small" :scroll="{ y: 'calc(100vh - 95px)' }">
+            <a-table :columns="columns" :data-source="DSKhuVucDiaLy" :pagination="false" size="small">
                 <template #bodyCell="{ column, record }">
                     <template v-if="column.key === 'TenKhuVuc'">
                         <div class="d-flex flex-column">
-                            <b>{{ record.TenKhuVucChuyenMon }}</b>
-                            <span class="text-primary">{{ record.MaKhuVucChuyenMon }}</span>
+                            <b>{{ record.TenKhuVucDiaLy }}</b>
+                            <span class="text-primary">{{ record.MaKhuVucDiaLy }}</span>
                         </div>
                     </template>
                     <template v-else-if="column.key === 'trangthai'">
@@ -38,8 +38,8 @@
             </a-table>
         </uc-container>
 
-        <uc-modal-add-khu-vuc-chuyen-mon v-model:isOpen="action.IsShowModalAdd" @onFinish="onAddFininsh" />
-        <uc-modal-edit-khu-vuc-chuyen-mon v-model:isOpen="action.IsShowModalEdit" @onFinish="onEditFinish" :record="recordItem" />
+        <uc-modal-add-khu-vuc-dia-ly v-model:isOpen="action.IsShowModalAdd" @onFinish="onAddFininsh" />
+        <uc-modal-edit-khu-vuc-dia-ly v-model:isOpen="action.IsShowModalEdit" @onFinish="onEditFinish" :record="recordItem" />
     </div>
 </template>
 
@@ -52,11 +52,11 @@ export default {
                 IsShowModalAdd: false,
                 IsShowModalEdit: false,
             },
-            DSKhuVucChuyenMon: [],
+            DSKhuVucDiaLy: [],
             columns: [
                 {
-                    title: 'Tên khu vực chuyên môn',
-                    dataIndex: 'TenKhuVuc',
+                    title: 'Tên khu vực địa lý',
+                    dataIndex: 'TenKhuVucDiaLy',
                     key: 'TenKhuVuc',
                 },
                 {
@@ -80,7 +80,7 @@ export default {
         }
     },
     created() {
-        this.loadKhuVucChuyenMon()
+        this.loadKhuVucDiaLy()
     },
     mounted() {},
     computed: {},
@@ -95,30 +95,30 @@ export default {
         onAdd() {
             this.action.IsShowModalAdd = true
         },
-        async loadKhuVucChuyenMon() {
-            const res = await khuVucChuyenMonService.KhuVucChuyenMon_Select()
-            this.DSKhuVucChuyenMon = res
+        async loadKhuVucDiaLy() {
+            const res = await khuVucDiaLyService.KhuVucDiaLy_Select()
+            this.DSKhuVucDiaLy = res
         },
         onDelete(record) {
             Confirm.delete({
-                content: `Xác nhận xóa khu vực chuyên môn ${record.TenKhuVucChuyenMon}?`,
+                content: `Xác nhận xóa khu vực địa lý ${record.TenKhuVucDiaLy}?`,
                 onOk: async () => {
                     let params = {
-                        KhuVucChuyenMon_Id: record.KhuVucChuyenMon_Id,
+                        KhuVucDiaLy_Id: record.KhuVucDiaLy_Id,
                     }
-                    const res = await khuVucChuyenMonService.KhuVucChuyenMon_Delete(params)
+                    const res = await khuVucDiaLyService.KhuVucDiaLy_Delete(params)
                     if (res) {
-                        this.loadKhuVucChuyenMon()
+                        this.loadKhuVucDiaLy()
                         this.$message.success('Xóa thành công!')
                     }
                 },
             })
         },
         onAddFininsh() {
-            this.loadKhuVucChuyenMon()
+            this.loadKhuVucDiaLy()
         },
         onEditFinish() {
-            this.loadKhuVucChuyenMon()
+            this.loadKhuVucDiaLy()
         },
     },
 }

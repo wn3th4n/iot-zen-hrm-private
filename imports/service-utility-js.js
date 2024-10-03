@@ -2277,6 +2277,15 @@ const nhomChinhSachService = {
 
 
 const chinhSachService = {
+    ChinhSach_LamThem_Select_By_Id: async (params) => {
+        //@ChinhSach_LamThem_Id INT
+        const res = await apiUtilWork.OT('ChinhSach_LamThem_Select_By_Id',params)
+        if (res.data) {
+            return res.data
+        } else {
+            return []
+        }
+    },
     ChinhSach_LamThem_Select: async () => {
         const res = await apiUtilWork.OT('ChinhSach_LamThem_Select')
         if (res.data) {
@@ -2323,8 +2332,45 @@ const chinhSachService = {
             return false
         }
     },
-
+    ChinhSach_LamThem_KhungGio_Insert: async (params) => {
+        const resp = await apiUtilWork.OT('ChinhSach_LamThem_KhungGio_Insert', params)
+        if (resp) 
+            return true
+        return false
+    },
+    ChinhSach_LamThem_KhungGio_Update: async (params) => {
+        const resp = await apiUtilWork.OT('ChinhSach_LamThem_KhungGio_Update', params)
+        if (resp) 
+            return true
+        return false
+    },
+    ChinhSach_LamThem_KhungGio_Delete: async (params) => {
+        const resp = await apiUtilWork.OT('ChinhSach_LamThem_KhungGio_Delete', params)
+        if (resp) 
+            return true
+        return false
+    },
+    ChinhSach_LamThem_NguoiQuanLy_Insert: async (params) => {
+        const resp = await apiUtilWork.OT('ChinhSach_LamThem_NguoiQuanLy_Insert', params)
+        if (resp) 
+            return true
+        return false
+    },
+    ChinhSach_LamThem_NguoiQuanLy_Update: async (params) => {
+        const resp = await apiUtilWork.OT('ChinhSach_LamThem_NguoiQuanLy_Update', params)
+        if (resp) 
+            return true
+        return false
+    },
+    ChinhSach_LamThem_NguoiQuanLy_Delete: async (params) => {
+        const resp = await apiUtilWork.OT('ChinhSach_LamThem_NguoiQuanLy_Delete', params)
+        if (resp) 
+            return true
+        return false
+    },
 }
+
+
 
 const boPhanService = {
     BoPhan_Select: async () => {

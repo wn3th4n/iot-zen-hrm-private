@@ -10,9 +10,10 @@
                 <uc-main-page-phan-loai-nhan-su v-if="selectedKeyMenu[0] === '2'" />
                 <uc-main-page-vi-tri-cong-viec v-if="selectedKeyMenu[0] === '3'" />
                 <uc-main-page-khu-vuc-chuyen-mon v-if="selectedKeyMenu[0] === '4'" />
-                <uc-main-page-chuc-danh v-if="selectedKeyMenu[0] === '5'" />
-                <uc-main-page-nhom-nhan-vien v-if="selectedKeyMenu[0] === '6'" />
-                <uc-main-page-phong-ban v-if="selectedKeyMenu[0] === '7'" />
+                <uc-main-page-khu-vuc-dia-ly v-if="selectedKeyMenu[0] === '5'" />
+                <uc-main-page-chuc-danh v-if="selectedKeyMenu[0] === '6'" />
+                <uc-main-page-nhom-nhan-vien v-if="selectedKeyMenu[0] === '7'" />
+                <uc-main-page-phong-ban v-if="selectedKeyMenu[0] === '8'" />
             </a-col>
         </a-row>
     </uc-layout>
@@ -28,9 +29,10 @@ export default {
                 { key: '2', label: 'Phân loại nhân sự' },
                 { key: '3', label: 'Vị trí' },
                 { key: '4', label: 'Khu vực chuyên môn' },
-                { key: '5', label: 'Chức danh' },
-                { key: '6', label: 'Nhóm nhân sự' },
-                { key: '7', label: 'Phòng ban' },
+                { key: '5', label: 'Khu vực địa lý' },
+                { key: '6', label: 'Chức danh' },
+                { key: '7', label: 'Nhóm nhân sự' },
+                { key: '8', label: 'Phòng ban' },
             ],
             selectedKeyMenu: ['1'],
         }

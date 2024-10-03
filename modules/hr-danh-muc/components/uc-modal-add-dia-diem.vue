@@ -30,6 +30,15 @@
                     <a-input v-model:value="form.DienThoai" />
                 </a-form-item>
             </a-col>
+            <a-col :span="9">
+                <a-form-item label="Khu vực địa lý">
+                    <a-select v-model:value="form.KhuVucDiaLy_Id">
+                        <a-select-option v-for="item in dskhuvucdialy" :value="item.KhuVucDiaLy_Id">
+                            {{ item.TenKhuVucDiaLy }}
+                        </a-select-option>
+                    </a-select>
+                </a-form-item>
+            </a-col>
             <a-col :span="10">
                 <a-form-item label="Vị trí cửa hàng (X, Y)" name="ToaDoChung">
                     <a-input v-model:value="form.ToaDoChung" placeholder="10.946562214, 106.82432239" />
@@ -54,7 +63,7 @@
 <script>
 export default {
     emits: ['onFinish', 'update:isOpen'],
-    props: ['isOpen', 'dskhuvucchuyenmon'],
+    props: ['isOpen', 'dskhuvucchuyenmon', 'dskhuvucdialy'],
     data() {
         return {
             isLoading: false,
@@ -65,6 +74,7 @@ export default {
                 DiaChi: '',
                 DienThoai: '',
                 Email: '',
+                KhuVucDiaLy_Id: null,
                 ToaDo_Lat: '',
                 ToaDo_Lng: '',
                 ToaDoChung: '', //Gộp lat,long lại
@@ -104,6 +114,7 @@ export default {
                     TenVanPhong: $this.form.TenVanPhong,
                     DiaChi: $this.form.DiaChi,
                     DienThoai: $this.form.DienThoai,
+                    KhuVucDiaLy_Id: $this.form.KhuVucDiaLy_Id,
                     Email: $this.form.Email,
                     ToaDo_Lat: sliceToaDo[0],
                     ToaDo_Lng: sliceToaDo[1],
