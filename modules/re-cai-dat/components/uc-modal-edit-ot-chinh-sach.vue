@@ -257,14 +257,14 @@
             </a-col>
         </a-row>
 
-        <uc-modal-edit-add-khung-thoi-gian v-model:isOpen="states.isOpenModalAddKhungGio"
+        <uc-modal-edit-ot-add-khung-gio v-model:isOpen="states.isOpenModalAddKhungGio"
             :ChinhSach_LamThem_Id="record.ChinhSach.ChinhSach_LamThem_Id"
             @onFinish="onFinishAddKhungGio" />
-        <uc-modal-edit-khung-thoi-gian :record="value.recordEditKhungThoiGian"
+        <uc-modal-edit-ot-edit-khung-gio :record="value.recordEditKhungThoiGian"
             :ChinhSach_LamThem_Id="record.ChinhSach.ChinhSach_LamThem_Id"
             v-model:isOpen="states.isOpenModalEditKhungGio" @onFinish="onFinishEditKhungThoiGian" />
 
-        <uc-modal-edit-add-nhan-su :Is_NguoiDuyet="value.typeDuyet"
+        <uc-modal-edit-ot-add-nhan-su :Is_NguoiDuyet="value.typeDuyet"
             :ChinhSach_LamThem_Id="record.ChinhSach.ChinhSach_LamThem_Id"
             v-model:isOpen="states.isOpenModalAddNguoiQuanLy" @onFinish="onFinishAddNguoiQuanLy" />
 

@@ -26,7 +26,7 @@
 <script>
     export default {
         emits: ["update:isOpen", "onFinish"],
-        props: ["isOpen"],
+        props: ["isOpen","ChinhSach_LamThem_Id"],
         data(){
             return {
                 state: {
@@ -49,16 +49,22 @@
             }
         },
         methods: {
-            onFinish(){
-                const data = {
+            async onFinish(){
+                const params = {
                     ...this.formData,
+                    ChinhSach_LamThem_Id: this.ChinhSach_LamThem_Id,
                     GioBatDau: this.formData.GioBatDau.format("HH:mm"),
                     GioKetThuc: this.formData.GioKetThuc.format("HH:mm")
                 }
-                this.$message.success("Thêm thành công");
-                this.$emit("onFinish", data);
-                this.formData = { ...this.formDefault };
-                this.onClose();
+                const res = await chinhSachService.ChinhSach_LamThem_KhungGio_Insert({
+                    params
+                })
+                if(res){
+                    this.$message.success("Thêm thành công");
+                    this.$emit("onFinish");
+                    this.formData = { ...this.formDefault };
+                    this.onClose();
+                }
             },
             onClose(){
                 this.$emit("update:isOpen", false)

@@ -124,8 +124,16 @@
                 <a-row :gutter="[10]">
 
                     <a-col :span="24" class="mb-3">
-                        <a-form-item label="Danh sách người quản lý" class="mb-2">
-
+                        <a-form-item class="mb-2">
+                            <template #label>
+                                <b>Danh sách người quản lý</b>
+                            </template>
+                            <div class="d-flex d-flex-row justify-content-between align-items-center mb-3">
+                                <a-checkbox v-model:checked="formData.Is_QuanLyTrucTiep_Duyet">Cho phép quản lý duyệt
+                                    trực
+                                    tiếp.</a-checkbox>
+                                <a @click="onAddNguoiQuanLy(1)"><uc-icon name="plus" />Thêm người quản lý.</a>
+                            </div>
                             <a-table :loading="states.isLoadingTableNGuoiQuanLy" size="small"
                                 :columns="columns.NguoiQuanLy" :pagination="false"
                                 :dataSource="formData.DS_NguoiQuanLy.filter(x => x.Is_NguoiDuyet === 1)">
@@ -146,22 +154,29 @@
                                             <uc-avatar :src="record.AnhDaiDien_Url"
                                                 :text="record.HoVaTenNhanVien"></uc-avatar>
 
-                                            <b>{{ record.HoVaTenNhanVien }} </b> <br />
+                                            <div>
+                                                <b>{{ record.HoVaTenNhanVien }}</b> 
+                                                <span class="text-primary">{{ record.MaNhanVien }}</span>
+                                            </div>
                                         </a-space>
                                     </template>
                                 </template>
                             </a-table>
                         </a-form-item>
-                        <div class="d-flex d-flex-row justify-content-between align-items-center mb-3">
-                            <a-checkbox v-model:checked="formData.Is_QuanLyTrucTiep_Duyet">Cho phép quản lý duyệt
-                                trực
-                                tiếp.</a-checkbox>
-                            <a @click="onAddNguoiQuanLy(1)"><uc-icon name="plus" />Thêm người quản lý.</a>
-                        </div>
+
                     </a-col>
 
                     <a-col :span="24" class="mb-3">
-                        <a-form-item label="Danh sách người theo dõi" class="mb-2">
+                        <a-form-item class="mb-2">
+                            <template #label>
+                                <b>Danh sách người theo dõi</b>
+                            </template>
+                            <div class="d-flex d-flex-row justify-content-between align-items-center mb-3">
+                                <a-checkbox v-model:checked="formData.Is_QuanLyTrucTiep_TheoDoi">Cho phép quản lý duyệt
+                                    trực
+                                    tiếp.</a-checkbox>
+                                <a @click="onAddNguoiQuanLy(0)"><uc-icon name="plus" />Thêm người theo dõi.</a>
+                            </div>
                             <a-table :loading="states.isLoadingTableNGuoiQuanLy" size="small"
                                 :columns="columns.NguoiQuanLy" :pagination="false"
                                 :dataSource="formData.DS_NguoiQuanLy.filter(x => x.Is_NguoiDuyet === 0)">
@@ -188,18 +203,13 @@
                                 </template>
                             </a-table>
                         </a-form-item>
-                        <div class="d-flex d-flex-row justify-content-between align-items-center mb-3">
-                            <a-checkbox v-model:checked="formData.Is_QuanLyTrucTiep_TheoDoi">Cho phép quản lý duyệt trực
-                                tiếp.</a-checkbox>
-                            <a @click="onAddNguoiQuanLy(0)"><uc-icon name="plus" />Thêm người theo dõi.</a>
-                        </div>
+
 
                     </a-col>
                     <a-col :span="24">
                         <a-form-item label="">
-                            <a-checkbox v-model:checked="formData.Is_KhungGio">Yêu cầu đề xuất thời gian tăng
-                                ca trong
-                                khung giờ đã định nghĩa.</a-checkbox>
+                            <a-checkbox v-model:checked="formData.Is_KhungGio">Đề xuất thời gian tăng
+                                ca.</a-checkbox>
                         </a-form-item>
                     </a-col>
                     <a-col :span="24" v-if="formData.Is_KhungGio">
@@ -260,7 +270,7 @@
         <uc-modal-add-ot-edit-khung-gio :record="value.recordEditKhungThoiGian"
             v-model:isOpen="states.isOpenModalEditKhungGio" @onFinish="onFinishEditKhungThoiGian" />
 
-        <uc-modal-add-nguoi-quan-ly v-model:isOpen="states.isOpenModalAddNguoiQuanLy"
+        <uc-modal-add-ot-add-nguoi-quan-ly v-model:isOpen="states.isOpenModalAddNguoiQuanLy"
             @onFinish="onFinishAddNguoiQuanLy" />
 
     </uc-form-modal>

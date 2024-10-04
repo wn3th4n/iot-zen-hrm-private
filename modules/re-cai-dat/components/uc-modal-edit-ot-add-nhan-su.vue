@@ -1,5 +1,5 @@
 <template>
-    <uc-form-modal :isOpen="isOpen" title="Thêm nhân sự" :width="350" ref="modalRef"
+    <uc-form-modal :isOpen="isOpen" title="Thêm nhân sự" :width="400" ref="modalRef"
         :formData="form" @onClose="onCancel()" @onSubmit="onSubmit()" :isSubmit="state.isLoadingModal">
         <a-row :gutter="[10]">
             <a-col :span="24">
@@ -15,7 +15,7 @@
 <script>
     export default {
         emits: ["update:isOpen", "onFinish"],
-        props: ["isOpen"],
+        props: ["isOpen", "ChinhSach_LamThem_Id", "Is_NguoiDuyet"],
         data(){
             return {
                 state: {
@@ -36,11 +36,18 @@
             onCancel(){
                 this.$emit("update:isOpen", false)
             },
-            onSubmit(){
-                this.$message.success("Thêm thành công")
-                this.$emit("onFinish", this.form)
-                this.form  = {...this.formDefault}
-                this.onCancel()
+            async onSubmit(){
+                const res = await chinhSachService.ChinhSach_LamThem_NguoiQuanLy_Insert({
+                    ChinhSach_LamThem_Id: this.ChinhSach_LamThem_Id,
+                    Is_NguoiDuyet: this.Is_NguoiDuyet,
+                    NguoiQuanLy_Id : this.form.NguoiQuanLy_Id
+                })
+                if(res){
+                    this.$emit("onFinish")
+                    this.$message.success("Thêm thành công")
+                    this.form = this.formDefault
+                    this.onCancel()
+                }
             },
 			
            
