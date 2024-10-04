@@ -255,9 +255,9 @@
             </a-col>
         </a-row>
 
-        <uc-modal-add-khung-thoi-gian v-model:isOpen="states.isOpenModalAddKhungGio"
+        <uc-modal-add-ot-add-khung-gio v-model:isOpen="states.isOpenModalAddKhungGio"
             @onFinish="onFinishAddKhungThoiGian" />
-        <uc-modal-edit-khung-thoi-gian :record="value.recordEditKhungThoiGian"
+        <uc-modal-add-ot-edit-khung-gio :record="value.recordEditKhungThoiGian"
             v-model:isOpen="states.isOpenModalEditKhungGio" @onFinish="onFinishEditKhungThoiGian" />
 
         <uc-modal-add-nguoi-quan-ly v-model:isOpen="states.isOpenModalAddNguoiQuanLy"

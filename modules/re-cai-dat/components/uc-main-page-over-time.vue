@@ -106,9 +106,9 @@
         <uc-modal-edit-ot-chinh-sach :record="values.record"
             v-model:isOpen="states.isOpenModalEditChinhSach" @onFinish="loadDSChinhSach()" />
 
-        <uc-modal-add-nhom-chinh-sach v-model:isOpen="states.isOpenModalAddNhomChinhSach"
+        <uc-modal-add-ot-nhom-chinh-sach v-model:isOpen="states.isOpenModalAddNhomChinhSach"
             @onFinish="loadDSNhomChinhSach()" />
-        <uc-modal-edit-nhom-chinh-sach :record="values.record.NhomChinhSach"
+        <uc-modal-edit-ot-nhom-chinh-sach :record="values.record.NhomChinhSach"
             v-model:isOpen="states.isOpenModalEditNhomChinhSach" @onFinish="loadDSNhomChinhSach()" />
     </div>
 </template>
