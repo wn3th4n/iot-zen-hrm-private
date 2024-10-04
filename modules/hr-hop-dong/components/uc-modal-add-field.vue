@@ -1,5 +1,5 @@
 <template>
-	<uc-form-modal :width="650" title="Thêm trường mới" :isOpen="isOpen" :formData="form" :rules="rules"
+	<uc-form-modal :width="650" title="Thêm trường mới" :isOpen="isOpen" ref="modalRef" :formData="form" :rules="rules"
 		@onSubmit="onSubmit()" :isSubmit="state.isLoading" @onClose="onCancel()">
 		<a-row :gutter="[10]">
 			<a-col :span="24">
@@ -10,14 +10,14 @@
 			<a-col :span="24">
 				<a-form-item label="Loại dữ liệu" name="LoaiDuLieu">
 					<!-- v-model:value="value.newField" -->
-					<a-select class="truongSelect">
+					<a-select v-model:value="form.LoaiDuLieu" class="truongSelect">
 						<a-select-option v-for="item in TruongDuLieuList" :key="item.value">
 							{{item.label}}
 						</a-select-option>
 					</a-select>
 				</a-form-item>
 			</a-col>
-			<a-col :span="24">
+			<a-col :span="24" v-if="form.LoaiDuLieu === 6 || form.LoaiDuLieu === 7">
 				<a-form-item label="Các lựa chọn, cách nhau bằng một dấu phẩy" name="LuaChon">
 					<a-input v-model:value="form.LuaChon" />
 				</a-form-item>
@@ -31,8 +31,8 @@
 				</a-form-item>
 			</a-col>
 			<a-col :span="24">
-				<a-form-item label="Miêu tả" name="MieuTa">
-					<a-input v-model:value="form.MieuTa" />
+				<a-form-item label="Miêu tả ngắn" name="MieuTa">
+					<a-textarea v-model:value="form.MieuTa" />
 				</a-form-item>
 			</a-col>
 		</a-row>
@@ -41,7 +41,7 @@
 
 <script>
 	export default {
-		props: ["record", "isOpen", "truongdulieulist"],
+		props: ["record", "isOpen", "truongdulieulist", "loaihopdong"],
 		data() {
 			return {
 				state: {
@@ -54,11 +54,13 @@
 				form: {
 					TenTruong: null,
 					LoaiDuLieu: null,
-					BatBuoc: 0,
+					BatBuoc: 1,
 					MieuTa: null,
 					LuaChon: null
 				},
-				rules: {},
+				rules: {
+					LuaChon: [{ required: true, message: 'Bạn chưa nhập lựa chọn', trigger: 'change' }],
+				},
 			}
 		},
 		mounted() {
@@ -66,21 +68,54 @@
 		computed: {
 			TruongDuLieuList: function () {
 				return this.truongdulieulist
+			},
+			LoaiHopDong: function () {
+				return this.loaihopdong
 			}
 		},
 		watch: {
-			record: function(val){
-				if(val){
+			record: function (val) {
+				if (val) {
 					this.form.LoaiDuLieu = val
 				}
 			}
 		},
 		methods: {
-			onSubmit() {
+			async onSubmit() {
 				console.log("submit", this.form)
+	
+				const param = {
+					LoaiHopDong_Id: this.LoaiHopDong.LoaiHopDong_Id,
+					TruongDuLieu_Id: this.form.LoaiDuLieu,
+					TenTruongDuLieu: this.form.TenTruong,
+					MaTruongDuLieu: this.filterKieuDuLieu(this.form.LoaiDuLieu),
+					LuaChon_List: this.form.LuaChon,
+					MoTa: this.form.MieuTa,
+					Is_BatBuoc: this.form.BatBuoc,
+				}
+	
+				console.log("Insert", param)
+	
+				const reps = await loaiHopDongLoaiDuLieuService.LoaiHopDong_TruongDuLieu_Insert(param).finally(() => this.state.isLoading = false)
+	
+				if (reps) {
+					this.onCancel()
+					this.$message.success("Thêm trường dữ liệu thành công")
+					this.$emit('onFinish')
+					this.resetField()
+				}
+	
+			},
+			filterKieuDuLieu(id) {
+				const filter = this.TruongDuLieuList.find(item => item.TruongDuLieu_Id === id)
+				return filter.KieuDuLieu ?? null
 			},
 			onCancel() {
 				this.$emit('update:isOpen', false)
+				// this.$emit('update:record', null)
+			},
+			resetField() {
+				this.$refs.modalRef.$refs.formRef.resetFields()
 			},
 		},
 	}

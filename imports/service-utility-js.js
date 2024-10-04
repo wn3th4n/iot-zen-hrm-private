@@ -2279,7 +2279,7 @@ const nhomChinhSachService = {
 const chinhSachService = {
     ChinhSach_LamThem_Select_By_Id: async (params) => {
         //@ChinhSach_LamThem_Id INT
-        const res = await apiUtilWork.OT('ChinhSach_LamThem_Select_By_Id',params)
+        const res = await apiUtilWork.OT('ChinhSach_LamThem_Select_By_Id', params)
         if (res.data) {
             return res.data
         } else {
@@ -2334,37 +2334,37 @@ const chinhSachService = {
     },
     ChinhSach_LamThem_KhungGio_Insert: async (params) => {
         const resp = await apiUtilWork.OT('ChinhSach_LamThem_KhungGio_Insert', params)
-        if (resp) 
+        if (resp)
             return true
         return false
     },
     ChinhSach_LamThem_KhungGio_Update: async (params) => {
         const resp = await apiUtilWork.OT('ChinhSach_LamThem_KhungGio_Update', params)
-        if (resp) 
+        if (resp)
             return true
         return false
     },
     ChinhSach_LamThem_KhungGio_Delete: async (params) => {
         const resp = await apiUtilWork.OT('ChinhSach_LamThem_KhungGio_Delete', params)
-        if (resp) 
+        if (resp)
             return true
         return false
     },
     ChinhSach_LamThem_NguoiQuanLy_Insert: async (params) => {
         const resp = await apiUtilWork.OT('ChinhSach_LamThem_NguoiQuanLy_Insert', params)
-        if (resp) 
+        if (resp)
             return true
         return false
     },
     ChinhSach_LamThem_NguoiQuanLy_Update: async (params) => {
         const resp = await apiUtilWork.OT('ChinhSach_LamThem_NguoiQuanLy_Update', params)
-        if (resp) 
+        if (resp)
             return true
         return false
     },
     ChinhSach_LamThem_NguoiQuanLy_Delete: async (params) => {
         const resp = await apiUtilWork.OT('ChinhSach_LamThem_NguoiQuanLy_Delete', params)
-        if (resp) 
+        if (resp)
             return true
         return false
     },
@@ -2617,5 +2617,115 @@ const chinhSachNhanSuService = {
         if (reps)
             return true
         return false
+    },
+}
+
+const deXuatLamThemService = {
+    DeXuat_LamThem_Insert: async (params) => {
+        //     @ChinhSach_LamThem_Id INT,
+        // @NhanVien_Id INT,
+        // @TieuDe NVARCHAR(500),
+        // @MoTa NVARCHAR(500),
+        // @Is_QuanLyTrucTiep_Duyet BIT,
+        // @Is_QuanLyTrucTiep_XacNhan BIT,
+        // @NguoiDuyet_Id INT,
+        // @NguoiXacNhan_Id INT,
+        // @KhungGio_JSON NVARCHAR(MAX)
+        const res = await apiUtilWork.OT('DeXuat_LamThem_Insert', params)
+        if (res) {
+            return true
+        } else {
+            return false
+        }
+    },
+    DeXuat_LamThem_Select: async (params) => {
+        //     @NhanVien_Id INT,
+        // @ChinhSach_LamThem_Id INT,
+        // -----------------------
+        // @PageIndex INT,
+        // @PageSize INT
+        const res = await apiUtilWork.OT('DeXuat_LamThem_Select', params)
+        if (res) {
+            const TTPhanTrang = res[0]
+            const DSDeXuatLamThem = res[1]
+            const DSKhungGio = res[2]
+            return { TTPhanTrang, DSDeXuatLamThem, DSKhungGio }
+        } else {
+            return []
+        }
+    },
+    DeXuat_LamThem_Update: async (params) => {
+        //     @DeXuat_LamThem_Id INT,
+        // @TieuDe NVARCHAR(500),
+        // @MoTa NVARCHAR(500)
+        const res = await apiUtilWork.OT('DeXuat_LamThem_Update', params)
+        if (res) {
+            return true
+        } else {
+            return false
+        }
+    },
+    DeXuat_LamThem_Delete: async (params) => {
+        //     @DeXuat_LamThem_Id INT
+        const res = await apiUtilWork.OT('DeXuat_LamThem_Delete', params)
+        if (res) {
+            return true
+        } else {
+            return false
+        }
+    },
+
+}
+
+const loaiHopDongLoaiDuLieuService = {
+    LoaiHopDong_TruongDuLieu_Delete: async (params) => {
+        //@LoaiHopDong_TruongDuLieu_Id INT
+        const res = await apiUtilWork.HR('LoaiHopDong_TruongDuLieu_Delete', params)
+        if (res) {
+            return true
+        } else {
+            return false
+        }
+    },
+    LoaiHopDong_TruongDuLieu_Insert: async (params) => {
+        //     @LoaiHopDong_Id INT,
+        // @TruongDuLieu_Id INT,
+        // @TenTruongDuLieu NVARCHAR(250),
+        // @MaTruongDuLieu NVARCHAR(250),
+        // @LuaChon_List NVARCHAR(MAX),
+        // @MoTa NVARCHAR(500),
+        // @Is_BatBuoc BIT
+        const res = await apiUtilWork.HR('LoaiHopDong_TruongDuLieu_Insert', params)
+        if (res) {
+            return true
+        } else {
+            return false
+        }
+    },
+
+    LoaiHopDong_TruongDuLieu_Select: async (params) => {
+        //@LoaiHopDong_Id INT
+        const res = await apiUtilWork.HR('LoaiHopDong_TruongDuLieu_Select', params)
+        if (res) {
+            return res.data
+        } else {
+            return []
+        }
+    },
+
+    LoaiHopDong_TruongDuLieu_Update: async (params) => {
+        //     @LoaiHopDong_TruongDuLieu_Id INT,
+        // @TruongDuLieu_Id INT,
+        // @TenTruongDuLieu NVARCHAR(250),
+        // @MaTruongDuLieu NVARCHAR(250),
+        // @LuaChon_List NVARCHAR(MAX),
+        // @MoTa NVARCHAR(500),
+        // @Is_BatBuoc BIT
+        const res = await apiUtilWork.HR('LoaiHopDong_TruongDuLieu_Update', params)
+        if (res) {
+            return true
+        } else {
+            return false
+        }
     },
 }

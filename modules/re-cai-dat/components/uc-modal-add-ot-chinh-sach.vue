@@ -1,22 +1,23 @@
 <template>
-    <uc-form-modal :isOpen="isOpen" title="Sửa chính sách" :formData="record.ChinhSach" :rules="rules" @onClose="oncancel()"
-        @onSubmit="onsubmit()" :isSubmit="states.isLoadingModal" :width="1000">
+    <uc-form-modal :isOpen="isOpen" title="Thêm chính sách" :formData="formData" :rules="rules" @onClose="oncancel()"
+        @onSubmit="onsubmit()" :isSubmit="states.isLoadingModal" :width="1200">
+
         <a-row :gutter="[25]">
-            <a-col :span="12">
+            <a-col :span="10">
                 <a-row :gutter="[10]">
                     <a-col :span="24">
                         <a-form-item label="Tên chính sách" name="TenChinhSach_LamThem">
-                            <a-input v-model:value="record.ChinhSach.TenChinhSach_LamThem" />
+                            <a-input v-model:value="formData.TenChinhSach_LamThem" />
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="Mã chính sách" name="MaChinhSach_LamThem">
-                            <a-input v-model:value="record.ChinhSach.MaChinhSach_LamThem" />
+                            <a-input v-model:value="formData.MaChinhSach_LamThem" />
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="Loại ngày áp dụng chính sách">
-                            <a-select v-model:value="record.ChinhSach.LoaiNgayApDung">
+                            <a-select v-model:value="formData.LoaiNgayApDung">
                                 <a-select-option :value="1">Tất cả</a-select-option>
                                 <a-select-option :value="2">Ngày đi làm</a-select-option>
                                 <a-select-option :value="3">Ngày nghỉ hằng tuần</a-select-option>
@@ -26,8 +27,8 @@
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="Nhóm chính sách" name="NhomChinhSach_LamThem_Id">
-                            <a-select v-model:value="record.ChinhSach.NhomChinhSach_LamThem_Id">
-                                <a-select-option v-for="item in record.NhomChinhSach"
+                            <a-select v-model:value="formData.NhomChinhSach_LamThem_Id">
+                                <a-select-option v-for="item in dsNhomChinhSach"
                                     :value="item.NhomChinhSach_LamThem_Id">{{
                                         item.TenNhomChinhSach_LamThem }}
                                 </a-select-option>
@@ -36,17 +37,17 @@
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="Nhóm nhân viên có quyền truy cập">
-                            <uc-select-nhom-nhan-vien v-model:value="record.ChinhSach.NhomNhanVien_Id" />
+                            <uc-select-nhom-nhan-vien v-model:value="formData.NhomNhanVien_Id" />
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="Mã hệ số" name="MaHeSo">
-                            <a-input v-model:value="record.ChinhSach.MaHeSo" />
+                            <a-input v-model:value="formData.MaHeSo" />
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="Hệ số" name="HeSo">
-                            <a-input-number v-model:value="record.ChinhSach.HeSo" :step="0.01" class="w-100" />
+                            <a-input-number v-model:value="formData.HeSo" :step="0.01" class="w-100" />
                         </a-form-item>
                     </a-col>
 
@@ -62,7 +63,7 @@
                                     </a-tooltip>
                                 </span>
                             </template>
-                            <a-input-number v-model:value="record.ChinhSach.ThoiHan_GioDuyet" :min="0" class="w-100">
+                            <a-input-number v-model:value="formData.GioiHan_GioDuyet" :min="0" class="w-100">
                                 <template #addonAfter>Giờ</template>
                             </a-input-number>
                         </a-form-item>
@@ -91,41 +92,43 @@
                                     </a-tooltip>
                                 </span>
                             </template>
-                            <a-input-number v-model:value="record.ChinhSach.GioiHan_NgayDeXuat" class="w-100">
+                            <a-input-number v-model:value="formData.GioiHan_NgayDeXuat" class="w-100">
                                 <template #addonAfter>Ngày</template>
                             </a-input-number>
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="Giới hạn giờ tăng ca trong ngày">
-                            <a-input-number v-model:value="record.ChinhSach.GioiHan_GioTangCa_Ngay" :min="0" class="w-100">
+                            <a-input-number v-model:value="formData.GioiHan_GioTangCa_Ngay" :min="0" class="w-100">
                                 <template #addonAfter>Giờ</template>
                             </a-input-number>
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="Giới hạn giờ tăng ca trong chu kỳ">
-                            <a-input-number v-model:value="record.ChinhSach.GioiHan_GioTangCa_ChuKy" :min="0" class="w-100">
+                            <a-input-number v-model:value="formData.GioiHan_GioTangCa_ChuKy" :min="0" class="w-100">
                                 <template #addonAfter>Giờ</template>
                             </a-input-number>
                         </a-form-item>
                     </a-col>
                     <a-col :span="24">
                         <a-form-item label="Mô tả">
-                            <a-textarea v-model:value="record.ChinhSach.MoTa" class="w-100" />
+                            <a-textarea v-model:value="formData.MoTa" class="w-100" />
                         </a-form-item>
                     </a-col>
 
                 </a-row>
             </a-col>
 
-            <a-col class="border-start" :span="12">
+            <a-col class="border-start" :span="14">
                 <a-row :gutter="[10]">
 
                     <a-col :span="24" class="mb-3">
                         <a-form-item label="Danh sách người quản lý" class="mb-2">
-                            <a-table size="small" :columns="columns.NguoiQuanLy" :pagination="false"
-                                :dataSource="record.dsNhanSu.filter(x => x.Is_NguoiDuyet === true)">
+
+                            <a-table :loading="states.isLoadingTableNGuoiQuanLy" size="small"
+                                :columns="columns.NguoiQuanLy" :pagination="false"
+                                :dataSource="formData.DS_NguoiQuanLy.filter(x => x.Is_NguoiDuyet === 1)">
                                 <template #emptyText>
                                     <a-empty style="padding: 10px !important">
                                         <template #image><uc-icon name="inbox" color="muted" size="25" /></template>
@@ -134,35 +137,34 @@
                                     </a-empty>
                                 </template>
                                 <template #bodyCell="{ record, index, column }">
-
                                     <template v-if="column.key === 'Action'">
                                         <span @click="onRemoveNguoiQuanLyAt(record)"><uc-icon class="text-red"
                                                 name="delete-outline" /></span>
                                     </template>
                                     <template v-else-if="column.key === 'HoVaTenNhanVien'">
-                                            <a-space size="small">
-                                                <uc-avatar :src="record.AnhDaiDien_Url"
-                                                    :text="record.HoVaTenNhanVien"></uc-avatar>
+                                        <a-space size="small">
+                                            <uc-avatar :src="record.AnhDaiDien_Url"
+                                                :text="record.HoVaTenNhanVien"></uc-avatar>
 
-                                                <b>{{ record.HoVaTenNhanVien }} </b> <br />
-                                            </a-space>
+                                            <b>{{ record.HoVaTenNhanVien }} </b> <br />
+                                        </a-space>
                                     </template>
                                 </template>
                             </a-table>
                         </a-form-item>
                         <div class="d-flex d-flex-row justify-content-between align-items-center mb-3">
-
-                            <a @click="onAddNguoiQuanLy(1)"><uc-icon name="plus" />Thêm người quản lý.</a>
-                            <a-checkbox v-model:checked="record.ChinhSach.Is_QuanLyTrucTiep_Duyet">Cho phép quản lý duyệt
+                            <a-checkbox v-model:checked="formData.Is_QuanLyTrucTiep_Duyet">Cho phép quản lý duyệt
                                 trực
                                 tiếp.</a-checkbox>
+                            <a @click="onAddNguoiQuanLy(1)"><uc-icon name="plus" />Thêm người quản lý.</a>
                         </div>
                     </a-col>
 
                     <a-col :span="24" class="mb-3">
                         <a-form-item label="Danh sách người theo dõi" class="mb-2">
-                            <a-table size="small" :columns="columns.NguoiQuanLy" :pagination="false"
-                                :dataSource="record.dsNhanSu.filter(x => x.Is_NguoiDuyet === false)">
+                            <a-table :loading="states.isLoadingTableNGuoiQuanLy" size="small"
+                                :columns="columns.NguoiQuanLy" :pagination="false"
+                                :dataSource="formData.DS_NguoiQuanLy.filter(x => x.Is_NguoiDuyet === 0)">
                                 <template #emptyText>
                                     <a-empty style="padding: 10px !important">
                                         <template #image><uc-icon name="inbox" color="muted" size="25" /></template>
@@ -176,35 +178,34 @@
                                                 name="delete-outline" /></span>
                                     </template>
                                     <template v-else-if="column.key === 'HoVaTenNhanVien'">
-                                            <a-space size="small">
-                                                <uc-avatar :src="record.AnhDaiDien_Url"
-                                                    :text="record.HoVaTenNhanVien"></uc-avatar>
+                                        <a-space size="small">
+                                            <uc-avatar :src="record.AnhDaiDien_Url"
+                                                :text="record.HoVaTenNhanVien"></uc-avatar>
 
-                                                <b>{{ record.HoVaTenNhanVien }} </b> <br />
-                                            </a-space>
+                                            <b>{{ record.HoVaTenNhanVien }} </b> <br />
+                                        </a-space>
                                     </template>
                                 </template>
                             </a-table>
                         </a-form-item>
                         <div class="d-flex d-flex-row justify-content-between align-items-center mb-3">
-                            <a @click="onAddNguoiQuanLy(0)"><uc-icon name="plus" />Thêm người theo dõi.</a>
-                            <a-checkbox v-model:checked="record.ChinhSach.Is_QuanLyTrucTiep_TheoDoi">Cho phép quản lý duyệt
-                                trực
+                            <a-checkbox v-model:checked="formData.Is_QuanLyTrucTiep_TheoDoi">Cho phép quản lý duyệt trực
                                 tiếp.</a-checkbox>
+                            <a @click="onAddNguoiQuanLy(0)"><uc-icon name="plus" />Thêm người theo dõi.</a>
                         </div>
 
                     </a-col>
                     <a-col :span="24">
                         <a-form-item label="">
-                            <a-checkbox v-model:checked="record.ChinhSach.Is_KhungGio">Yêu cầu đề xuất thời gian tăng
+                            <a-checkbox v-model:checked="formData.Is_KhungGio">Yêu cầu đề xuất thời gian tăng
                                 ca trong
                                 khung giờ đã định nghĩa.</a-checkbox>
                         </a-form-item>
                     </a-col>
-                    <a-col :span="24" v-if="record.ChinhSach.Is_KhungGio">
+                    <a-col :span="24" v-if="formData.Is_KhungGio">
                         <a-form-item class="mb-2">
-                            <a-table size="small" :columns="columns.KhungGio" :dataSource="record.dsNhanSu.DS_KhungGio"
-                                :pagination="false">
+                            <a-table :isLoadingTableThemKhungGio="false" size="small" :columns="columns.KhungGio"
+                                :dataSource="formData.DS_KhungGio" :pagination="false">
                                 <template #emptyText>
                                     <a-empty style="padding: 10px !important">
                                         <template #image><uc-icon name="inbox" color="muted" size="25" /></template>
@@ -244,7 +245,11 @@
                                 </template>
                             </a-table>
                         </a-form-item>
-                        <a @click="states.isOpenModalAddKhungGio = true"><uc-icon name="plus" />Thêm khung giờ.</a>
+                        <div class="d-flex d-flex-row justify-content-between align-items-center mb-3">
+                            <span></span>
+                            <a @click="states.isOpenModalAddKhungGio = true"><uc-icon name="plus" />Thêm khung giờ.</a>
+                        </div>
+
                     </a-col>
                 </a-row>
             </a-col>
@@ -255,7 +260,7 @@
         <uc-modal-edit-khung-thoi-gian :record="value.recordEditKhungThoiGian"
             v-model:isOpen="states.isOpenModalEditKhungGio" @onFinish="onFinishEditKhungThoiGian" />
 
-        <uc-modal-edit-add-nhan-su :Is_NguoiDuyet="value.typeDuyet" :ChinhSach_LamThem_Id="record.ChinhSach.ChinhSach_LamThem_Id" v-model:isOpen="states.isOpenModalAddNguoiQuanLy"
+        <uc-modal-add-nguoi-quan-ly v-model:isOpen="states.isOpenModalAddNguoiQuanLy"
             @onFinish="onFinishAddNguoiQuanLy" />
 
     </uc-form-modal>
@@ -264,27 +269,23 @@
 <script>
 export default {
     emits: ['onFinish', 'update:isOpen'],
-    props: ['isOpen', 'record'],
+    props: ['isOpen', 'dsNhomChinhSach'],
     data() {
         return {
             states: {
+                isLoadingTableThemKhungGio: false,
                 isLoadingTableNGuoiQuanLy: false,
                 isLoadingModal: false,
                 isOpenModalAddKhungGio: false,
                 isOpenModalEditKhungGio: false,
                 isOpenModalAddNguoiQuanLy: false,
                 isOpenModalEditNguoiQuanLy: false,
-
             },
             value: {
                 indexEdit: null,
                 typeDuyet: null,
                 recordEditKhungThoiGian: {},
                 recordNguoiQuanLy: {},
-                ChinhSach: {},
-                dsNhanSu: [],
-                dsKhungGio: []
-
             },
             formData: {
                 NhomChinhSach_LamThem_Id: null,
@@ -296,7 +297,7 @@ export default {
                 HeSo: null,
                 MoTa: null,
                 GioiHan_NgayDeXuat: 0,
-                ThoiHan_GioDuyet: 0,
+                GioiHan_GioDuyet: 0,
                 GioiHan_GioTangCa_Ngay: 0,
                 GioiHan_GioTangCa_ChuKy: 0,
                 Is_KhungGio: false,
@@ -315,7 +316,7 @@ export default {
                 HeSo: null,
                 MoTa: null,
                 GioiHan_NgayDeXuat: 0,
-                ThoiHan_GioDuyet: 0,
+                GioiHan_GioDuyet: 0,
                 GioiHan_GioTangCa_Ngay: 0,
                 GioiHan_GioTangCa_ChuKy: 0,
                 Is_KhungGio: false,
@@ -343,6 +344,7 @@ export default {
                     },
                 ],
                 NguoiQuanLy: [
+
                     {
                         title: 'Họ và tên',
                         dataIndex: 'HoVaTenNhanVien',
@@ -366,12 +368,6 @@ export default {
             },
         }
     },
-    watch: {
-        
-    },
-    async created() {
-        
-    },
     methods: {
         oncancel() {
             this.$emit('update:isOpen', false)
@@ -387,7 +383,7 @@ export default {
                 KhungGio_JSON: JSON.stringify(this.formData.DS_KhungGio) ?? 0,
                 NguoiQuanLy_JSON: JSON.stringify(this.formData.DS_NguoiQuanLy) ?? 0,
             }
-            const res = await ChinhSachService.ChinhSach_LamThem_Insert(params).finally(() => {
+            const res = await chinhSachService.ChinhSach_LamThem_Insert(params).finally(() => {
                 this.states.isLoadingModal = false
             })
             if (res) {
@@ -400,15 +396,17 @@ export default {
             this.formData.DS_KhungGio.push(record)
         },
         onFinishEditKhungThoiGian(record) {
+            this.states.isLoadingTableThemKhungGio = true
             this.formData.DS_KhungGio = this.formData.DS_KhungGio.map((e, idx) => {
                 if (idx === this.value.indexEdit) {
                     return (e = record)
                 }
             })
             this.value.indexEdit = null
+            this.states.isLoadingTableThemKhungGio = false
         },
         onKhungThoiGianRemoveAt(index) {
-            this.formData.DS_KhungGio = this.formData.DS_KhungGio.filter((e) => i !== index)
+            this.formData.DS_KhungGio = this.formData.DS_KhungGio.filter((_, i) => i !== index)
         },
         onEditKhungThoiGian(record, index) {
             this.value.recordEditKhungThoiGian = Object.assign({}, record)
@@ -417,38 +415,38 @@ export default {
             this.states.isOpenModalEditKhungGio = true
             this.value.indexEdit = index
         },
-        async onFinishAddNguoiQuanLy() {
+        async onFinishAddNguoiQuanLy(record) {
             this.states.isLoadingTableNGuoiQuanLy = true
-            const resp = await chinhSachService.ChinhSach_LamThem_Select_By_Id({
-                ChinhSach_LamThem_Id: this.record.ChinhSach.ChinhSach_LamThem_Id,
-            }).finally(() => {
-                this.states.isLoadingTableNGuoiQuanLy = true
-            })
-            console.log(4);
-            if (resp) {
-                this.record.dsNhanSu = resp[2]
-                this.value.typeDuyet = null
+            const isSelect = await nhanVienService
+                .NhanVien_Select_By_Id({
+                    NhanVien_Id: record.NguoiQuanLy_Id,
+                })
+                .finally(() => {
+                    this.states.isLoadingTableNGuoiQuanLy = false
+                })
+
+            if (isSelect) {
+                const temp = {
+                    ...record,
+                    Is_NguoiDuyet: this.value.typeDuyet ?? 0,
+                    ThuTu: record.ThuTu ?? 0,
+                    HoVaTenNhanVien: isSelect.ThongTinNhanSu.HoVaTenNhanVien,
+                    urlAvatar: isSelect.ThongTinNhanSu.AnhDaiDien_Url,
+                    MaNhanVien: isSelect.ThongTinNhanSu.MaNhanVien,
+                }
+                this.formData.DS_NguoiQuanLy.push(temp)
             }
 
+            this.value.typeDuyet = null
         },
         onAddNguoiQuanLy(type) {
             this.states.isOpenModalAddNguoiQuanLy = true
             this.value.typeDuyet = type
         },
         onRemoveNguoiQuanLyAt(rc) {
-            Confirm.delete({
-                content: 'Bạn có chắc chắn muốn xóa người quản lý này không?',
-                onOk: async () => {
-                    const res = await chinhSachService.ChinhSach_LamThem_NguoiQuanLy_Delete({
-                        ChinhSach_LamThem_NguoiQuanLy_Id: rc.ChinhSach_LamThem_NguoiQuanLy_Id
-                    })
-                    if (res) {
-                        this.onFinishAddNguoiQuanLy()
-                        this.$message.success('Xóa người quản lý thành công!')
-                    }
-                }
-                    
-            })
+            this.states.isLoadingTableNGuoiQuanLy = true
+            this.formData.DS_NguoiQuanLy = this.formData.DS_NguoiQuanLy.filter((i) => i.HoVaTenNhanVien !== rc.HoVaTenNhanVien)
+            this.states.isLoadingTableNGuoiQuanLy = false
         },
     },
 }

@@ -9,7 +9,6 @@
             </template>
             <template #extra>
                 <a-space size="small">
-                    <a-checkbox v-model:checked="isCoViTri">Hiển thị vị trí</a-checkbox>
                     <a-button type="primary" @click="getTemplate()"><uc-icon name="tray-arrow-down" />Tải dữ liệu mẫu</a-button>
                     <a-button v-if="!isViewedTemplate" type="primary" @click="onSave()"><uc-icon name="content-save-outline" />Lưu lịch dự trù</a-button>
                     <a-button type="primary" danger @click="onDelete()"><uc-icon name="delete-outline" />Xóa lịch dự trù</a-button>
@@ -19,7 +18,7 @@
         <uc-handsontable :data="dsLichCaMau" height="calc(100vh - 57px)">
             <hot-column title="Nhóm ca" data="TenNhomCaMau" :readOnly="true"> </hot-column>
             <hot-column title="Ca" data="MaCaMau" :readOnly="true"> </hot-column>
-            <hot-column v-if="isCoViTri" title="Vị trí" data="TenViTri" :readOnly="true"></hot-column>
+            <hot-column title="Vị trí" data="TenViTri" :readOnly="true"></hot-column>
             <hot-column v-for="(date, index) in dsNgay" :title="date" :data="'Ngay_' + date.toString().padStart('2', 0)" width="40" type="numeric" :readOnly="isViewedTemplate"> </hot-column>
         </uc-handsontable>
     </uc-layout>
@@ -40,7 +39,6 @@ export default {
             LichLamViec_Id: LichLamViec_Id,
             MauBangCong_Id: MauBangCong_Id,
             isLoading: false,
-            isCoViTri: false,
             dsLichCaMau: [],
             dsNgay: [],
             isViewedTemplate: false,
@@ -95,7 +93,6 @@ export default {
         async getTemplate() {
             const $this = this
             const params = {
-                Is_CoViTri: $this.isCoViTri,
                 MauBangCong_Id: $this.MauBangCong_Id,
                 LichLamViec_Id: $this.LichLamViec_Id,
             }

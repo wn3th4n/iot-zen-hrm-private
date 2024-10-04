@@ -1,3 +1,9 @@
 .truongSelect{
     width: 257px;
 }
+.smallText{
+    font-size: 13px;
+}
+.dark-gray-text{
+    color: #888;
+}

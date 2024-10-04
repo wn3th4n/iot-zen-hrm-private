@@ -101,9 +101,9 @@
                 </uc-container>
             </a-tab-pane>
         </a-tabs>
-        <uc-modal-add-chinh-sach :dsNhomChinhSach="values.dsNhomChinhSach"
+        <uc-modal-add-ot-chinh-sach :dsNhomChinhSach="values.dsNhomChinhSach"
             v-model:isOpen="states.isOpenModalAddChinhSach" @onFinish="loadDSChinhSach()" />
-        <uc-modal-edit-chinh-sach :record="values.record"
+        <uc-modal-edit-ot-chinh-sach :record="values.record"
             v-model:isOpen="states.isOpenModalEditChinhSach" @onFinish="loadDSChinhSach()" />
 
         <uc-modal-add-nhom-chinh-sach v-model:isOpen="states.isOpenModalAddNhomChinhSach"

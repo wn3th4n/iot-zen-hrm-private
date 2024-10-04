@@ -1,9 +1,9 @@
 <template>
     <div>
-        <a-card title="Ca mặc định" class="card-title-page">
+        <a-card title="Ca cần, ca đủ" class="card-title-page">
             <template #extra>
                 <a-space size="small">
-                    <a-button type="primary" @click="onAdd"><uc-icon name="plus" />Thêm ca dự báo</a-button>
+                    <a-button type="primary" @click="onAdd"><uc-icon name="plus" />Khai báo ca cần, ca đủ</a-button>
                 </a-space>
             </template>
         </a-card>

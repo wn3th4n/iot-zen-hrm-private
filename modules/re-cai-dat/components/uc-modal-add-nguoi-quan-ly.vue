@@ -7,7 +7,7 @@
                    <uc-select-nhan-vien v-model:value="form.NguoiQuanLy_Id" />
                 </a-form-item>
             </a-col>
-            
+
         </a-row>
     </uc-form-modal>
 </template>

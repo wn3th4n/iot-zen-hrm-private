@@ -1,7 +1,7 @@
 <template>
     <uc-form-modal :isOpen="isOpen" ref="modalRef" title="Thêm ca dự báo" :formData="formData" :rules="rules" :width="500" @onSubmit="onSubmit()" :isSubmit="isLoading" @onClose="handleCancel()">
         <a-row :gutter="[10]">
-            <a-col :span="24">
+            <a-col :span="12">
                 <a-form-item label="Nhóm ca mẫu" name="NhomCaMau_Id">
                     <a-select v-model:value="formData.NhomCaMau_Id">
                         <a-select-option v-for="item in dsnhomcamau" :key="item.NhomCaMau_Id">
@@ -22,6 +22,11 @@
             <a-col :span="12">
                 <a-form-item label="Số người" name="SoNguoi">
                     <a-input-number v-model:value="formData.SoNguoi" style="width: 100%" />
+                </a-form-item>
+            </a-col>
+            <a-col :span="12">
+                <a-form-item label="Ca cần, ca đủ" name="SoNguoi">
+                    <a-input-number style="width: 100%" />
                 </a-form-item>
             </a-col>
             <a-col :span="24">

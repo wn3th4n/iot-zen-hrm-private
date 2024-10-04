@@ -11,8 +11,8 @@
                 <uc-main-page-loai-ca v-if="selectedKeyMenu[0] === '3'" />
                 <uc-main-page-vai-tro v-if="selectedKeyMenu[0] === '4'" />
                 <uc-main-page-ca-mac-dinh v-if="selectedKeyMenu[0] === '5'" />
-				<uc-main-page-loai-vi-tri v-if="selectedKeyMenu[0] === '6'"/>
-			</a-col>
+                <uc-main-page-loai-vi-tri v-if="selectedKeyMenu[0] === '6'" />
+            </a-col>
         </a-row>
     </uc-layout>
 </template>
@@ -27,7 +27,7 @@ export default {
                 { key: '2', label: 'Ca mẫu' },
                 { key: '3', label: 'Loại ca' },
                 { key: '4', label: 'Vai trò' },
-                { key: '5', label: 'Ca mặc định' },
+                { key: '5', label: 'Ca cần, ca đủ' },
                 { key: '6', label: 'Loại vị trí' },
             ],
             selectedKeyMenu: ['1'],

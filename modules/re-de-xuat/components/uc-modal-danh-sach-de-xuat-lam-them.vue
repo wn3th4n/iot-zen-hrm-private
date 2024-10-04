@@ -6,16 +6,16 @@
                     <a-input-search v-model:value="value" placeholder="Tìm nhanh" @search="onSearch" />
                 </a-col>
                 <a-col :span="24" class="mt-2">
-                    <a-list item-layout="horizontal" :data-source="DSDeXuat">
+                    <a-list item-layout="horizontal" :data-source="DSChinhSachLamThem">
                         <template #renderItem="{ item }">
-                            <a-list-item class="px-2 cursor-pointer" @click="onOpenModalAddDeXuat()">
+                            <a-list-item class="px-2 cursor-pointer" @click="onOpenModalAddDeXuat(item)">
                                 <a-list-item-meta>
                                     <template #title>
-                                        <b>[{{ item.LoaiDeXuat }}] {{ item.TenDeXuat }}</b>
+                                        <b>{{ item.TenChinhSach_LamThem }}</b>
                                     </template>
                                     <template #description>
-                                        <div v-for="i of item.MoTa.split(', ')">
-                                            <span class="mt-2">{{ i }}</span> <br />
+                                        <div>
+                                            <span class="mt-2">{{ item.MoTa }}</span>
                                         </div>
                                     </template>
                                 </a-list-item-meta>
@@ -25,13 +25,13 @@
                 </a-col>
             </a-row>
         </uc-modal>
-        <uc-modal-add-dx-lam-them v-model:isOpen="isShowModalAddDeXuat" />
+        <uc-modal-add-dx-lam-them v-model:isOpen="isShowModalAddDeXuat" :recordChinhSachLamThem />
     </a-spin>
 </template>
 
 <script>
 export default {
-    props: ['isOpen'],
+    props: ['isOpen', 'DSChinhSachLamThem'],
     emits: ['update:isOpen'],
     data() {
         return {
@@ -60,6 +60,7 @@ export default {
                     LoaiDeXuat: 1,
                 },
             ],
+            recordChinhSachLamThem: {},
         }
     },
     methods: {
@@ -67,8 +68,9 @@ export default {
             this.$emit('update:isOpen', false)
         },
         onSearch() {},
-        onOpenModalAddDeXuat() {
+        onOpenModalAddDeXuat(record) {
             this.isShowModalAddDeXuat = true
+            this.recordChinhSachLamThem = Object.assign({}, record)
             this.onCloseModal()
         },
     },
