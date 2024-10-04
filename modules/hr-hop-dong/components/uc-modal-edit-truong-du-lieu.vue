@@ -4,8 +4,8 @@
 			@onSubmit="onSubmit()" :isSubmit="state.isLoading" @onClose="onCancel()">
 			<a-tabs>
 				<a-tab-pane key="1" tab="Chỉnh sửa">
-					<a-row>
-						<a-col span="17">
+					<a-row :gutter="[10]">
+						<a-col :span="17">
 							<div class="mt-2">
 								<a-select v-model:value="value.newField" class="truongSelect"
 									placeholder="Thêm trường mới">
@@ -15,7 +15,7 @@
 								</a-select>
 							</div>
 						</a-col>
-						<a-col span="7">
+						<a-col :span="7">
 							<h3>Loại trường</h3>
 							<div v-for="(item, index) in value.TruongDuLieuList" :key="index">
 								<div class="d-flex justify-center align-center">
@@ -36,7 +36,7 @@
 			</a-tabs>
 		</uc-form-modal>
 
-		<uc-modal-add-field v-model:isOpen="state.isOpenModalAddField" :record="value.newField"/>
+		<uc-modal-add-field v-model:isOpen="state.isOpenModalAddField" :record="value.newField" :truongdulieulist="value.TruongDuLieuList"/>
 	</div>
 </template>
 

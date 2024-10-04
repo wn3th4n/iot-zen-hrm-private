@@ -7,7 +7,7 @@
                    <uc-select-nhan-vien v-model:value="form.NguoiQuanLy_Id" />
                 </a-form-item>
             </a-col>
-            
+
         </a-row>
     </uc-form-modal>
 </template>
@@ -15,7 +15,7 @@
 <script>
     export default {
         emits: ["update:isOpen", "onFinish"],
-        props: ["isOpen"],
+        props: ["isOpen", "ChinhSach_LamThem_Id", "Is_NguoiDuyet"],
         data(){
             return {
                 state: {
@@ -36,11 +36,18 @@
             onCancel(){
                 this.$emit("update:isOpen", false)
             },
-            onSubmit(){
-                this.$message.success("Thêm thành công")
-                this.$emit("onFinish", this.form)
-                this.form  = {...this.formDefault}
-                this.onCancel()
+            async onSubmit(){
+                const res = await chinhSachService.ChinhSach_LamThem_NguoiQuanLy_Insert({
+                    ChinhSach_LamThem_Id: this.ChinhSach_LamThem_Id,
+                    Is_NguoiDuyet: this.Is_NguoiDuyet,
+                    NguoiQuanLy_Id : this.form.NguoiQuanLy_Id
+                })
+                if(res){
+                    this.$emit("onFinish")
+                    this.$message.success("Thêm thành công")
+                    this.form = this.formDefault
+                    this.onCancel()
+                }
             },
 			
            

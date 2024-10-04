@@ -4,7 +4,7 @@
             <a-button type="primary" @click="onOpenModalAddDeXuat"><uc-icon name="plus" />Thêm đề xuất</a-button>
         </template>
     </a-card>
-    <a-table :columns="columns" :data-source="DSDeXuat" :pagination="false" size="small">
+    <a-table :columns="columns" :data-source="DSDeXuat" :pagination="false" size="small" :resizeColumn="test()">
         <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'ThuTu'"
                 ><span>{{ (DSDeXuat.indexOf(record) + 1).toString().padStart('2', 0) }}</span></template
@@ -30,7 +30,7 @@
         </template>
     </a-table>
 
-    <uc-modal-add-dx-lam-them-gio v-model:isOpen="isShowModalAddDeXuat" />
+    <uc-modal-add-dx-lam-them v-model:isOpen="isShowModalAddDeXuat" />
 </template>
 
 <script>
@@ -78,6 +78,15 @@ export default {
                     TrangThai: 1,
                     NgayTao: '16/07/2024',
                 },
+                {
+                    TenTieuDe: 'Mẫn',
+                    TenDeXuat: 'Đi làm ngày nghỉ',
+                    HoVaTenNguoiThucThi: 'Trần Ngọc Mẫn',
+                    ViTriNguoiThucThi: 'Quản lý kho',
+                    NgayTangCa: '17/07/2024',
+                    TrangThai: 1,
+                    NgayTao: '16/07/2024',
+                },
             ],
             isShowModalAddDeXuat: false,
         }
@@ -85,6 +94,9 @@ export default {
     methods: {
         onOpenModalAddDeXuat() {
             this.isShowModalAddDeXuat = true
+        },
+        test() {
+            console.log('x')
         },
     },
 }

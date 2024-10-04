@@ -74,6 +74,7 @@
                                     <span>{{ record.MoTa }}</span>
                                 </div>
                             </template>
+
                             <template v-else-if="column.key === 'Is_TamKhoa'">
                                 <uc-icon v-if="record.Is_TamKhoa" class="text-red" name="lock-outline" />
                             </template>

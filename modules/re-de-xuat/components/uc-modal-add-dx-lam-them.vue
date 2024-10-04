@@ -86,9 +86,15 @@ export default {
             fileList: [],
             isLoading: false,
             form: {
-                TenChucDanh: '',
+                ChinhSach_LamThem_Id: null,
+                NhanVien_Id: null,
+                TieuDe: '',
                 MoTa: '',
-                Is_TamKhoa: 0,
+                Is_QuanLyTrucTiep_Duyet: false,
+                Is_QuanLyTrucTiep_XacNhan: false,
+                NguoiDuyet_Id: null,
+                NguoiXacNhan_Id: null,
+                KhungGio_JSON: '',
             },
             rules: {
                 TenTieuDe: [{ required: true, message: 'Vui lòng nhập tên chức danh', trigger: 'change' }],
