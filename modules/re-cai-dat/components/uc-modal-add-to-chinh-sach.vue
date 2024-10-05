@@ -200,58 +200,7 @@
                         <div class="mt-2">
                             <a @click="onAddNguoiQuanLy(0)"><uc-icon name="plus" />Thêm người theo dõi.</a>
                         </div>
-
-
                     </a-col>
-                    <a-col :span="24" class="mt-3">
-                        <a-checkbox class="mb-2" v-model:checked="formData.Is_KhungGio">Đề xuất thời gian tăng
-                            ca.</a-checkbox>
-                        <a-table v-if="formData.Is_KhungGio" :isLoadingTableThemKhungGio="false" size="small" :columns="columns.KhungGio"
-                            :dataSource="formData.DS_KhungGio" :pagination="false">
-                            <template #emptyText>
-                                <a-empty style="padding: 10px !important">
-                                    <template #image><uc-icon name="inbox" color="muted" size="25" /></template>
-                                    <template #description><span style="font-size: 10px;" class="text-muted">Không
-                                            có dữ liệu</span></template>
-                                </a-empty>
-                            </template>
-                            <template #bodyCell="{ record, index, column }">
-                                <template v-if="column.key === 'Action'">
-                                    <a-dropdown :trigger="['click']">
-                                        <a class="ant-dropdown-link">
-                                            <uc-icon name="dots-horizontal" />
-                                        </a>
-                                        <template #overlay>
-                                            <a-menu>
-                                                <a-menu-item @click="onEditKhungThoiGian(record, index)"><uc-icon
-                                                        class="text-primary" name="square-edit-outline" />Chỉnh
-                                                    sửa</a-menu-item>
-                                                <a-menu-item @click="onKhungThoiGianRemoveAt(index)"><uc-icon
-                                                        class="text-red" name="delete-outline" />Xoá</a-menu-item>
-                                            </a-menu>
-                                        </template>
-                                    </a-dropdown>
-                                </template>
-
-                                <template v-else-if="column.key === 'KhungGio'">
-                                    <a-tag color="blue">
-                                        <template #icon>
-                                            <uc-icon name="clock-outline" />
-                                        </template>
-                                        {{ record.GioBatDau }} - {{ record.GioKetThuc }}
-                                    </a-tag>
-                                </template>
-                                <template v-else-if="column.key === 'QuaDem'">
-                                    <uc-icon class="text-success" v-if="record.Is_QuaDem" name="check-outline" />
-                                </template>
-                            </template>
-                        </a-table>
-                        <div class="mt-2" v-if="formData.Is_KhungGio">
-                            <a @click="states.isOpenModalAddKhungGio = true"><uc-icon name="plus" />Thêm khung giờ.</a>
-                        </div>
-
-                    </a-col>
-
                 </a-row>
             </a-col>
         </a-row>

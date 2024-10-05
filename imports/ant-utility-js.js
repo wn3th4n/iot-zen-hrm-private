@@ -68,7 +68,6 @@ const scrollToDate = (DSNgay) => {
 
                 element.style.position = "relative"
                 element.appendChild(elem);
-
             }
         }, 100)
     } else {

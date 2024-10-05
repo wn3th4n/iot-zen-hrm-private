@@ -23,8 +23,8 @@ export default {
             itemMenus: [
                 { key: '1', label: 'Làm thêm giờ' },
                 { key: '2', label: 'Nghỉ phép' },
-                { key: '3', label: 'Ứng lương' },
-                { key: '4', label: 'Chấm công' },
+                // { key: '3', label: 'Ứng lương' },
+                // { key: '4', label: 'Chấm công' },
             ],
             selectedKeyMenu: ['1'],
         }

@@ -77,6 +77,13 @@ const apiUtilWork = {
             })
         })
     },
+    TO: (url, param = null) => {
+        return new Promise((resolve, reject) => {
+            ajaxZEN('/work/TO_' + url, param, (res) => {
+                resolve(res)
+            })
+        })
+    },
     AC: (url, param = null) => {
         return new Promise((resolve, reject) => {
             ajaxZEN('/work/AC_' + url, param, (res) => {
@@ -2232,6 +2239,14 @@ const viTriHRService = {
 }
 
 const nhomChinhSachService = {
+    NhomChinhSach_NghiPhep_Select: async () => {
+        const res = await apiUtilWork.TO('NhomChinhSach_NghiPhep_Select')
+        if (res.data) {
+            return res.data
+        } else {
+            return []
+        }
+    },
     NhomChinhSach_LamThem_Select: async () => {
         const res = await apiUtilWork.OT('NhomChinhSach_LamThem_Select')
         if (res.data) {
@@ -2368,6 +2383,62 @@ const chinhSachService = {
             return true
         return false
     },
+    ChinhSach_NghiPhep_Select: async () => {
+        const res = await apiUtilWork.TO('ChinhSach_NghiPhep_Select')
+        if (res.data) {
+            return res.data
+        } else {
+            return []
+        }
+    },
+    ChinhSach_NghiPhep_Select_By_Id: async () => {
+        const res = await apiUtilWork.TO('ChinhSach_NghiPhep_Select_By_Id')
+        if (res.data) {
+            return res.data
+        } else {
+            return []
+        }
+    },
+    ChinhSach_NghiPhep_Update: async (params) => {
+        // @ChinhSach_NghiPhep_Id INT,
+        // @MoTa NVARCHAR(500),
+        // @Is_TamKhoa BIT
+        const res = await apiUtilWork.TO('ChinhSach_NghiPhep_Update', params)
+        if (res) {
+            return true
+        }
+        return false
+    },
+    ChinhSach_NghiPhep_Delete: async (params) => {
+        // @ChinhSach_NghiPhep_Id INT,
+        const res = await apiUtilWork.TO('ChinhSach_NghiPhep_Delete', params)
+        if (res) {
+            return true
+        } else {
+            return false
+        }
+    },
+    ChinhSach_NghiPhep_NguoiQuanLy_Insert: async (params) => {
+        const resp = await apiUtilWork.TO('ChinhSach_NghiPhep_NguoiQuanLy_Insert', params)
+        if (resp)
+            return true
+        return false
+    },
+    ChinhSach_NghiPhep_NguoiQuanLy_Update: async (params) => {
+        const resp = await apiUtilWork.TO('ChinhSach_NghiPhep_NguoiQuanLy_Update', params)
+        if (resp)
+            return true
+        return false
+    },
+    ChinhSach_NghiPhep_NguoiQuanLy_Delete: async (params) => {
+        const resp = await apiUtilWork.TO('ChinhSach_NghiPhep_NguoiQuanLy_Delete', params)
+        if (resp)
+            return true
+        return false
+    },
+
+
+
 }
 
 
@@ -2728,4 +2799,6 @@ const loaiHopDongLoaiDuLieuService = {
             return false
         }
     },
+
+
 }

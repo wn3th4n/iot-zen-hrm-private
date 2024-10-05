@@ -1,19 +1,19 @@
 <template>
-    <uc-form-modal ref="modalRef2" :formData="formData" :rules="rules" :width="550" :isOpen="isOpen" title="Thêm khung thời gian" @onClose="onClose()" @onSubmit="onFinish()" :isSubmit="state.isLoading">
+    <uc-form-modal ref="modalRef2" :formData="record" :rules="rules" :width="550" :isOpen="isOpen" title="Thêm khung thời gian" @onClose="onClose()" @onSubmit="onFinish()" :isSubmit="state.isLoading">
         <a-row :gutter="[10]">
             <a-col :span="8">
                 <a-form-item label="Thời gian bắt đầu" name="GioBatDau">
-                    <a-time-picker format="HH:mm" v-model:value="formData.GioBatDau" placeholder="hh:mm" :minuteStep="5" />
+                    <a-time-picker format="HH:mm" v-model:value="record.GioBatDau" placeholder="hh:mm" :minuteStep="5" />
                 </a-form-item>
             </a-col>
             <a-col :span="8">
                 <a-form-item label="Thời gian kết thúc" name="GioKetThuc">
-                    <a-time-picker format="HH:mm" v-model:value="formData.GioKetThuc" placeholder="hh:mm" :minuteStep="5" />
+                    <a-time-picker format="HH:mm" v-model:value="record.GioKetThuc" placeholder="hh:mm" :minuteStep="5" />
                 </a-form-item>
             </a-col>
             <a-col :span="8">
                 <a-form-item label="Ca qua đêm" name="Is_QuaDem">
-                    <a-select v-model:value="formData.Is_QuaDem" >
+                    <a-select v-model:value="record.Is_QuaDem" >
                       <a-select-option :value="0">Không</a-select-option>
                       <a-select-option :value="1">Qua đêm</a-select-option>
                     </a-select>
@@ -56,11 +56,11 @@
                     GioBatDau: this.formData.GioBatDau.format("HH:mm"),
                     GioKetThuc: this.formData.GioKetThuc.format("HH:mm")
                 }
-                const res = await chinhSachService.ChinhSach_LamThem_KhungGio_Insert({
+                const res = await chinhSachService.ChinhSach_LamThem_KhungGio_Update({
                     params
                 })
                 if(res){
-                    this.$message.success("Thêm thành công");
+                    this.$message.success("Sửa thành công");
                     this.$emit("onFinish");
                     this.formData = { ...this.formDefault };
                     this.onClose();

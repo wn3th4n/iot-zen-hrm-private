@@ -7,6 +7,7 @@
             </a-col>
 			<a-col :span="20">
 				<uc-main-page-over-time v-if="selectedKeyMenu[0] === '1'"/>
+				<uc-main-page-time-off v-if="selectedKeyMenu[0] === '2'"/>
 			</a-col>
 		</a-row>
 	</uc-layout>
@@ -20,8 +21,8 @@
 				itemMenus: [
 				{ key: '1', label: 'Làm thêm giờ' },
 				{ key: '2', label: 'Nghỉ phép' },
-                { key: '3', label: 'Ứng lương' },
-                { key: '4', label: 'Chấm công' },
+                // { key: '3', label: 'Ứng lương' },
+                // { key: '4', label: 'Chấm công' },
 				],
 				selectedKeyMenu: ['1'],
 			}

@@ -76,6 +76,11 @@ export default {
                     width: '250px',
                 },
                 {
+                    title: 'Tên văn phòng',
+                    dataIndex: 'TenVanPhong',
+                    key: 'TenVanPhong',
+                },
+                {
                     title: 'Tổng nhân sự',
                     dataIndex: 'TongNhanVien',
                     align: 'center',
@@ -92,6 +97,7 @@ export default {
                     key: 'TenNguoiPhanCa',
                     width: '250px',
                 },
+               
                 {
                     title: 'Người chốt công',
                     dataIndex: 'TenNguoiChotCong',

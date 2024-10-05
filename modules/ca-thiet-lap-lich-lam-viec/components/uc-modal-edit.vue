@@ -1,31 +1,37 @@
 <template>
-    <uc-form-modal v-model:isOpen="isOpen" title="Cập nhật" :formData="form" ref="refFormModal" @onSubmit="onFinish" :rules="rules" :width="800" @onClose="handleCancel()">
+    <uc-form-modal v-model:isOpen="isOpen" title="Cập nhật" :formData="form" ref="refFormModal" @onSubmit="onFinish"
+        :rules="rules" :width="800" @onClose="handleCancel()">
         <a-row :gutter="[10]">
             <a-col :span="24">
                 <a-row :gutter="[10]">
                     <a-col :span="10">
                         <a-form-item label="Mã lịch làm việc" name="MaMauBangCong">
-                            <a-input v-model:value="form.MaMauBangCong" placeholder="Nhập mã Lịch làm việc..." allow-clear autoFocus />
+                            <a-input v-model:value="form.MaMauBangCong" placeholder="Nhập mã Lịch làm việc..."
+                                allow-clear autoFocus />
                         </a-form-item>
                     </a-col>
                     <a-col :span="14">
                         <a-form-item label="Tên lịch làm việc" name="TenMauBangCong">
-                            <a-input v-model:value="form.TenMauBangCong" placeholder="Nhập tên Lịch làm việc..." allow-clear />
+                            <a-input v-model:value="form.TenMauBangCong" placeholder="Nhập tên Lịch làm việc..."
+                                allow-clear />
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="Người quản lý" name="NguoiQuanLy_Id">
-                            <uc-select-nhan-vien v-model:value="form.NguoiQuanLy_Id" :initData="[{ text: form.TenNguoiQuanLy, value: form.NguoiQuanLy_Id }]"></uc-select-nhan-vien>
+                            <uc-select-nhan-vien v-model:value="form.NguoiQuanLy_Id"
+                                :initData="[{ text: form.TenNguoiQuanLy, value: form.NguoiQuanLy_Id }]"></uc-select-nhan-vien>
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="Người phân ca" name="NguoiPhanCa_Id">
-                            <uc-select-nhan-vien v-model:value="form.NguoiPhanCa_Id" :initData="[{ text: form.TenNguoiPhanCa, value: form.NguoiPhanCa_Id }]"></uc-select-nhan-vien>
+                            <uc-select-nhan-vien v-model:value="form.NguoiPhanCa_Id"
+                                :initData="[{ text: form.TenNguoiPhanCa, value: form.NguoiPhanCa_Id }]"></uc-select-nhan-vien>
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="Người chốt công" name="NguoiChotCong_Id">
-                            <uc-select-nhan-vien v-model:value="form.NguoiChotCong_Id" :initData="[{ text: form.TenNguoiChotCong, value: form.NguoiChotCong_Id }]"></uc-select-nhan-vien>
+                            <uc-select-nhan-vien v-model:value="form.NguoiChotCong_Id"
+                                :initData="[{ text: form.TenNguoiChotCong, value: form.NguoiChotCong_Id }]"></uc-select-nhan-vien>
                         </a-form-item>
                     </a-col>
                     <a-col :span="6">
@@ -36,6 +42,7 @@
                             </a-select>
                         </a-form-item>
                     </a-col>
+
                     <a-col :span="6">
                         <a-form-item label="Loại lịch" name="Is_CoDinh">
                             <a-select v-model:value="form.Is_CoDinh">
@@ -44,7 +51,11 @@
                             </a-select>
                         </a-form-item>
                     </a-col>
-
+                    <a-col :span="12">
+                        <a-form-item label="Chọn văn phòng" name="VanPhong_Id">
+                            <uc-select-van-phong v-model:value="form.VanPhong_Id"></uc-select-van-phong>
+                        </a-form-item>
+                    </a-col>
                     <a-col :span="6">
                         <a-form-item label="Tạm khóa" name="Is_TamKhoa">
                             <a-select v-model:value="form.Is_TamKhoa">
@@ -53,6 +64,7 @@
                             </a-select>
                         </a-form-item>
                     </a-col>
+
                 </a-row>
             </a-col>
             <a-col v-if="form.Is_CoDinh === 1" :span="24" class="mb-3">
@@ -67,21 +79,29 @@
                             <b>Ca 2</b>
                         </a-col>
                         <a-col :span="5" style="display: flex; flex-direction: column; gap: 8px; align-self: center">
-                            <a-time-picker v-model:value="form[thu + '_C1_VaoCa']" placeholder="hh:mm" :minuteStep="5" format="HH:mm" style="width: 100%" :disabled="form.Is_CoDinh === 1" />
-                            <a-time-picker v-model:value="form[thu + '_C2_VaoCa']" placeholder="hh:mm" :minuteStep="5" format="HH:mm" style="width: 100%" :disabled="form.Is_CoDinh === 1" />
+                            <a-time-picker v-model:value="form[thu + '_C1_VaoCa']" placeholder="hh:mm" :minuteStep="5"
+                                format="HH:mm" style="width: 100%" :disabled="form.Is_CoDinh === 1" />
+                            <a-time-picker v-model:value="form[thu + '_C2_VaoCa']" placeholder="hh:mm" :minuteStep="5"
+                                format="HH:mm" style="width: 100%" :disabled="form.Is_CoDinh === 1" />
                         </a-col>
                         <a-col :span="5" style="display: flex; flex-direction: column; gap: 8px; align-self: center">
-                            <a-time-picker v-model:value="form[thu + '_C1_RaCa']" placeholder="hh:mm" :minuteStep="5" format="HH:mm" style="width: 100%" :disabled="form.Is_CoDinh === 1" />
-                            <a-time-picker v-model:value="form[thu + '_C2_RaCa']" placeholder="hh:mm" :minuteStep="5" format="HH:mm" style="width: 100%" :disabled="form.Is_CoDinh === 1" />
+                            <a-time-picker v-model:value="form[thu + '_C1_RaCa']" placeholder="hh:mm" :minuteStep="5"
+                                format="HH:mm" style="width: 100%" :disabled="form.Is_CoDinh === 1" />
+                            <a-time-picker v-model:value="form[thu + '_C2_RaCa']" placeholder="hh:mm" :minuteStep="5"
+                                format="HH:mm" style="width: 100%" :disabled="form.Is_CoDinh === 1" />
                         </a-col>
                         <a-col :span="6" style="display: flex; flex-direction: column; gap: 8px; align-self: center">
                             <!-- <uc-select-ca-mau v-model:value="form[thu + '_C1_CaMau_Id']" :initData="[{ text: form[thu + '_C1_MaCaMau'], value: form[thu + '_C1_CaMau_Id'] }]" /> -->
                             <!-- <uc-select-ca-mau v-model:value="form[thu + '_C2_CaMau_Id']" :initData="[{ text: form[thu + '_C2_MaCaMau'], value: form[thu + '_C2_CaMau_Id'] }]" /> -->
-                            <a-select v-model:value="form[thu + '_C1_CaMau_Id']" placeholder="Chọn ca mẫu..." @change="loadCaMau_C1_Select_By_Id(form[thu + '_C1_CaMau_Id'], thu)">
-                                <a-select-option v-for="item in DSCaMau" :value="item.CaMau_Id">[{{ item.MaCaMau }}] {{ item.TenCa }}</a-select-option>
+                            <a-select v-model:value="form[thu + '_C1_CaMau_Id']" placeholder="Chọn ca mẫu..."
+                                @change="loadCaMau_C1_Select_By_Id(form[thu + '_C1_CaMau_Id'], thu)">
+                                <a-select-option v-for="item in DSCaMau" :value="item.CaMau_Id">[{{ item.MaCaMau }}] {{
+                                    item.TenCa }}</a-select-option>
                             </a-select>
-                            <a-select v-model:value="form[thu + '_C2_CaMau_Id']" placeholder="Chọn ca mẫu..." @change="loadCaMau_C2_Select_By_Id(form[thu + '_C2_CaMau_Id'], thu)">
-                                <a-select-option v-for="item in DSCaMau" :value="item.CaMau_Id">[{{ item.MaCaMau }}] {{ item.TenCa }}</a-select-option>
+                            <a-select v-model:value="form[thu + '_C2_CaMau_Id']" placeholder="Chọn ca mẫu..."
+                                @change="loadCaMau_C2_Select_By_Id(form[thu + '_C2_CaMau_Id'], thu)">
+                                <a-select-option v-for="item in DSCaMau" :value="item.CaMau_Id">[{{ item.MaCaMau }}] {{
+                                    item.TenCa }}</a-select-option>
                             </a-select>
                         </a-col>
                     </a-row>
@@ -102,6 +122,7 @@ export default {
                 NguoiQuanLy_Id: undefined,
                 NguoiPhanCa_Id: undefined,
                 NguoiChotCong_Id: undefined,
+                VanPhong_Id: null,
                 Is_CoDinh: 0, // 0: theo giờ, 1: cố định
                 Is_CheckInOut: 0, // 0: Không, 1: có
                 Is_TamKhoa: 0,

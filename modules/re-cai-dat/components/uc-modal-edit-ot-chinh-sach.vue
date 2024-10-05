@@ -1,8 +1,8 @@
 <template>
     <uc-form-modal :isOpen="isOpen" title="Sửa chính sách" :formData="record.ChinhSach" :rules="rules"
-        @onClose="oncancel()" @onSubmit="onsubmit()" :isSubmit="states.isLoadingModal" :width="1200">
+        @onClose="oncancel()" @onSubmit="onsubmit()" :isSubmit="states.isLoadingModal" :width="1000">
         <a-row :gutter="[25]">
-            <a-col :span="10">
+            <a-col :span="12">
                 <a-row :gutter="[10]">
                     <a-col :span="24">
                         <a-form-item label="Tên chính sách" name="TenChinhSach_LamThem">
@@ -39,12 +39,12 @@
                             <uc-select-nhom-nhan-vien v-model:value="record.ChinhSach.NhomNhanVien_Id" />
                         </a-form-item>
                     </a-col>
-                    <a-col :span="12">
+                    <a-col :span="16">
                         <a-form-item label="Mã hệ số" name="MaHeSo">
                             <a-input v-model:value="record.ChinhSach.MaHeSo" />
                         </a-form-item>
                     </a-col>
-                    <a-col :span="12">
+                    <a-col :span="8">
                         <a-form-item label="Hệ số" name="HeSo">
                             <a-input-number v-model:value="record.ChinhSach.HeSo" :step="0.01" class="w-100" />
                         </a-form-item>
@@ -58,7 +58,7 @@
                                         <template #title>
                                             <span>Thời hạn (theo giờ) để duyệt đề xuất</span>
                                         </template>
-                                        <uc-icon name="information" />
+                                        <uc-icon color="primary" name="information" />
                                     </a-tooltip>
                                 </span>
                             </template>
@@ -87,7 +87,7 @@
                                                 Để trống và nhân viên sẽ không tạo được đề xuất cho ngày trong quá khứ.
                                             </span>
                                         </template>
-                                        <uc-icon name="information" />
+                                        <uc-icon color="primary" name="information" />
                                     </a-tooltip>
                                 </span>
                             </template>
@@ -121,11 +121,16 @@
                 </a-row>
             </a-col>
 
-            <a-col class="border-start" :span="14">
+            <a-col class="border-start" :span="12">
                 <a-row :gutter="[10]">
 
                     <a-col :span="24" class="mb-3">
-                        <a-form-item label="Danh sách người quản lý" class="mb-2">
+                        <a-form-item>
+                            <a-checkbox class="mb-2" v-model:checked="record.ChinhSach.Is_QuanLyTrucTiep_Duyet">Cho phép
+                                quản lý
+                                duyệt
+                                trực
+                                tiếp.</a-checkbox>
                             <a-table size="small" :columns="columns.NguoiQuanLy" :pagination="false"
                                 :loading="states.isLoadingTableNGuoiQuanLy"
                                 :dataSource="record.dsNhanSu.filter(x => x.Is_NguoiDuyet === true)">
@@ -146,25 +151,25 @@
                                         <a-space size="small">
                                             <uc-avatar :src="record.AnhDaiDien_Url"
                                                 :text="record.HoVaTenNhanVien"></uc-avatar>
-
-                                            <b>{{ record.HoVaTenNhanVien }} </b> <br />
+                                            <b> {{ record.MaNhanVien }} - {{ record.HoVaTenNhanVien }}</b>
                                         </a-space>
                                     </template>
                                 </template>
                             </a-table>
+                            <div class="mt-2" >
+
+                                <a @click="onAddNguoiQuanLy(1)"><uc-icon name="plus" />Thêm người quản lý.</a>
+                            </div>
                         </a-form-item>
-                        <div class="d-flex d-flex-row justify-content-between align-items-center mb-3">
-                            <a-checkbox v-model:checked="record.ChinhSach.Is_QuanLyTrucTiep_Duyet">Cho phép quản lý
-                                duyệt
-                                trực
-                                tiếp.</a-checkbox>
-                            <a @click="onAddNguoiQuanLy(1)"><uc-icon name="plus" />Thêm người quản lý.</a>
-                        </div>
                     </a-col>
 
-                    <a-col :span="24" class="mb-3">
-                        <a-form-item label="Danh sách người theo dõi" class="mb-2">
-                            <a-table size="small" :columns="columns.NguoiQuanLy" :pagination="false"
+                    <a-col :span="24" class="my-3">
+                        <a-form-item>
+                            <a-checkbox class="mb-2" v-model:checked="record.ChinhSach.Is_QuanLyTrucTiep_TheoDoi">Cho
+                                phép quản lý
+                                trực tiếp
+                                theo dõi.</a-checkbox>
+                            <a-table size="small" :columns="columns.NguoiTheoDoi" :pagination="false"
                                 :loading="states.isLoadingTableNGuoiQuanLy"
                                 :dataSource="record.dsNhanSu.filter(x => x.Is_NguoiDuyet === false)">
                                 <template #emptyText>
@@ -183,31 +188,25 @@
                                         <a-space size="small">
                                             <uc-avatar :src="record.AnhDaiDien_Url"
                                                 :text="record.HoVaTenNhanVien"></uc-avatar>
-
-                                            <b>{{ record.HoVaTenNhanVien }} </b> <br />
+                                            <b> {{ record.MaNhanVien }} - {{ record.HoVaTenNhanVien }}</b>
                                         </a-space>
                                     </template>
                                 </template>
                             </a-table>
+                            <div class="mt-2" >
+                                <a @click="onAddNguoiQuanLy(0)"><uc-icon name="plus" />Thêm người theo dõi.</a>
+                            </div>
                         </a-form-item>
-                        <div class="d-flex d-flex-row justify-content-between align-items-center mb-3">
-                            <a-checkbox v-model:checked="record.ChinhSach.Is_QuanLyTrucTiep_TheoDoi">Cho phép quản lý
-                                trực tiếp
-                                theo dõi.</a-checkbox>
-                            <a @click="onAddNguoiQuanLy(0)"><uc-icon name="plus" />Thêm người theo dõi.</a>
-                        </div>
+
 
                     </a-col>
-                    <a-col :span="24">
+                    <a-col :span="24" class="mt-3">
                         <a-form-item label="">
-                            <a-checkbox v-model:checked="record.ChinhSach.Is_KhungGio">Yêu cầu đề xuất thời gian tăng
-                                ca trong
-                                khung giờ đã định nghĩa.</a-checkbox>
-                        </a-form-item>
-                    </a-col>
-                    <a-col :span="24" v-if="record.ChinhSach.Is_KhungGio">
-                        <a-form-item class="mb-2">
-                            <a-table size="small" :columns="columns.KhungGio" :dataSource="record.dsKhungGio"
+                            <a-checkbox class="mb-2" v-model:checked="record.ChinhSach.Is_KhungGio">Yêu cầu đề xuất thời
+                                gian tăng
+                                ca</a-checkbox>
+                            <a-table v-if="record.ChinhSach.Is_KhungGio" :loading="states.isLoadingTableKhungGio"
+                                size="small" :columns="columns.KhungGio" :dataSource="record.dsKhungGio"
                                 :pagination="false">
                                 <template #emptyText>
                                     <a-empty style="padding: 10px !important">
@@ -224,10 +223,10 @@
                                             </a>
                                             <template #overlay>
                                                 <a-menu>
-                                                    <a-menu-item @click="onEditKhungThoiGian(record, index)"><uc-icon
+                                                    <a-menu-item @click="onEditKhungThoiGian(record)"><uc-icon
                                                             class="text-primary" name="square-edit-outline" />Chỉnh
                                                         sửa</a-menu-item>
-                                                    <a-menu-item @click="onKhungThoiGianRemoveAt(index)"><uc-icon
+                                                    <a-menu-item @click="onKhungThoiGianRemoveAt(record)"><uc-icon
                                                             class="text-red" name="delete-outline" />Xoá</a-menu-item>
                                                 </a-menu>
                                             </template>
@@ -247,22 +246,24 @@
                                     </template>
                                 </template>
                             </a-table>
+
+                            <div class="mt-2" v-if="record.ChinhSach.Is_KhungGio">
+                                <a @click="states.isOpenModalAddKhungGio = true"><uc-icon name="plus" />Thêm khung
+                                    giờ.</a>
+                            </div>
                         </a-form-item>
-                        <div class="d-flex d-flex-row justify-content-between align-items-center mb-3">
-                            <b></b>
-                            <a @click="states.isOpenModalAddKhungGio = true"><uc-icon name="plus" />Thêm khung giờ.</a>
-                        </div>
+
                     </a-col>
+
                 </a-row>
             </a-col>
         </a-row>
 
         <uc-modal-edit-ot-add-khung-gio v-model:isOpen="states.isOpenModalAddKhungGio"
-            :ChinhSach_LamThem_Id="record.ChinhSach.ChinhSach_LamThem_Id"
-            @onFinish="onFinishAddKhungGio" />
+            :ChinhSach_LamThem_Id="record.ChinhSach.ChinhSach_LamThem_Id" @onFinish="onFinishAddKhungGio" />
         <uc-modal-edit-ot-edit-khung-gio :record="value.recordEditKhungThoiGian"
             :ChinhSach_LamThem_Id="record.ChinhSach.ChinhSach_LamThem_Id"
-            v-model:isOpen="states.isOpenModalEditKhungGio" @onFinish="onFinishEditKhungThoiGian" />
+            v-model:isOpen="states.isOpenModalEditKhungGio" @onFinish="onFinishAddKhungGio" />
 
         <uc-modal-edit-ot-add-nhan-su :Is_NguoiDuyet="value.typeDuyet"
             :ChinhSach_LamThem_Id="record.ChinhSach.ChinhSach_LamThem_Id"
@@ -313,13 +314,21 @@ export default {
                 ],
                 NguoiQuanLy: [
                     {
-                        title: 'Họ và tên',
+                        title: 'Họ và tên quản lý',
                         dataIndex: 'HoVaTenNhanVien',
                         key: 'HoVaTenNhanVien',
                     },
                     {
-                        title: 'Mã nhân viên',
-                        dataIndex: 'MaNhanVien',
+                        title: '',
+                        key: 'Action',
+                        align: 'center',
+                    },
+                ],
+                NguoiTheoDoi: [
+                    {
+                        title: 'Họ và tên người theo dõi',
+                        dataIndex: 'HoVaTenNhanVien',
+                        key: 'HoVaTenNhanVien',
                     },
                     {
                         title: '',
@@ -332,6 +341,8 @@ export default {
                 NhomChinhSach_LamThem_Id: [{ required: true, message: 'Vui lòng chọn nhóm chính sách', trigger: 'change' }],
                 TenChinhSach_LamThem: [{ required: true, message: 'Vui lòng nhập tên chính sách', trigger: 'change' }],
                 MaChinhSach_LamThem: [{ required: true, message: 'Vui lòng nhập mã chính sách', trigger: 'change' }],
+                MaHeSo: [{ required: true, message: 'Vui lòng nhập mã hệ số', trigger: 'change' }],
+                HeSo: [{ required: true, message: 'Vui lòng nhập hệ số', trigger: 'change' }],
             },
         }
     },
@@ -369,15 +380,27 @@ export default {
             })
             this.value.indexEdit = null
         },
-        onKhungThoiGianRemoveAt(index) {
-            this.formData.DS_KhungGio = this.formData.DS_KhungGio.filter((e) => i !== index)
+        onKhungThoiGianRemoveAt(record) {
+            Confirm.delete({
+                content: 'Bạn có chắc chắn muốn xoá khung giờ này không?',
+                onOk: async () => {
+                    const res = await chinhSachService.ChinhSach_LamThem_KhungGio_Delete({
+                        ChinhSach_LamThem_KhungGio_Id: record.ChinhSach_LamThem_KhungGio_Id
+                    })
+                    if (res) {
+                        this.onFinishAddKhungGio()
+                        this.$message.success('Xóa khung giờ thành công!')
+                    }
+                }
+
+            })
         },
-        onEditKhungThoiGian(record, index) {
+        onEditKhungThoiGian(record) {
             this.value.recordEditKhungThoiGian = Object.assign({}, record)
             this.value.recordEditKhungThoiGian.GioBatDau = dayjs(record.GioBatDau, 'HH:mm')
             this.value.recordEditKhungThoiGian.GioKetThuc = dayjs(record.GioKetThuc, 'HH:mm')
+            this.value.recordEditKhungThoiGian.Is_QuaDem = this.value.recordEditKhungThoiGian.Is_QuaDem ? 1 : 0
             this.states.isOpenModalEditKhungGio = true
-            this.value.indexEdit = index
         },
         async onFinishAddNguoiQuanLy() {
             this.states.isLoadingTableNGuoiQuanLy = true
@@ -391,11 +414,11 @@ export default {
             this.value.typeDuyet = null
         },
         async onFinishAddKhungGio() {
-            this.states.isLoadingTableNGuoiQuanLy = true
+            this.states.isLoadingTableKhungGio = true
             const resp = await chinhSachService.ChinhSach_LamThem_Select_By_Id({
                 ChinhSach_LamThem_Id: this.record.ChinhSach.ChinhSach_LamThem_Id,
             }).finally(() => {
-                this.states.isLoadingTableNGuoiQuanLy = false
+                this.states.isLoadingTableKhungGio = false
             })
             if (resp)
                 this.record.dsKhungGio = resp[1]
@@ -420,6 +443,7 @@ export default {
 
             })
         },
+
     },
 }
 </script>
