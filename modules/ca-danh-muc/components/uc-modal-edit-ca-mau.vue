@@ -147,10 +147,6 @@ export default {
                 ...$this.record,
                 GioBatDau: $this.record.GioBatDau.format('HH:mm'),
                 GioKetThuc: $this.record.GioKetThuc.format('HH:mm'),
-                BatDauCa_Som_Phut: $this.formData.BatDauCa_Som_Phut,
-                BatDauCa_Tre_Phut: $this.formData.BatDauCa_Tre_Phut,
-                KetThucCa_Som_Phut: $this.formData.KetThucCa_Som_Phut,
-                KetThucCa_Tre_Phut: $this.formData.KetThucCa_Tre_Phut,
             }
             ajaxCALL('/work/CA_CaMau_Update', params, (res) => {
                 $this.$message.success('Chỉnh sửa ca mẫu thành công!')

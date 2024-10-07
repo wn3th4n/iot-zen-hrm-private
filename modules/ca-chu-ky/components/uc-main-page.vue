@@ -32,7 +32,7 @@
                     </a-dropdown>
                 </a-flex>
                 <div class="d-flex flex-row">
-                    <div class="w-100">
+                    <div class="w-100" style="flex:4">
                         <div class="d-flex flex-row mt-10">
                             <div class="d-flex flex-column w-50">
                                 <b>Ngày bắt đầu</b>
@@ -61,10 +61,10 @@
                         </div>
                     </div>
                     <a-divider type="vertical" style="height: 230px; width: 4px" />
-                    <div class="w-100">
+                    <div class="w-100" style="flex:5">
                         <h3>Lịch làm việc</h3>
                         <uc-empty v-if="DSMauBangCong.filter((x) => x.LichLamViec_Id === chuKy.LichLamViec_Id).length == 0" />
-                        <a-list v-else item-layout="horizontal" :data-source="DSMauBangCong.filter((x) => x.LichLamViec_Id === chuKy.LichLamViec_Id)" size="small" style="height: 200px; max-height: 200px; overflow-y: auto">
+                        <a-list v-else class="ant-table-body" item-layout="horizontal" :data-source="DSMauBangCong.filter((x) => x.LichLamViec_Id === chuKy.LichLamViec_Id)" size="small" style="height: 200px; max-height: 200px; overflow-y: auto">
                             <template #renderItem="{ item }">
                                 <a-list-item>
                                     <template #actions>
@@ -83,10 +83,11 @@
                                     </template>
                                     <a-list-item-meta>
                                         <template #title>
-                                            <b class="cursor-pointer back-link-hover" @click="onRedirectLichLamViec(chuKy, item)">{{ item.TenMauBangCong }}</b>
-                                            <a-tag size="small" color="blue">
+                                            <a-tag size="small" :color="item.Is_CoDinh ? 'green' : 'blue'">
                                                 <small>{{ item.Is_CoDinh ? 'Cố định' : 'Theo ca' }}</small>
                                             </a-tag>
+                                            <b class="cursor-pointer back-link-hover" @click="onRedirectLichLamViec(chuKy, item)">{{ item.TenMauBangCong }}</b>
+                                           
                                         </template>
                                     </a-list-item-meta>
                                     <small v-if="item.Is_ChotCong" class="text-success">Đã chốt công</small>

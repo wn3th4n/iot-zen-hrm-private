@@ -39,7 +39,7 @@
                                         <template #title>
                                             <span>Thời hạn (theo giờ) để duyệt đề xuất</span>
                                         </template>
-                                        <uc-icon color="primary" name="information" />
+                                        <uc-icon color="primary" name="information-outline" />
                                     </a-tooltip>
                                 </span>
                             </template>
@@ -68,7 +68,7 @@
                                                 Để trống và nhân viên sẽ không tạo được đề xuất cho ngày trong quá khứ.
                                             </span>
                                         </template>
-                                        <uc-icon color="primary" name="information" />
+                                        <uc-icon color="primary" name="information-outline" />
                                     </a-tooltip>
                                 </span>
                             </template>
@@ -87,7 +87,7 @@
                                                 Giới hạn số ngày đề xuất nghỉ phép được tạo
                                             </span>
                                         </template>
-                                        <uc-icon color="primary" name="information" />
+                                        <uc-icon color="primary" name="information-outline" />
                                     </a-tooltip>
                                 </span>
                             </template>
@@ -121,7 +121,7 @@
 
                                         </template>
 
-                                        <uc-icon color="primary" name="information" />
+                                        <uc-icon color="primary" name="information-outline" />
                                     </a-tooltip>
                                 </span>
                             </template>
@@ -143,7 +143,7 @@
                                             </span>
                                             <br />
                                         </template>
-                                        <uc-icon color="primary" name="information" />
+                                        <uc-icon color="primary" name="information-outline" />
                                     </a-tooltip>
                                 </span>
                             </template>

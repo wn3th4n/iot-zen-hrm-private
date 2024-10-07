@@ -8,7 +8,7 @@
                 </a-space>
             </template>
         </a-card>
-        <a-table :columns="columns" :data-source="DSMauBangCong" size="small" :pagination="false" :scroll="{ y: 'calc(100vh - 95px)' }">
+        <a-table :columns="columns" :data-source="DSMauBangCong" size="small" :pagination="false" :scroll="{ x: 'fit-content', y: 'calc(100vh - 108px)' }">
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'Index'">
                     {{ DSMauBangCong.indexOf(record) + 1 }}
@@ -79,6 +79,7 @@ export default {
                     title: 'Tên văn phòng',
                     dataIndex: 'TenVanPhong',
                     key: 'TenVanPhong',
+                    width: '250px',
                 },
                 {
                     title: 'Tổng nhân sự',
