@@ -1,28 +1,28 @@
 <template>
-    <uc-form-modal :isOpen="isOpen" title="Thêm chính sách" :formData="formData" :rules="rules" @onClose="oncancel()"
-        @onSubmit="onsubmit()" :isSubmit="states.isLoadingModal" :width="1100">
-
+    <uc-form-modal :isOpen="isOpen" title="Sửa chính sách" :formData="record.ChinhSach" :rules="rules"
+        @onClose="oncancel()" @onSubmit="onsubmit()" :isSubmit="states.isLoadingModal" :width="1100">
         <a-row :gutter="[25]">
-            <a-col :span="12">
+            <a-col :span="14">
                 <a-row :gutter="[10]">
                     <a-col :span="24">
                         <a-form-item label="Tên chính sách" name="TenChinhSach_NghiPhep">
-                            <a-input v-model:value="formData.TenChinhSach_NghiPhep" />
+                            <a-input v-model:value="record.ChinhSach.TenChinhSach_NghiPhep" />
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="Mã chính sách" name="MaChinhSach_NghiPhep">
-                            <a-input v-model:value="formData.MaChinhSach_NghiPhep" />
+                            <a-input v-model:value="record.ChinhSach.MaChinhSach_NghiPhep" />
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="Nhóm nhân viên có quyền truy cập">
-                            <uc-select-nhom-nhan-vien v-model:value="formData.NhomNhanVien_Id" />
+                            <uc-select-nhom-nhan-vien v-model:value="record.ChinhSach.NhomNhanVien_Id" />
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="Loại phép" name="NhomChinhSach_NghiPhep_Id">
-                            <a-select placeholder="Chọn loại phép" v-model:value="formData.NhomChinhSach_NghiPhep_Id">
+                            <a-select placeholder="Chọn loại phép"
+                                v-model:value="record.ChinhSach.NhomChinhSach_NghiPhep_Id">
                                 <a-select-option v-for="item in dsNhomChinhSach"
                                     :value="item.NhomChinhSach_NghiPhep_Id">{{
                                         item.TenNhomChinhSach_NghiPhep }}
@@ -43,7 +43,7 @@
                                     </a-tooltip>
                                 </span>
                             </template>
-                            <a-input-number v-model:value="formData.GioiHan_GioDuyet" :min="0" class="w-100">
+                            <a-input-number v-model:value="record.ChinhSach.GioiHan_GioDuyet" :min="0" class="w-100">
                                 <template #addonAfter>Giờ</template>
                             </a-input-number>
                         </a-form-item>
@@ -72,7 +72,7 @@
                                     </a-tooltip>
                                 </span>
                             </template>
-                            <a-input-number v-model:value="formData.GioiHan_NgayDeXuat" class="w-100">
+                            <a-input-number v-model:value="record.ChinhSach.GioiHan_NgayDeXuat" class="w-100">
                                 <template #addonAfter>Ngày</template>
                             </a-input-number>
                         </a-form-item>
@@ -91,7 +91,7 @@
                                     </a-tooltip>
                                 </span>
                             </template>
-                            <a-select class="w-100" v-model:value="formData.Is_GioiHanNgayNghi">
+                            <a-select class="w-100" v-model:value="record.ChinhSach.Is_GioiHanNgayNghi">
                                 <a-select-option :value="0">Không giới hạn</a-select-option>
                                 <a-select-option :value="1">Tổng số phép không vượt quá số ngày phép còn
                                     lại</a-select-option>
@@ -125,7 +125,7 @@
                                     </a-tooltip>
                                 </span>
                             </template>
-                            <a-select class="w-100" v-model:value="formData.Is_BacBuocKhoanGioiHan">
+                            <a-select class="w-100" v-model:value="record.ChinhSach.Is_BacBuocKhoanGioiHan">
                                 <a-select-option :value="0">Không bắt buộc</a-select-option>
                                 <a-select-option :value="1">Bắt buộc</a-select-option>
                             </a-select>
@@ -147,7 +147,8 @@
                                     </a-tooltip>
                                 </span>
                             </template>
-                            <a-input-number v-model:value="formData.GioiHan_NgayNghi" :min="0" :max="15" class="w-100">
+                            <a-input-number v-model:value="record.ChinhSach.GioiHan_NgayNghi" :min="0" :max="15"
+                                class="w-100">
                                 <template #addonAfter>Ngày</template>
                             </a-input-number>
                         </a-form-item>
@@ -156,18 +157,19 @@
                         <a-form-item label="Sử dụng quỹ ngày nghỉ">
                             <a-row>
                                 <a-col :span="12">
-                                    <a-checkbox v-model:checked="formData.Is_QuyNghiBu">Quỹ nghỉ bù</a-checkbox>
+                                    <a-checkbox v-model:checked="record.ChinhSach.Is_QuyNghiBu">Quỹ nghỉ bù</a-checkbox>
                                 </a-col>
                                 <a-col :span="12">
-                                    <a-checkbox v-model:checked="formData.Is_QuyNghiPhep">Quỹ nghỉ phép</a-checkbox>
+                                    <a-checkbox v-model:checked="record.ChinhSach.Is_QuyNghiPhep">Quỹ nghỉ
+                                        phép</a-checkbox>
                                 </a-col>
                             </a-row>
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="Ưu tiên sử dụng quỹ ngày nghỉ" name="Is_GioiHanNgayNghi">
-                            <a-select allowClear class="w-100" v-model:value="formData.Is_UuTien_QuyNghiBu"
-                                :disabled="formData.Is_QuyNghiBu === false && formData.Is_QuyNghiPhep === false">
+                            <a-select allowClear class="w-100" v-model:value="record.ChinhSach.Is_UuTien_QuyNghiBu"
+                                :disabled="record.ChinhSach.Is_QuyNghiBu === false && record.ChinhSach.Is_QuyNghiPhep === false">
                                 <a-select-option :value="0">Quỹ nghỉ ngày</a-select-option>
                                 <a-select-option :value="1">Quỹ nghỉ bù</a-select-option>
                             </a-select>
@@ -175,17 +177,18 @@
                     </a-col>
                 </a-row>
             </a-col>
-            <a-col class="border-start" :span="12">
+
+            <a-col class="border-start" :span="10">
                 <a-row :gutter="[10]">
                     <a-col :span="24" class="mb-3">
                         <div class="mb-2 mt-3">
-                            <a-checkbox v-model:checked="formData.Is_QuanLyTrucTiep_Duyet">Cho phép quản lý duyệt
+                            <a-checkbox v-model:checked="record.ChinhSach.Is_QuanLyTrucTiep_Duyet">Cho phép quản lý
+                                duyệt
                                 trực
                                 tiếp.</a-checkbox>
                         </div>
                         <a-table :loading="states.isLoadingTableNGuoiQuanLy" size="small" :columns="columns.NguoiQuanLy"
-                            :pagination="false"
-                            :dataSource="formData.NguoiQuanLy_JSON.filter(x => x.Is_NguoiDuyet === 1)">
+                            :pagination="false" :dataSource="record.dsNhanSu.filter(x => x.Is_NguoiDuyet === true)">
                             <template #emptyText>
                                 <a-empty style="padding: 10px !important">
                                     <template #image>
@@ -215,17 +218,15 @@
                     </a-col>
 
                     <a-col :span="24" class="my-3">
-                        <template #label>
-                            <!-- <b>Danh sách người theo dõi</b> -->
-                        </template>
                         <div class="mb-2">
-                            <a-checkbox v-model:checked="formData.Is_QuanLyTrucTiep_TheoDoi">Cho phép quản lý trực
+                            <a-checkbox v-model:checked="record.ChinhSach.Is_QuanLyTrucTiep_TheoDoi">Cho phép quản lý
+                                trực
                                 tiếp theo
                                 dõi.</a-checkbox>
                         </div>
                         <a-table :loading="states.isLoadingTableNGuoiQuanLy" size="small"
                             :columns="columns.NguoiTheoDoi" :pagination="false"
-                            :dataSource="formData.NguoiQuanLy_JSON.filter(x => x.Is_NguoiDuyet === 0)">
+                            :dataSource="record.dsNhanSu.filter(x => x.Is_NguoiDuyet === false)">
                             <template #emptyText>
                                 <a-empty style="padding: 10px !important">
                                     <template #image><uc-icon name="inbox" color="muted" size="25" /></template>
@@ -253,15 +254,24 @@
                     </a-col>
                     <a-col :span="24" class="mt-3">
                         <a-form-item label="Mô tả">
-                            <a-textarea v-model:value="formData.MoTa" class="w-100" />
+                            <a-textarea v-model:value="record.ChinhSach.MoTa" class="w-100" />
+                        </a-form-item>
+                    </a-col>
+                    <a-col :span="8">
+                        <a-form-item label="Tạm khoá">
+                            <a-select v-model:value="record.ChinhSach.Is_TamKhoa">
+                                <a-select-option :value="0">Không</a-select-option>
+                                <a-select-option :value="1">Tạm khoá</a-select-option>
+                            </a-select>
                         </a-form-item>
                     </a-col>
                 </a-row>
             </a-col>
         </a-row>
 
-        <uc-modal-add-ot-add-nguoi-quan-ly v-model:isOpen="states.isOpenModalAddNguoiQuanLy"
-            @onFinish="onFinishAddNguoiQuanLy" />
+        <uc-modal-edit-to-add-nhan-su :Is_NguoiDuyet="value.typeDuyet"
+            :ChinhSach_NghiPhep_Id="record.ChinhSach.ChinhSach_NghiPhep_Id"
+            v-model:isOpen="states.isOpenModalAddNguoiQuanLy" @onFinish="onFinishAddNguoiQuanLy" />
 
     </uc-form-modal>
 </template>
@@ -269,7 +279,7 @@
 <script>
 export default {
     emits: ['onFinish', 'update:isOpen'],
-    props: ['isOpen', 'dsNhomChinhSach'],
+    props: ['isOpen', 'record', 'dsNhomChinhSach'],
     data() {
         return {
             states: {
@@ -282,42 +292,6 @@ export default {
                 indexEdit: null,
                 typeDuyet: null,
                 recordNguoiQuanLy: {},
-            },
-            formData: {
-                NhomChinhSach_NghiPhep_Id: null,
-                NhomNhanVien_Id: null,
-                TenChinhSach_NghiPhep: null,
-                MaChinhSach_NghiPhep: null,
-                MoTa: null,
-                GioiHan_GioDuyet: 0,
-                GioiHan_NgayDeXuat: 0,
-                GioiHan_NgayNghi: null,
-                Is_QuanLyTrucTiep_Duyet: false,
-                Is_QuanLyTrucTiep_TheoDoi: false,
-                Is_GioiHanNgayNghi: 0,
-                Is_QuyNghiBu: false,
-                Is_QuyNghiPhep: false,
-                Is_UuTien_QuyNghiBu: undefined,
-                Is_BacBuocKhoanGioiHan: 0,
-                NguoiQuanLy_JSON: []
-            },
-            dataDefault: {
-                NhomChinhSach_NghiPhep_Id: null,
-                NhomNhanVien_Id: null,
-                TenChinhSach_NghiPhep: null,
-                MaChinhSach_NghiPhep: null,
-                MoTa: null,
-                GioiHan_GioDuyet: 0,
-                GioiHan_NgayDeXuat: 0,
-                GioiHan_NgayNghi: null,
-                Is_QuanLyTrucTiep_Duyet: false,
-                Is_QuanLyTrucTiep_TheoDoi: false,
-                Is_GioiHanNgayNghi: 0,
-                Is_QuyNghiBu: false,
-                Is_QuyNghiPhep: false,
-                Is_UuTien_QuyNghiBu: undefined,
-                Is_BacBuocKhoanGioiHan: 0,
-                NguoiQuanLy_JSON: []
             },
             columns: {
                 NguoiQuanLy: [
@@ -352,6 +326,12 @@ export default {
             },
         }
     },
+    watch: {
+
+    },
+    async created() {
+
+    },
     methods: {
         oncancel() {
             this.$emit('update:isOpen', false)
@@ -359,59 +339,53 @@ export default {
         },
         async onsubmit() {
             this.states.isLoadingModal = true
+
             const params = {
-                ...this.formData,
-                Is_GioiHanNgayNghi: this.formData.Is_GioiHanNgayNghi ? 1 : 0,
-                Is_QuyNghiBu: this.formData.Is_QuyNghiBu ? 1 : 0,
-                Is_QuyNghiPhep: this.formData.Is_QuyNghiPhep ? 1 : 0,
-                GioiHan_NgayNghi: this.formData.GioiHan_NgayNghi ?? 0,
-                Is_UuTien_QuyNghiBu: this.formData.Is_UuTien_QuyNghiBu ? 1 : 0,
-                Is_QuanLyTrucTiep_Duyet: this.formData.Is_QuanLyTrucTiep_Duyet ? 1 : 0,
-                Is_QuanLyTrucTiep_TheoDoi: this.formData.Is_QuanLyTrucTiep_TheoDoi ? 1 : 0,
-                NguoiQuanLy_JSON: JSON.stringify(this.formData.NguoiQuanLy_JSON) ?? 0,
+                ...this.record.ChinhSach,
+                Is_QuanLyTrucTiep_Duyet: this.record.Is_QuanLyTrucTiep_Duyet ? 1 : 0,
+                Is_QuanLyTrucTiep_TheoDoi: this.record.Is_QuanLyTrucTiep_TheoDoi ? 1 : 0,
+                Is_QuyNghiBu: this.record.Is_QuyNghiBu ? 1 : 0,
+                Is_QuyNghiPhep: this.record.Is_QuyNghiPhep ? 1 : 0,
+                Is_TamKhoa: this.record.Is_TamKhoa ? 1 : 0,
             }
-            const res = await chinhSachService.ChinhSach_NghiPhep_Insert(params).finally(() => {
+
+            const res = await chinhSachService.ChinhSach_NghiPhep_Update(params).finally(() => {
                 this.states.isLoadingModal = false
             })
             if (res) {
                 this.oncancel()
                 this.$emit('onFinish')
-                this.$message.success('Thêm chính sách thành công!')
+                this.$message.success('Sửa chính sách thành công!')
             }
         },
-
-        async onFinishAddNguoiQuanLy(record) {
+        async onFinishAddNguoiQuanLy() {
             this.states.isLoadingTableNGuoiQuanLy = true
-            const isSelect = await nhanVienService
-                .NhanVien_Select_By_Id({
-                    NhanVien_Id: record.NguoiQuanLy_Id,
-                })
-                .finally(() => {
-                    this.states.isLoadingTableNGuoiQuanLy = false
-                })
-
-            if (isSelect) {
-                const temp = {
-                    ...record,
-                    Is_NguoiDuyet: this.value.typeDuyet ?? 0,
-                    ThuTu: record.ThuTu ?? 0,
-                    HoVaTenNhanVien: isSelect.ThongTinNhanSu.HoVaTenNhanVien,
-                    urlAvatar: isSelect.ThongTinNhanSu.AnhDaiDien_Url,
-                    MaNhanVien: isSelect.ThongTinNhanSu.MaNhanVien,
-                }
-                this.formData.NguoiQuanLy_JSON.push(temp)
-            }
-
-            this.value.typeDuyet = null
+            const resp = await chinhSachService.ChinhSach_NghiPhep_Select_By_Id({
+                ChinhSach_NghiPhep_Id: this.record.ChinhSach.ChinhSach_NghiPhep_Id,
+            }).finally(() => {
+                this.states.isLoadingTableNGuoiQuanLy = false
+                this.value.typeDuyet = null
+            })
+            if (resp)
+                this.record.dsNhanSu = resp[1]
         },
         onAddNguoiQuanLy(type) {
             this.states.isOpenModalAddNguoiQuanLy = true
             this.value.typeDuyet = type
         },
         onRemoveNguoiQuanLyAt(rc) {
-            this.states.isLoadingTableNGuoiQuanLy = true
-            this.formData.NguoiQuanLy_JSON = this.formData.NguoiQuanLy_JSON.filter((i) => i.HoVaTenNhanVien !== rc.HoVaTenNhanVien)
-            this.states.isLoadingTableNGuoiQuanLy = false
+            Confirm.delete({
+                content: 'Bạn có chắc chắn muốn xóa nhân sự này không?',
+                onOk: async () => {
+                    const res = await chinhSachService.ChinhSach_NghiPhep_NguoiQuanLy_Delete({
+                        ChinhSach_NghiPhep_NguoiQuanLy_Id: rc.ChinhSach_NghiPhep_NguoiQuanLy_Id
+                    })
+                    if (res) {
+                        this.onFinishAddNguoiQuanLy()
+                        this.$message.success('Xóa người nhân sự thành công!')
+                    }
+                }
+            })
         },
     },
 }

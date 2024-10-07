@@ -1,6 +1,6 @@
 <template>
     <uc-form-modal v-model:isOpen="isOpen" ref="refFormModal" title="Thêm đề xuất" :formData="form" :rules="rules"
-        :width="600" @onSubmit="onFinish" :isSubmit="isLoading" @onClose="handleCancel()">
+        :width="530" @onSubmit="onFinish" :isSubmit="isLoading" @onClose="handleCancel()">
         <a-row :gutter="[10]">
             <a-col :span="24">
                 <a-tag style="font-size: 14px; line-height: 2" :bordered="false" color="warning" class="w-100 py-3">[Bắt
@@ -15,13 +15,23 @@
                     <span>* Ngoài thời gian trên, sẽ không tạo được đề xuất và sẽ không tính công.</span>
                 </a-tag>
             </a-col>
-            <a-col :span="10" class="mt-3">
+            <a-col :span="12" class="mt-3">
+                <a-form-item label="Tên nhóm chính sách đề xuất" name="TenNhomChinhSach">
+                    <a-input v-model:value="recordChinhSach.ChinhSach.TenNhomChinhSach_LamThem" disabled/>
+                </a-form-item>
+            </a-col>
+            <a-col :span="12" class="mt-3">
+                <a-form-item label="Tên chính sách đề xuất" name="TenChinhSach">
+                    <a-input v-model:value="recordChinhSach.ChinhSach.TenChinhSach_LamThem" disabled/>
+                </a-form-item>
+            </a-col>
+            <a-col :span="24">
                 <a-form-item label="Tiêu đề" name="TieuDe">
                     <a-input v-model:value="form.TieuDe" />
                 </a-form-item>
             </a-col>
-            <a-col :span="14" class="mt-3">
-                <a-form-item label="Người thực thi" name="NhanVien_Id">
+            <a-col :span="24">
+                <a-form-item label="Người đề xuất" name="NhanVien_Id">
                     <uc-select-nhan-vien v-model:value="form.NhanVien_Id" />
                 </a-form-item>
             </a-col>
@@ -42,13 +52,13 @@
             </a-col>
 
             <a-col :span="24" class="mt-2">
-                <a-table :data-source="DSNguoiQuanLy" :columns="columnsDSNguoiQuanLy" size="small" :pagination="false">
+                <a-table :data-source="recordChinhSach.dsNhanSu" :columns="columnsDSNguoiQuanLy" size="small" :pagination="false">
                     <template #bodyCell="{ column, record }">
                         <template v-if="column.key === 'Is_NguoiDuyet'">
-                            <uc-icon v-if="record.Is_NguoiDuyet" name="check" color="success" />
+                            <uc-icon v-if="record.Is_NguoiDuyet" name="check-outline" color="success" />
                         </template>
                         <template v-else-if="column.key === 'Action'">
-                            <uc-icon name="delete-outline" color="red" />
+                            <uc-icon name="delete-outline" color="red" @click="onRemoveNQL(record)"/>
                         </template>
                     </template>
                 </a-table>
@@ -57,7 +67,7 @@
                         quản lý</a-button>
                 </div>
                 <uc-form-modal :isOpen="isShowModalNQL" ref="refFormModalNQL" title="Thêm người quản lý"
-                    :formData="formNQL" :rules="rulesNQL" :width="600" @onSubmit="onFinishNQL" :isSubmit="isLoadingNQL"
+                    :formData="formNQL" :rules="rulesNQL" :width="450" @onSubmit="onFinishNQL" :isSubmit="isLoadingNQL"
                     @onClose="handleCancelNQL()">
                     <a-row :gutter="[10]">
                         <a-col :span="24">
@@ -88,33 +98,47 @@
                         <template v-if="column.key === 'Is_QuaDem'">
                             <uc-icon v-if="record.Is_QuaDem" name="check" color="green" />
                         </template>
+                        <template v-else-if="column.key === 'HoVaTenNhanVien'">
+                            <span>{{ record.MaNhanVien }} - {{ record.HoVaTenNhanVien }}</span>
+                        </template>
                         <template v-else-if="column.key === 'Action'">
                             <uc-icon name="delete-outline" color="red" />
                         </template>
                     </template>
                 </a-table>
                 <div class="mt-2">
-                    <a-button type="link" class="ps-0" @click="onOpenModalAddTGTC"><uc-icon name="plus" /> Thêm thời
-                        gian tăng
+                    <a-button type="link" class="ps-0" @click="onOpenModalAddTGTC"><uc-icon name="plus" /> Chọn ngày tăng
                         ca</a-button>
                 </div>
                 <uc-form-modal :isOpen="isShowModalTGTC" ref="refFormModalTGTC" title="Thêm thời gian tăng ca"
-                    :formData="formTGTC" :rules="rulesTGTC" :width="600" @onSubmit="onFinishTGTC"
+                    :formData="formTGTC" :rules="rulesTGTC" :width="450" @onSubmit="onFinishTGTC"
                     :isSubmit="isLoadingTGTC" @onClose="handleCancelTGTC()">
                     <a-row :gutter="[10]">
                         <a-col :span="24">
-                            <a-form-item label="Thời gian tăng ca">
+                            <a-form-item label="Chọn ngày tăng ca">
                                 <a-date-picker v-model:value="formTGTC.NgayLamThem" format="DD/MM/YYYY" class="w-100" />
                             </a-form-item>
                         </a-col>
-                        <a-col :span="12">
-                            <a-form-item label="Giờ bắt đầu">
-                                <a-time-picker v-model:value="formTGTC.GioBatDau" format="HH:mm" class="w-100" />
+                        <a-col :span="24">
+                            <a-form-item label="">
+                                <a-checkbox v-model:checked="isCheck">Chọn khung giờ đã định nghĩa trước</a-checkbox>
                             </a-form-item>
                         </a-col>
-                        <a-col :span="12">
+                        <a-col :span="12" v-if="isCheck">
+                            <a-form-item label="Khung giờ đã định nghĩa" >
+                                <a-select v-model:value="formTGTC">
+                                  <a-select-option v-for="item in recordChinhSach.DSKhungGio" :value="{GioBatDau: item.GioBatDau, GioKetThuc: item.GioKetThuc}">{{ item.GioBatDau }} - {{ item.GioKetThuc }}</a-select-option>
+                                </a-select>
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12" v-if="!isCheck">
+                            <a-form-item label="Giờ bắt đầu">
+                                <a-time-picker  v-model:value="formTGTC.GioBatDau" format="HH:mm" :minuteStep="5" class="w-100" />
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12" v-if="!isCheck">
                             <a-form-item label="Giờ kết thúc">
-                                <a-time-picker v-model:value="formTGTC.GioKetThuc" format="HH:mm" class="w-100" />
+                                <a-time-picker  v-model:value="formTGTC.GioKetThuc" format="HH:mm" :minuteStep="5" class="w-100" />
                             </a-form-item>
                         </a-col>
                         <a-col :span="24">
@@ -131,7 +155,7 @@
 <script>
 export default {
     emits: ['onFinish'],
-    props: ['isOpen', 'recordChinhSachLamThem'],
+    props: ['isOpen', 'recordChinhSach'],
     data() {
         return {
             keyword: '',
@@ -143,6 +167,7 @@ export default {
             isLoadingTGTC: false,
             isShowModalNQL: false,
             isLoadingNQL: false,
+            isCheck: false,
             form: {
                 ChinhSach_LamThem_Id: null,
                 NhanVien_Id: null,
@@ -207,8 +232,8 @@ export default {
             ],
             columnsDSNguoiQuanLy: [
                 {
-                    title: 'Người quản lý',
-                    dataIndex: 'TenNhanVien',
+                    title: 'Họ và tên quản lý',
+                    dataIndex: 'HoVaTenNhanVien',
                 },
                 {
                     title: 'Người duyệt',
@@ -230,6 +255,12 @@ export default {
     mounted() { },
     computed: {},
     watch: {
+        isOpen: {
+            immediate: true,
+            handler() {
+               
+            },
+        },
     },
     methods: {
         handleCancel() {
@@ -239,7 +270,7 @@ export default {
         async onFinish() {
             let NguoiQuanLy_JSON = JSON.stringify(this.DSNguoiQuanLy.map(x => { return { NguoiQuanLy_Id: x.NguoiQuanLy_Id, Is_NguoiDuyet: x.Is_NguoiDuyet } }))
             let KhungGio_JSON = JSON.stringify(this.DSKhungGio)
-            let ChinhSach_LamThem_Id = this.recordChinhSachLamThem.ChinhSach_LamThem_Id
+            let ChinhSach_LamThem_Id = this.recordChinhSach.ChinhSach_LamThem_Id
             let params = { ...this.form, KhungGio_JSON: KhungGio_JSON, ChinhSach_LamThem_Id: ChinhSach_LamThem_Id, NguoiQuanLy_JSON }
             const $this = this
             const res = await deXuatLamThemService.DeXuat_LamThem_Insert(params)
@@ -264,16 +295,29 @@ export default {
         onOpenModalAddTGTC() {
             this.isShowModalTGTC = true
         },
+        onRemoveNQL(rc) {
+            this.recordChinhSach.dsNhanSu = this.recordChinhSach.dsNhanSu.filter((i) => i.HoVaTenNhanVien !== rc.HoVaTenNhanVien)
+        },
+        async onFinishNQL() {
+            const isSelect = await nhanVienService
+                .NhanVien_Select_By_Id({
+                    NhanVien_Id: this.formNQL.NguoiQuanLy_Id,
+                })
+                .finally(() => {
+                    this.isShowModalNQL = false
+                })
 
-        onFinishNQL() {
-            let obj = this.DSNhanVien.find(x => x.NhanVien_Id === this.formNQL.NguoiQuanLy_Id)
-            this.formNQL.TenNhanVien = obj.TenNhanVien
-            this.DSNguoiQuanLy.push(this.formNQL)
-
-            console.log('this.DSNguoiQuanLy', this.DSNguoiQuanLy)
-            this.formNQL = Object.assign({}, this.formNQL_Default)
-            this.isShowModalNQL = false
-
+            if (isSelect) {
+                const temp = {
+                    ... this.formNQL,
+                    Is_NguoiDuyet: this.formNQL.Is_NguoiDuyet ?? 0,
+                    HoVaTenNhanVien: isSelect.ThongTinNhanSu.HoVaTenNhanVien,
+                    urlAvatar: isSelect.ThongTinNhanSu.AnhDaiDien_Url,
+                    MaNhanVien: isSelect.ThongTinNhanSu.MaNhanVien,
+                }
+                this.recordChinhSach.dsNhanSu .push(temp)
+                this.formNQL = Object.assign({}, this.formNQL_Default)
+            }
         },
         handleCancelNQL() {
             this.isShowModalNQL = false

@@ -119,29 +119,30 @@
 				}
 			},
 			
-	        validateTemplate() {
-	            const $this = this
-	            let isError = false
-	            for (let i = 0; i <= $this.dsNhanVien.length; i++) {
-	                const item = $this.dsNhanVien[i]
-	                for (var key in item) {
-	                    const wordCheck = item[key]
-	                    if (key.includes('Ngay_') && wordCheck) {
-	                        // const isCheckLength = wordCheck.length !== 11
-	                        const isCheckSubtractTime = !wordCheck.includes('-')
-	                        // if (isCheckLength) {
-	                        //     $this.$message.error(`Giá trị ở dòng ${i + 1} và cột ${key} ko đủ độ đài`)
-	                        //     isError = true
-	                        // }
-	                        if (isCheckSubtractTime) {
-	                            $this.$message.error(`Giá trị ở dòng ${i + 1} và cột ${key} phải có dấu '-' ngăn cách giờ`)
-	                            isError = true
-	                        }
-	                    }
-	                }
-	            }
-	            return isError
-	        },
+			// Bỏ ràn buộc
+	        // validateTemplate() {
+	        //     const $this = this
+	        //     let isError = false
+	        //     for (let i = 0; i <= $this.dsNhanVien.length; i++) {
+	        //         const item = $this.dsNhanVien[i]
+	        //         for (var key in item) {
+	        //             const wordCheck = item[key]
+	        //             if (key.includes('Ngay_') && wordCheck) {
+	        //                 // const isCheckLength = wordCheck.length !== 11
+	        //                 const isCheckSubtractTime = !wordCheck.includes('-')
+	        //                 // if (isCheckLength) {
+	        //                 //     $this.$message.error(`Giá trị ở dòng ${i + 1} và cột ${key} ko đủ độ đài`)
+	        //                 //     isError = true
+	        //                 // }
+	        //                 if (isCheckSubtractTime) {
+	        //                     $this.$message.error(`Giá trị ở dòng ${i + 1} và cột ${key} phải có dấu '-' ngăn cách giờ`)
+	        //                     isError = true
+	        //                 }
+	        //             }
+	        //         }
+	        //     }
+	        //     return isError
+	        // },
 
 	        async getTemplate() {
 	            const $this = this
@@ -168,7 +169,7 @@
 	        async onSave() {
 	            const $this = this
 	            if ($this.isViewedTemplate) return
-	            if ($this.validateTemplate()) return
+	            //if ($this.validateTemplate()) return //Bỏ ràng buộc
 	
 	            const cloneNhanVien = [...$this.dsNhanVien]
 	            const newdsNhanVien = []

@@ -2391,13 +2391,23 @@ const chinhSachService = {
             return []
         }
     },
-    ChinhSach_NghiPhep_Select_By_Id: async () => {
-        const res = await apiUtilWork.TO('ChinhSach_NghiPhep_Select_By_Id')
+    ChinhSach_NghiPhep_Select_By_Id: async (params) => {
+        const res = await apiUtilWork.TO('ChinhSach_NghiPhep_Select_By_Id',params)
         if (res.data) {
             return res.data
         } else {
             return []
         }
+    },
+    ChinhSach_NghiPhep_Insert: async (params) => {
+        // @ChinhSach_NghiPhep_Id INT,
+        // @MoTa NVARCHAR(500),
+        // @Is_TamKhoa BIT
+        const res = await apiUtilWork.TO('ChinhSach_NghiPhep_Insert', params)
+        if (res) {
+            return true
+        }
+        return false
     },
     ChinhSach_NghiPhep_Update: async (params) => {
         // @ChinhSach_NghiPhep_Id INT,

@@ -1,8 +1,8 @@
 <template>
     <uc-form-modal :isOpen="isOpen" title="Sửa chính sách" :formData="record.ChinhSach" :rules="rules"
-        @onClose="oncancel()" @onSubmit="onsubmit()" :isSubmit="states.isLoadingModal" :width="1000">
+        @onClose="oncancel()" @onSubmit="onsubmit()" :isSubmit="states.isLoadingModal" :width="900">
         <a-row :gutter="[25]">
-            <a-col :span="12">
+            <a-col :span="14">
                 <a-row :gutter="[10]">
                     <a-col :span="24">
                         <a-form-item label="Tên chính sách" name="TenChinhSach_LamThem">
@@ -16,7 +16,7 @@
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="Loại ngày áp dụng chính sách">
-                            <a-select v-model:value="record.ChinhSach.LoaiNgayApDung">
+                            <a-select placeholder="Chọn ngày áp dụng" v-model:value="record.ChinhSach.LoaiNgayApDung">
                                 <a-select-option :value="1">Tất cả</a-select-option>
                                 <a-select-option :value="2">Ngày đi làm</a-select-option>
                                 <a-select-option :value="3">Ngày nghỉ hằng tuần</a-select-option>
@@ -24,9 +24,9 @@
                             </a-select>
                         </a-form-item>
                     </a-col>
-                    <a-col :span="12">
+                    <a-col :span="12" >
                         <a-form-item label="Nhóm chính sách" name="NhomChinhSach_LamThem_Id">
-                            <a-select v-model:value="record.ChinhSach.NhomChinhSach_LamThem_Id">
+                            <a-select placeholder="Chọn nhóm chính sách" v-model:value="record.ChinhSach.NhomChinhSach_LamThem_Id">
                                 <a-select-option v-for="item in record.NhomChinhSach"
                                     :value="item.NhomChinhSach_LamThem_Id">{{
                                         item.TenNhomChinhSach_LamThem }}
@@ -51,7 +51,7 @@
                     </a-col>
 
                     <a-col :span="12">
-                        <a-form-item>
+                        <a-form-item name="GioiHan_GioDuyet">
                             <template #label>
                                 <span>Thời hạn để duyệt
                                     <a-tooltip placement="topRight">
@@ -68,7 +68,7 @@
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
-                        <a-form-item>
+                        <a-form-item name ="GioiHan_NgayDeXuat">
                             <template #label>
                                 <span>Khoảng ngày giới hạn
                                     <a-tooltip placement="topRight">
@@ -97,7 +97,7 @@
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
-                        <a-form-item label="Giới hạn giờ tăng ca trong ngày">
+                        <a-form-item label="Giới hạn giờ tăng ca trong ngày" name="GioiHan_GioTangCa_Ngay">
                             <a-input-number v-model:value="record.ChinhSach.GioiHan_GioTangCa_Ngay" :min="0"
                                 class="w-100">
                                 <template #addonAfter>Giờ</template>
@@ -105,7 +105,7 @@
                         </a-form-item>
                     </a-col>
                     <a-col :span="12">
-                        <a-form-item label="Giới hạn giờ tăng ca trong chu kỳ">
+                        <a-form-item label="Giới hạn giờ tăng ca trong chu kỳ" name="GioiHan_GioTangCa_ChuKy">
                             <a-input-number v-model:value="record.ChinhSach.GioiHan_GioTangCa_ChuKy" :min="0"
                                 class="w-100">
                                 <template #addonAfter>Giờ</template>
@@ -117,11 +117,18 @@
                             <a-textarea v-model:value="record.ChinhSach.MoTa" class="w-100" />
                         </a-form-item>
                     </a-col>
-
+                    <a-col :span="8">
+                        <a-form-item label="Tạm khoá">
+                            <a-select  v-model:value="record.ChinhSach.Is_TamKhoa">
+                                <a-select-option :value="0">Không</a-select-option>
+                                <a-select-option :value="1">Tạm khoá</a-select-option>
+                            </a-select>
+                        </a-form-item>
+                    </a-col>
                 </a-row>
             </a-col>
 
-            <a-col class="border-start" :span="12">
+            <a-col class="border-start" :span="10">
                 <a-row :gutter="[10]">
 
                     <a-col :span="24" class="mb-3">
@@ -343,6 +350,10 @@ export default {
                 MaChinhSach_LamThem: [{ required: true, message: 'Vui lòng nhập mã chính sách', trigger: 'change' }],
                 MaHeSo: [{ required: true, message: 'Vui lòng nhập mã hệ số', trigger: 'change' }],
                 HeSo: [{ required: true, message: 'Vui lòng nhập hệ số', trigger: 'change' }],
+                GioiHan_NgayDeXuat: [{ required: true, message: 'Vui lòng nhập thời hạn ngày duyệt', trigger: 'change' }],
+                GioiHan_GioDuyet: [{ required: true, message: 'Vui lòng nhập ngày giới hạn để duyệt', trigger: 'change' }],
+                GioiHan_GioTangCa_Ngay: [{ required: true, message: 'Vui lòng nhập giới hạn giờ tăng ca trong ngày', trigger: 'change' }],
+                GioiHan_GioTangCa_ChuKy: [{ required: true, message: 'Vui lòng nhập giới hạn giờ tăng ca trong chu kỳ', trigger: 'change' }],
             },
         }
     },
@@ -360,7 +371,9 @@ export default {
         async onsubmit() {
             this.states.isLoadingModal = true
 
-            const params = { ...this.record.ChinhSach }
+            const params = { 
+                ...this.record.ChinhSach
+            }
 
             const res = await chinhSachService.ChinhSach_LamThem_Update(params).finally(() => {
                 this.states.isLoadingModal = false
@@ -370,15 +383,6 @@ export default {
                 this.$emit('onFinish')
                 this.$message.success('Sửa chính sách thành công!')
             }
-        },
-
-        onFinishEditKhungThoiGian(record) {
-            this.formData.DS_KhungGio = this.formData.DS_KhungGio.map((e, idx) => {
-                if (idx === this.value.indexEdit) {
-                    return (e = record)
-                }
-            })
-            this.value.indexEdit = null
         },
         onKhungThoiGianRemoveAt(record) {
             Confirm.delete({
@@ -422,7 +426,6 @@ export default {
             })
             if (resp)
                 this.record.dsKhungGio = resp[1]
-
         },
         onAddNguoiQuanLy(type) {
             this.states.isOpenModalAddNguoiQuanLy = true
@@ -430,20 +433,18 @@ export default {
         },
         onRemoveNguoiQuanLyAt(rc) {
             Confirm.delete({
-                content: 'Bạn có chắc chắn muốn xóa người quản lý này không?',
+                content: 'Bạn có chắc chắn muốn xóa nhân sự này không?',
                 onOk: async () => {
                     const res = await chinhSachService.ChinhSach_LamThem_NguoiQuanLy_Delete({
                         ChinhSach_LamThem_NguoiQuanLy_Id: rc.ChinhSach_LamThem_NguoiQuanLy_Id
                     })
                     if (res) {
                         this.onFinishAddNguoiQuanLy()
-                        this.$message.success('Xóa người quản lý thành công!')
+                        this.$message.success('Xóa nhân sự thành công!')
                     }
                 }
-
             })
         },
-
     },
 }
 </script>

@@ -22,11 +22,8 @@
                 <uc-container :width="900">
                     <a-collapse expand-icon-position="left" class="bg-white">
                         <a-collapse-panel v-for="item in values.dsNhomChinhSach" :key="item.NhomChinhSach_LamThem_Id">
-
                             <template #header>
                                 <b>{{ item.TenNhomChinhSach_LamThem }}</b>
-                                <br />
-                                {{ item.MoTa }}
                             </template>
                             <a-table :columns="columns.ChinhSach"
                                 :dataSource="values.dsChinhSach.filter((i) => { return i.NhomChinhSach_LamThem_Id === item.NhomChinhSach_LamThem_Id })"
@@ -35,7 +32,7 @@
                                     <template v-if="column.key === 'stt'">
                                         <span>{{ index + 1 }}</span>
                                     </template>
-                                    <template v-else-if="column.key === 'Is_TamKhoa'">
+                                    <template v-else-if="column.key === 'trangthai'">
                                         <uc-icon v-if="record.Is_TamKhoa" class="text-red" name="lock-outline" />
                                     </template>
                                     <template v-else-if="column.key === 'Action'">
@@ -161,7 +158,7 @@ export default {
                         dataIndex: 'MoTa',
                     },
                     {
-                        title: 'Trạng thái',
+                        title: 'Tạm khoá',
                         dataIndex: 'Is_TamKhoa',
                         key: 'trangthai',
                         align: 'center',
@@ -185,7 +182,7 @@ export default {
                         key: 'tennhomchinhsach',
                     },
                     {
-                        title: 'Trạng thái',
+                        title: 'Tạm khoá',
                         dataIndex: 'Is_TamKhoa',
                         key: 'Is_TamKhoa',
                         align: 'center',
@@ -201,7 +198,8 @@ export default {
         }
     },
     mounted() {
-        this.loadData()
+        this.loadDSChinhSach()
+        this.loadDSNhomChinhSach()
     },
     methods: {
         async loadDSNhomChinhSach() {
@@ -219,10 +217,6 @@ export default {
             if (res) {
                 this.values.dsChinhSach = res
             }
-        },
-        loadData() {
-            this.loadDSChinhSach()
-            this.loadDSNhomChinhSach()
         },
         onEditNhomChinhSach(record) {
             this.values.record.NhomChinhSach = Object.assign({}, record)
@@ -254,9 +248,9 @@ export default {
 
             if (resp) {
                 this.values.record.ChinhSach = Object.assign({}, resp[0][0])
-                this.values.record.dsKhungGio = resp[1]
-                this.values.record.dsNhanSu = resp[2]
-                console.log(this.values.record)
+                this.values.record.ChinhSach.Is_TamKhoa = resp[0][0].Is_TamKhoa === true ? 1 : 0
+                this.values.record.dsKhungGio = Object.assign([], resp[1])
+                this.values.record.dsNhanSu = Object.assign([], resp[2])
             }
 
 
@@ -269,7 +263,7 @@ export default {
                         ChinhSach_LamThem_Id: record.ChinhSach_LamThem_Id,
                     })
                     if (res) {
-                        this.$message.success(`Xóa nhóm chính sách ${record.TenChinhSach_LamThem}!`)
+                        this.$message.success(`Đã xóa chính sách thành công!`)
                         this.loadDSChinhSach()
                     }
                 },

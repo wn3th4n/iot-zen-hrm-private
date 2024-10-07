@@ -17,7 +17,7 @@
                                 {{ item.MoTa }}
                             </template>
                             <a-table :columns="columns.ChinhSach"
-                                :dataSource="values.dsChinhSach.filter((i) => { return i.NhomChinhSach_LamThem_Id === item.NhomChinhSach_LamThem_Id })"
+                                :dataSource="values.dsChinhSach.filter((i) => { return i.NhomChinhSach_NghiPhep_Id === item.NhomChinhSach_NghiPhep_Id })"
                                 :pagination="false">
                                 <template #bodyCell="{ column, record, index }">
                                     <template v-if="column.key === 'stt'">
@@ -91,13 +91,9 @@
         </a-tabs>
         <uc-modal-add-to-chinh-sach :dsNhomChinhSach="values.dsNhomChinhSach"
             v-model:isOpen="states.isOpenModalAddChinhSach" @onFinish="loadDSChinhSach()" />
-        <uc-modal-edit-ot-chinh-sach :record="values.record"
+        <uc-modal-edit-to-chinh-sach :record="values.record" :dsNhomChinhSach="values.dsNhomChinhSach"
             v-model:isOpen="states.isOpenModalEditChinhSach" @onFinish="loadDSChinhSach()" />
 
-        <uc-modal-add-ot-nhom-chinh-sach v-model:isOpen="states.isOpenModalAddNhomChinhSach"
-            @onFinish="loadDSNhomChinhSach()" />
-        <uc-modal-edit-ot-nhom-chinh-sach :record="values.record.NhomChinhSach"
-            v-model:isOpen="states.isOpenModalEditNhomChinhSach" @onFinish="loadDSNhomChinhSach()" />
     </div>
 </template>
 
@@ -111,15 +107,12 @@ export default {
                 isOpenModalEditChinhSach: false,
                 isOpenModalAddChinhSach: false,
                 isOpenModalEditChinhSach: false,
-                isOpenModalAddNhomChinhSach: false,
-                isOpenModalEditNhomChinhSach: false,
             },
             values: {
                 record: {
                     NhomChinhSach: {},
                     ChinhSach: {},
                     dsNhanSu: [],
-                    dsKhungGio: []
                 },
                 dsNhomChinhSach: [],
                 dsChinhSach: [],
@@ -135,21 +128,15 @@ export default {
                     },
                     {
                         title: 'Tên chính sách',
-                        dataIndex: 'TenChinhSach_LamThem',
+                        dataIndex: 'TenChinhSach_NghiPhep',
                         key: 'chinhsach',
-                    },
-                    {
-                        title: 'Hệ số',
-                        dataIndex: 'HeSo',
-                        key: 'HeSo',
-                        width: '150px',
                     },
                     {
                         title: 'Mô tả',
                         dataIndex: 'MoTa',
                     },
                     {
-                        title: 'Trạng thái',
+                        title: 'Tạm khoá',
                         dataIndex: 'Is_TamKhoa',
                         key: 'trangthai',
                         align: 'center',
@@ -201,51 +188,31 @@ export default {
             this.loadDSChinhSach()
             this.loadDSNhomChinhSach()
         },
-        onEditNhomChinhSach(record) {
-            this.values.record.NhomChinhSach = Object.assign({}, record)
-            this.values.record.NhomChinhSach.Is_TamKhoa = record.Is_TamKhoa ? 1 : 0
-            this.states.isOpenModalEditNhomChinhSach = true
-        },
-        async onDeleteNhomChinhSach(record) {
-            Confirm.delete({
-                content: 'Bạn có chắc chắn muốn xóa nhóm chính sách này không?',
-                onOk: async () => {
-                    await nhomChinhSachService
-                        .NhomChinhSach_LamThem_Delete({
-                            NhomChinhSach_LamThem_Id: record.NhomChinhSach_LamThem_Id,
-                        })
-                        .finally(() => {
-                            this.$message.success('Đã xóa thành công nhóm chính sách!')
-                            this.loadDSNhomChinhSach()
-                        })
-                },
-            })
-        },
         async onEditChinhSach(record) {
-            const resp = await chinhSachService.ChinhSach_LamThem_Select_By_Id({
-                ChinhSach_LamThem_Id: record.ChinhSach_LamThem_Id,
+            const resp = await chinhSachService.ChinhSach_NghiPhep_Select_By_Id({
+                ChinhSach_NghiPhep_Id: record.ChinhSach_NghiPhep_Id,
             }).finally(() => {
                 this.states.isOpenModalEditChinhSach = true
-
             })
-
             if (resp) {
-                this.values.record.ChinhSach = Object.assign({}, resp[0][0])
-                this.values.record.dsNhanSu = resp[1]
+                this.values.record.ChinhSach = Object.assign({}, record)
+                this.values.record.ChinhSach.Is_BacBuocKhoanGioiHan =  this.values.record.ChinhSach.Is_BacBuocKhoanGioiHan ? 1 : 0
+                this.values.record.ChinhSach.Is_GioiHanNgayNghi =  this.values.record.ChinhSach.Is_GioiHanNgayNghi ? 1 : 0
+                this.values.record.ChinhSach.Is_TamKhoa =  this.values.record.ChinhSach.Is_TamKhoa ? 1 : 0
+                this.values.record.ChinhSach.Is_UuTien_QuyNghiBu =  this.values.record.ChinhSach.Is_UuTien_QuyNghiBu ? 1 : 0
+                this.values.record.dsNhanSu = Object.assign([], resp[1])
                 console.log(this.values.record)
             }
-
-
         },
         onDeleteChinhSach(record) {
             Confirm.delete({
-                content: `Bạn có chắc muốn xóa ${record.TenChinhSach_LamThem}?`,
+                content: `Bạn có chắc muốn xóa ${record.TenChinhSach_NghiPhep}?`,
                 onOk: async () => {
-                    const res = await chinhSachService.ChinhSach_LamThem_Delete({
-                        ChinhSach_LamThem_Id: record.ChinhSach_LamThem_Id,
+                    const res = await chinhSachService.ChinhSach_NghiPhep_Delete({
+                        ChinhSach_NghiPhep_Id: record.ChinhSach_NghiPhep_Id,
                     })
                     if (res) {
-                        this.$message.success(`Xóa nhóm chính sách ${record.TenChinhSach_LamThem}!`)
+                        this.$message.success(`Đã xóa chính sách thành công!`)
                         this.loadDSChinhSach()
                     }
                 },

@@ -21,13 +21,13 @@
             </a-col>
 
             <a-col :span="12">
-                <a-form-item label="Số người" name="SoNguoi">
-                    <a-input-number v-model:value="formData.SoNguoi" style="width: 100%" />
+                <a-form-item label="Số ca cần" name="SoCaCan">
+                    <a-input-number v-model:value="formData.SoCaCan" style="width: 100%" />
                 </a-form-item>
             </a-col>
             <a-col :span="12">
-                <a-form-item label="Ca cần, ca đủ" name="SoNguoi">
-                    <a-input-number style="width: 100%" />
+                <a-form-item label="Số ca đủ" name="SoCaDu">
+                    <a-input-number v-model:value="formData.SoCaDu" style="width: 100%" />
                 </a-form-item>
             </a-col>
             <a-col :span="24">
@@ -49,7 +49,8 @@ export default {
             rules: {
                 NhomCaMau_Id: [{ required: true, message: 'Vui lòng chọn nhóm ca mẫu', trigger: 'change' }],
                 ViTri_Id: [{ required: true, message: 'Vui lòng chọn vị trí', trigger: 'change' }],
-                SoNguoi: [{ required: true, message: 'Vui lòng nhập số người', trigger: 'change' }],
+                SoCaCan: [{ required: true, message: 'Vui lòng nhập số ca cần', trigger: 'change' }],
+                SoCaDu: [{ required: true, message: 'Vui lòng nhập số ca đủ', trigger: 'change' }],
             },
         }
     },
@@ -78,13 +79,14 @@ export default {
                 {
                     CaMacDinh_Id: $this.formData.CaMacDinh_Id,
                     ViTri_Id: $this.formData.ViTri_Id,
-                    SoNguoi: $this.formData.SoNguoi,
+                    SoCaCan: $this.formData.SoCaCan,
+                    SoCaDu: $this.formData.SoCaDu,
                     MoTa: $this.formData.MoTa,
                 },
                 (res) => {
                     $this.handleCancel()
                     $this.$emit('onFinish')
-                    Vue.$toast.success('Chỉnh sửa ca dự báo thành công!', { position: 'top' })
+                    Vue.$toast.success('Chỉnh sửa thiết lập thành công!', { position: 'top' })
                     $this.$refs.modalRef.$refs.formRef.resetFields()
                 },
             )
