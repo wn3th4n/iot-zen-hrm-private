@@ -6,18 +6,14 @@
                     <a-input-search v-model:value="value" placeholder="Tìm nhanh" @search="onSearch" />
                 </a-col>
                 <a-col :span="24" class="mt-2">
-                    <a-list item-layout="horizontal" :data-source="DSDeXuat">
+                    <a-list item-layout="horizontal" :data-source="DSNhomNghiPhep">
                         <template #renderItem="{ item }">
                             <a-list-item class="px-2 cursor-pointer" @click="onOpenModalAddDeXuat()">
                                 <a-list-item-meta>
                                     <template #title>
-                                        <b>[{{ item.LoaiDeXuat }}] {{ item.TenDeXuat }}</b>
+                                        <b>{{ item.TenNhomChinhSach_NghiPhep }}</b>
                                     </template>
-                                    <template #description>
-                                        <div v-for="i of item.MoTa.split(', ')">
-                                            <span class="mt-2">{{ i }}</span> <br />
-                                        </div>
-                                    </template>
+                                    
                                 </a-list-item-meta>
                             </a-list-item>
                         </template>
@@ -31,7 +27,7 @@
 
 <script>
 export default {
-    props: ['isOpen'],
+    props: ['isOpen','DSNhomNghiPhep'],
     emits: ['update:isOpen'],
     data() {
         return {

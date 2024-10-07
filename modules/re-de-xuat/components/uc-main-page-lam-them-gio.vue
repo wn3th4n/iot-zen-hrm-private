@@ -2,8 +2,8 @@
     <a-card title="Đề xuất làm thêm giờ" class="card-title-page">
         <template #extra>
             <div class="d-flex flex-row gap-2">
-                <uc-select-nhan-vien allowClear placeholder="Chọn mã, tên nhân sự..."  style="min-width: 300px;"/>
-                <a-select allowClear placeholder="Chọn chính sách làm thêm..." style="min-width: 300px;">
+                <uc-select-nhan-vien v-model:value="search.NhanSu" allowClear placeholder="Chọn mã, tên nhân sự..."  style="min-width: 300px;"/>
+                <a-select allowClear placeholder="Chọn chính sách làm thêm..." v-model:value="search.ChinhSach" style="min-width: 300px;">
                   <a-select-option v-for="item in DSChinhSachLamThem" :key="item" :value="item.ChinhSach_LamThem_Id">
                     {{ item.TenChinhSach_LamThem }}
                   </a-select-option>
@@ -49,7 +49,7 @@
         </a-tab-pane>
     </a-tabs>
 
-    <uc-modal-danh-sach-de-xuat-lam-them v-model:isOpen="isShowModalAddDeXuat" :DSChinhSachLamThem />
+    <uc-modal-danh-sach-de-xuat-lam-them v-model:isOpen="isShowModalAddDeXuat" :DSChinhSachLamThem @onFinish="loadDeXuatLamThem"/>
 </template>
 
 <script>
@@ -87,29 +87,14 @@ export default {
                     dataIndex: 'NgayTao',
                 },
             ],
-            DSDeXuat: [
-                {
-                    TenTieuDe: 'Mẫn',
-                    TenDeXuat: 'Đi làm ngày nghỉ',
-                    HoVaTenNguoiThucThi: 'Trần Ngọc Mẫn',
-                    ViTriNguoiThucThi: 'Quản lý kho',
-                    NgayTangCa: '17/07/2024',
-                    TrangThai: 1,
-                    NgayTao: '16/07/2024',
-                },
-                {
-                    TenTieuDe: 'Mẫn',
-                    TenDeXuat: 'Đi làm ngày nghỉ',
-                    HoVaTenNguoiThucThi: 'Trần Ngọc Mẫn',
-                    ViTriNguoiThucThi: 'Quản lý kho',
-                    NgayTangCa: '17/07/2024',
-                    TrangThai: 1,
-                    NgayTao: '16/07/2024',
-                },
-            ],
+            DSDeXuat: [],
             DSChinhSachLamThem: [],
             isShowModalAddDeXuat: false,
-            DSDeXuatLamThem: []
+            DSDeXuatLamThem: [],
+            search: {
+                ChinhSach: undefined,
+                NhanSu: undefined
+            }
         }
     },
     mounted() {
@@ -129,7 +114,11 @@ export default {
         },
         async loadDeXuatLamThem() {
             const $this = this
-            const { TTPhanTrang, DSDeXuatLamThem, DSKhungGio } = await deXuatLamThemService.DeXuat_LamThem_Select()
+            const { TTPhanTrang, DSDeXuatLamThem, DSKhungGio } = await deXuatLamThemService.DeXuat_LamThem_Select({
+                TrangThai: 0,
+                NhanVien_Id: 0,
+                ChinhSach_LamThem_Id: 0
+            })
             if (DSDeXuatLamThem) {
                 this.DSDeXuatLamThem = DSDeXuatLamThem
             }

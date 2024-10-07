@@ -1,58 +1,81 @@
 <template>
 	<div>
-		<uc-form-modal :width="950" title="Trường dữ liệu tùy chỉnh" :isOpen="isOpen" :formData="record" :rules="rules"
+		<uc-form-modal :width="850" title="Trường dữ liệu tùy chỉnh" :isOpen="isOpen" :formData="record" :rules="rules"
 			@onSubmit="onSubmit()" :isSubmit="state.isLoading" @onClose="onCancel()" :isShowBtnSave="false">
 			<a-tabs>
 				<a-tab-pane key="1" tab="Chỉnh sửa">
 					<a-row :gutter="[10]">
 						<a-col :span="17">
 							<div class="mt-2">
-								<a-select v-model:value="value.newField" class="truongSelect"
+								<!-- <a-select v-model:value="value.newField" class="truongSelect"
 									placeholder="Thêm trường mới">
 									<a-select-option v-for="item in value.TruongDuLieuList" :key="item.value">
 										{{item.label}}
 									</a-select-option>
-								</a-select>
+								</a-select> -->
+								<a-button @click="openAddModal" type="primary">Thêm trường mới</a-button>
 							</div>
 
 							<!-- Load danh sách trường dữ liệu đã chỉnh -->
 							<div class="mt-3">
 								<div v-for="(item, index) in value.DuLieuList" :key="index">
-									<a-row :gutter="[10]">
-										<a-col>
-											<uc-icon :name="item.Icon" color="primary" size="25" />
-										</a-col>
-										<a-col :span="17">
-											<b>{{item.TenTruongDuLieu}}</b> <br />
-											<span class="d-flex mb-0">
-												<b
-													class="text-primary mb-0">custom_{{item.TenTruongDuLieu.toLowerCase()}}</b>
-												<p class="ms-1 mb-0">- {{item.MoTa ?
-													item.MoTa : 'Không có miêu tả'}}</p>
-											</span>
-											<span class="d-flex">
-												<b class="dark-gray-text">Bắt buộc:</b>
-												<p class="ms-1">{{item.Is_BatBuoc ? 'Bắt buộc' : 'Không bắt buộc'}}</p>
-											</span>
-										</a-col>
-										<a-col class="mt-2 align-center" :span="5">
-											<a-space size="small">
-												<a-button @click="onEdit(item)" type="text">Chỉnh sửa</a-button>
-												<a-button @click="onDelete(item.LoaiHopDong_TruongDuLieu_Id)"
-													type="text">xóa</a-button>
-											</a-space>
-											<p class="text-primary smallText"><b>{{item.KieuDuLieu}}</b></p>
-										</a-col>
-									</a-row>
+									<a-card class="mb-2">
+										<a-row :gutter="[10]">
+											<a-col>
+												<uc-icon :name="item.Icon" color="primary" size="18" />
+											</a-col>
+											<a-col :span="21">
+												<div class="d-flex mb-0">
+													<b class="mb-0">Thứ tự: </b>
+													<p class="ms-1 mb-0">{{item.ThuTu}}</p>
+												</div>
+												<b>{{item.TenTruongDuLieu}}</b> <br />
+												<span class="d-flex mb-0">
+													<b
+														class="text-primary mb-0">custom_{{item.TenTruongDuLieu.toLowerCase()}}</b>
+													<p class="ms-1 mb-0">{{item.Is_BatBuoc ? '(Bắt buộc)' : ''}}
+													</p>
+												</span>
+												<i class="mb-0">{{item.MoTa ?
+													item.MoTa : 'Không có miêu tả'}}</i>
+											</a-col>
+											<a-col class="mt-2 align-center" :span="1">
+												<a-dropdown :trigger="['click']">
+													<a class="ant-dropdown-link">
+														<uc-icon name="dots-horizontal" />
+													</a>
+													<template #overlay>
+														<a-menu>
+															<a-menu-item @click="onEdit(item)">
+																<uc-icon class="text-primary"
+																	name="square-edit-outline" />Chỉnh sửa
+															</a-menu-item>
+															<a-menu-item
+																@click="onDelete(item.LoaiHopDong_TruongDuLieu_Id)">
+																<uc-icon class="text-red" name="delete-outline" />Xoá
+															</a-menu-item>
+														</a-menu>
+													</template>
+												</a-dropdown>
+												<!-- <a-space size="small">
+													<a-button @click="onEdit(item)" type="text">Chỉnh sửa</a-button>
+													<a-button @click="onDelete(item.LoaiHopDong_TruongDuLieu_Id)"
+														type="text">xóa</a-button>
+												</a-space> -->
+												<!-- <p class="text-primary smallText"><b>{{item.KieuDuLieu}}</b></p> -->
+											</a-col>
+										</a-row>
+									</a-card>
 								</div>
 							</div>
 						</a-col>
-						<a-col :span="7">
+
+						<a-col class="bordered-col" :span="7">
 							<!-- Load các trường dữ liệu -->
 							<h3>Loại trường</h3>
 							<div v-for="(item, index) in value.TruongDuLieuList" :key="index">
 								<div class="d-flex justify-center align-center">
-									<uc-icon :name="item.Icon" color="primary" size="30" />
+									<uc-icon :name="item.Icon" color="primary" size="18" />
 									<div class="ms-2">
 										<p>
 											<b>{{item.TenTruong}}</b> <br />
@@ -120,7 +143,7 @@
 						return {
 							...item,
 							label: item.TenTruong,
-							value: item.TruongDuLieu_Id
+							value: item.TruongDuLieu_Id,
 						}
 					})
 					console.log("TruongDuLieuList", this.value.TruongDuLieuList)
@@ -135,11 +158,22 @@
 	
 				const isSelect = await loaiHopDongLoaiDuLieuService.LoaiHopDong_TruongDuLieu_Select(param)
 				if (isSelect) {
-					this.value.DuLieuList = isSelect
+					this.value.DuLieuList = isSelect.map(item => {
+						return {
+							...item,
+							value: item.KieuDuLieu === 'SELECT' || item.KieuDuLieu === 'SELECT_M' ? this.strToArr(item.LuaChon_List) : item.LuaChon_List
+						}
+					})
 					console.log("this.value.DuLieuList", this.value.DuLieuList)
 				} else {
 					console.log("Fail to load du lieu")
 				}
+			},
+			openAddModal() {
+				this.state.isOpenModalAddField = true
+			},
+			strToArr(str) {
+				return str.split(',').map((item) => item.trim())
 			},
 			onSubmit() {
 				console.log("value", this.value)

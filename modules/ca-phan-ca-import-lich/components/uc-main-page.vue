@@ -66,7 +66,7 @@
 			:height="IsGetData ? 'calc(100vh - 57px)' : 'calc(100vh - 305px)'" :key="keyExcel"  :afterRender="afterRender"
 			:afterGetColHeader="setHeaderClass" >
 			<hot-column title=" Mã" data="MaNhanVien" :readOnly="true"> </hot-column>
-			<hot-column title="Tên nhân viên" data="TenNhanVien" :readOnly="true"> </hot-column>
+			<hot-column title="Tên nhân viên" data="HoVaTenNhanVien" :readOnly="true"> </hot-column>
 			<hot-column title="Vị trí" data="TenViTri" :readOnly="true"></hot-column>
 			<hot-column title="Phân ca" data="ThongTinPhanCa" :readOnly="true"></hot-column>
 			<hot-column v-for="(date, index) in dsNgay" :title="date" :data="'Ngay_' + date.toString().padStart('2', 0)"
@@ -162,7 +162,7 @@
 							dsNhanVien.push({
 								NhanVien_Id: nv.NhanVien_Id,
 								MaNhanVien: nv.MaNhanVien.trim(),
-								TenNhanVien: nv.TenNhanVien.trim(),
+								HoVaTenNhanVien: nv.HoVaTenNhanVien.trim(),
 								TenViTri: nv.TenViTri,
 							})
 						}

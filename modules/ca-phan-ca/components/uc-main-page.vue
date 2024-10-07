@@ -101,7 +101,7 @@
                                 <a-button @click="onOpenModalAddCa(record, day)" type="primary" size="small" block><uc-icon name="plus" class="cursor-pointer me-0" /></a-button>
                             </div>
                             <div v-for="ca in record[day.Cot_Ngay]" @click="onOpenModalThongTinCa(ca)" class="cursor-pointer">
-                                <a-tag class="mt-1 w-100" :color="ca?.TrangThai_Mau">
+                                <a-tag class="mt-1 w-100" :color="ca?.TrangThai_Mau" :style="{ ...(ca?.GioCheckIn ? { borderLeft: '5px solid' } : {}), ...(ca?.GioCheckOut ? { borderRight: '5px solid' } : {}) }">
                                     <template #icon><uc-icon :name="ca?.TrangThai_Icon" /></template>
                                     {{ ca?.GioBatDau }} - {{ ca?.GioKetThuc }}
                                 </a-tag>

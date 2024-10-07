@@ -6,7 +6,7 @@
     </a-card>
     <a-table :columns="columns" :data-source="DSDeXuat" :pagination="false" size="small"> </a-table>
 
-    <uc-modal-danh-sach-de-xuat-nghi-phep v-model:isOpen="isShowModalChonDeXuat" />
+    <uc-modal-danh-sach-de-xuat-nghi-phep v-model:isOpen="isShowModalChonDeXuat" :DSNhomNghiPhep/>
 </template>
 
 <script>
@@ -40,12 +40,23 @@ export default {
             ],
             DSDeXuat: [],
             isShowModalChonDeXuat: false,
+            DSNhomNghiPhep:[]
         }
+    },
+    created(){
+        this.onLoadDSNhomNghiPhep()
+    },
+    mounted(){
+        
     },
     methods: {
         onOpenModalAddDeXuat() {
             this.isShowModalChonDeXuat = true
         },
+       async onLoadDSNhomNghiPhep(){
+            const res = await nhomChinhSachService.NhomChinhSach_NghiPhep_Select()
+            this.DSNhomNghiPhep= res
+        }
     },
 }
 </script>

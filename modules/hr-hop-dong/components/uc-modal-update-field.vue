@@ -1,13 +1,8 @@
 <template>
-	<uc-form-modal :width="650" title="Cập nhật trường dữ liệu" :isOpen="isOpen" ref="modalRef"
+	<uc-form-modal :width="500" title="Cập nhật trường dữ liệu" :isOpen="isOpen" ref="modalRef"
 		:formData="value.copyRecord" :rules="rules" @onSubmit="onSubmit()" :isSubmit="state.isLoading"
 		@onClose="onCancel()">
 		<a-row :gutter="[10]">
-			<a-col :span="24">
-				<a-form-item label="Tên trường" name="TenTruongDuLieu">
-					<a-input v-model:value="value.copyRecord.TenTruongDuLieu" />
-				</a-form-item>
-			</a-col>
 			<a-col :span="24">
 				<a-form-item label="Loại dữ liệu" name="TruongDuLieu_Id">
 					<!-- v-model:value="value.newField" -->
@@ -18,17 +13,32 @@
 					</a-select>
 				</a-form-item>
 			</a-col>
-			<a-col :span="24" v-if="value.copyRecord.TruongDuLieu_Id === 6 || value.copyRecord.TruongDuLieu_Id === 7">
-				<a-form-item label="Các lựa chọn, cách nhau bằng một dấu phẩy" name="LuaChon_List">
-					<a-input v-model:value="value.copyRecord.LuaChon_List" />
+			<a-col :span="12">
+				<a-form-item label="Thứ tự" name="ThuTu ">
+					<a-input-number class="w-100" v-model:value="value.copyRecord.ThuTu" />
 				</a-form-item>
 			</a-col>
-			<a-col :span="24">
+			<a-col :span="12">
 				<a-form-item label="Bắt buộc" name="Is_BatBuoc">
 					<a-select v-model:value="value.copyRecord.Is_BatBuoc">
 						<a-select-option :value=0>Không bắt buộc</a-select-option>
 						<a-select-option :value=1>Bắt buộc</a-select-option>
 					</a-select>
+				</a-form-item>
+			</a-col>
+			<a-col :span="24">
+				<a-form-item label="Tên trường" name="TenTruongDuLieu">
+					<a-input v-model:value="value.copyRecord.TenTruongDuLieu" />
+				</a-form-item>
+			</a-col>
+			<a-col :span="24">
+				<a-form-item label="Mã trường dữ liệu" name="MaTruongDuLieu">
+					<a-input v-model:value="value.copyRecord.MaTruongDuLieu" />
+				</a-form-item>
+			</a-col>
+			<a-col :span="24" v-if="value.copyRecord.TruongDuLieu_Id === 6 || value.copyRecord.TruongDuLieu_Id === 7">
+				<a-form-item label="Các lựa chọn, cách nhau bằng một dấu phẩy" name="LuaChon_List">
+					<a-input v-model:value="value.copyRecord.LuaChon_List" />
 				</a-form-item>
 			</a-col>
 			<a-col :span="24">
@@ -54,7 +64,13 @@
 					copyRecord: {},
 				},
 				rules: {
+					TruongDuLieu_Id: [{ required: true, message: 'Bạn chưa nhập lựa chọn', trigger: 'change' }],
+					ThuTu: [{ required: true, message: 'Bạn chưa nhập lựa chọn', trigger: 'change' }],
+					Is_BatBuoc: [{ required: true, message: 'Bạn chưa nhập lựa chọn', trigger: 'change' }],
+					TenTruongDuLieu: [{ required: true, message: 'Bạn chưa nhập lựa chọn', trigger: 'change' }],
+					MaTruongDuLieu: [{ required: true, message: 'Bạn chưa nhập lựa chọn', trigger: 'change' }],
 					LuaChon_List: [{ required: true, message: 'Bạn chưa nhập lựa chọn', trigger: 'change' }],
+					MoTa: [{ required: false, message: 'Bạn chưa nhập lựa chọn', trigger: 'change' }],
 				},
 			}
 		},
@@ -84,10 +100,11 @@
 					LoaiHopDong_Id: this.value.copyRecord.LoaiHopDong_Id,
 					TruongDuLieu_Id: this.value.copyRecord.TruongDuLieu_Id,
 					TenTruongDuLieu: this.value.copyRecord.TenTruongDuLieu.trim() ?? this.value.copyRecord.TenTruongDuLieu,
-					MaTruongDuLieu: this.filterKieuDuLieu(this.value.copyRecord.TruongDuLieu_Id),
+					MaTruongDuLieu: this.value.copyRecord.MaTruongDuLieu.trim() ?? this.value.copyRecord.MaTruongDuLieu,
 					LuaChon_List: this.value.copyRecord.LuaChon_List.trim() ?? this.value.copyRecord.LuaChon_List,
 					MoTa: this.value.copyRecord.MoTa.trim() ?? this.value.copyRecord.MoTa,
 					Is_BatBuoc: this.value.copyRecord.Is_BatBuoc,
+					ThuTu: this.value.copyRecord.ThuTu,
 				}
 	
 				console.log("submit", param)

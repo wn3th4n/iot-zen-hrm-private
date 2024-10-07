@@ -2722,6 +2722,7 @@ const deXuatLamThemService = {
     DeXuat_LamThem_Select: async (params) => {
         //     @NhanVien_Id INT,
         // @ChinhSach_LamThem_Id INT,
+        // TrangThai: 0: chưa duyệt, 1: đã duyệt, 2: từ chối, 3: đã xác nhận
         // -----------------------
         // @PageIndex INT,
         // @PageSize INT

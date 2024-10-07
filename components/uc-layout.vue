@@ -68,7 +68,7 @@
 					</a-dropdown>
 					<div class="cursor-pointer w-25 text-center" style="align-self: center; min-width: 35px"
 						@click="() => (collapsed = !collapsed)">
-						<uc-icon name="backburger" size="20" color="primary"></uc-icon>
+						<uc-icon :name="(collapsed ? 'forwardburger' : 'backburger')" size="20" color="primary"></uc-icon>
 					</div>
 				</div>
 			</a-layout-sider>

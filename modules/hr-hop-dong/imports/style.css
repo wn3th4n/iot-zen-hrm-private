@@ -1,9 +1,18 @@
-.truongSelect{
+.truongSelect {
     width: 257px;
 }
-.smallText{
+
+.smallText {
     font-size: 13px;
 }
-.dark-gray-text{
+
+.dark-gray-text {
     color: #888;
+}
+
+.bordered-col {
+    border-left: 1px solid #d9d9d9;
+    /* Đường kẻ mỏng, màu xám nhẹ */
+    padding-left: 10px;
+    /* Cách đường kẻ một chút */
 }

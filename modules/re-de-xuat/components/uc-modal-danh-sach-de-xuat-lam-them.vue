@@ -26,13 +26,13 @@
                 </a-col>
             </a-row>
         </uc-modal>
-        <uc-modal-add-dx-lam-them v-model:isOpen="isShowModalAddDeXuat" :recordChinhSach />
+        <uc-modal-add-dx-lam-them v-model:isOpen="isShowModalAddDeXuat" :recordChinhSach @onFinish="onFinish" />
     </a-spin>
 </template>
 
 <script>
 export default {
-    props: ['isOpen', 'DSChinhSachLamThem'],
+    props: ['isOpen', 'DSChinhSachLamThem', 'onFinish'],
     emits: ['update:isOpen'],
     data() {
         return {
@@ -68,6 +68,10 @@ export default {
         }
     },
     methods: {
+        onFinish(){
+            console.log('finish1');
+            this.$emit('onFinish')
+        },
         onCloseModal() {
             this.$emit('update:isOpen', false)
         },

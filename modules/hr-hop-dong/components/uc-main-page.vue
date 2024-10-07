@@ -82,7 +82,7 @@
 			</a-tab-pane>
 		</a-tabs>
 
-		<uc-modal-add-hop-dong v-model:isOpen="state.isOpenModalAddHopDong"/>
+		<uc-modal-add-hop-dong v-model:isOpen="state.isOpenModalAddHopDong" :loaihopdonglist="value.dsLoaiHopDong"/>
 		<uc-modal-add-loai-hop-dong v-model:isOpen="state.isOpenModalAddLoaiHopDong" @onFinish="loadPhanLoaiHopDong"/>
 		<uc-modal-edit-loai-hop-dong v-model:isOpen="state.isOpenModalEditLoaiHopDong" @onFinish="loadPhanLoaiHopDong" :record="value.recordEdit" />
 		<uc-modal-edit-truong-du-lieu v-model:isOpen="state.isOpenModalEditTruongDuLieu" :record="value.recordEdit"/>
