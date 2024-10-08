@@ -1,4 +1,7 @@
 {
     "commentTranslate.targetLanguage": "vi",
-    "commentTranslate.hover.enabled": true
+    "commentTranslate.hover.enabled": true,
+    "Codegeex.Chat.LanguagePreference": "English",
+    "Codegeex.Comment.LanguagePreference": "English",
+    "Codegeex.CommitMessage.LanguagePreference": "English"
 }

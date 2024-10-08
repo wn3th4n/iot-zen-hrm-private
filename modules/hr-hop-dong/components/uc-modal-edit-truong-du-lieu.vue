@@ -25,11 +25,7 @@
 												<uc-icon :name="item.Icon" color="primary" size="18" />
 											</a-col>
 											<a-col :span="21">
-												<div class="d-flex mb-0">
-													<b class="mb-0">Thứ tự: </b>
-													<p class="ms-1 mb-0">{{item.ThuTu}}</p>
-												</div>
-												<b>{{item.TenTruongDuLieu}}</b> <br />
+												<b>{{item.ThuTu}}. {{item.TenTruongDuLieu}}</b> <br />
 												<span class="d-flex mb-0">
 													<b
 														class="text-primary mb-0">custom_{{item.TenTruongDuLieu.toLowerCase()}}</b>

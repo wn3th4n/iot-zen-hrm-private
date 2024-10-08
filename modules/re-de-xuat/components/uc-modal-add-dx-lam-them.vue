@@ -261,6 +261,14 @@ export default {
                 KhungGio_JSON: '',
                 NguoiQuanLy_JSON: '',
             },
+            form_Default: {
+                ChinhSach_LamThem_Id: null,
+                NhanVien_Id: null,
+                TieuDe: '',
+                MoTa: '',
+                KhungGio_JSON: '',
+                NguoiQuanLy_JSON: '',
+            },
             formTGTC: {
                 NgayLamThem: '',
                 GioBatDau: '',
@@ -366,6 +374,7 @@ export default {
         },
         resetAll() {
             const $this = this
+            $this.form = Object.assign({}, $this.form_Default)
             $this.formNQL = Object.assign({}, $this.formNQL_Default)
             $this.formTGTC = Object.assign({}, $this.formTGTC_Default)
             $this.DSNhanVien = []
@@ -462,6 +471,9 @@ export default {
         },
         handleCancelNQL() {
             this.isShowModalNQL = false
+        },
+        handleCancelNTD(){
+            this.isShowModalNTD = false
         },
         onOpenModalAddNQL() {
             this.isShowModalNQL = true

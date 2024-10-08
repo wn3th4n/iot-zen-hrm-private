@@ -32,8 +32,8 @@
 
 <script>
 export default {
-    props: ['isOpen', 'DSChinhSachLamThem', 'onFinish'],
-    emits: ['update:isOpen'],
+    props: ['isOpen', 'DSChinhSachLamThem', ],
+    emits: ['update:isOpen','onFinish'],
     data() {
         return {
             spinning: false,

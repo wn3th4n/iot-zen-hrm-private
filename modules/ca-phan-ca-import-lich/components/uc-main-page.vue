@@ -68,7 +68,7 @@
 			<hot-column title=" Mã" data="MaNhanVien" :readOnly="true"> </hot-column>
 			<hot-column title="Tên nhân viên" data="HoVaTenNhanVien" :readOnly="true"> </hot-column>
 			<hot-column title="Vị trí" data="TenViTri" :readOnly="true"></hot-column>
-			<hot-column title="Phân ca" data="ThongTinPhanCa" :readOnly="true"></hot-column>
+			<hot-column title="Phân ca" data="ThongTinPhanCa" width="250" :readOnly="true"></hot-column>
 			<hot-column v-for="(date, index) in dsNgay" :title="date" :data="'Ngay_' + date.toString().padStart('2', 0)"
 				:readOnly="isViewedTemplate" :className="getColumnClassNgay(date, index, dsThu)"> </hot-column>
 

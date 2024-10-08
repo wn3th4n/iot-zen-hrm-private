@@ -75,7 +75,8 @@
 					LoaiDuLieu: [{ required: true, message: 'Bạn chưa nhập lựa chọn', trigger: 'change' }],
 					BatBuoc: [{ required: true, message: 'Bạn chưa nhập lựa chọn', trigger: 'change' }],
 					MieuTa: [{ required: false, message: 'Bạn chưa nhập lựa chọn', trigger: 'change' }],
-					MaTruong: [{ required: true, message: 'Bạn chưa nhập lựa chọn', trigger: 'change' }],
+					MaTruong: [{ required: true, message: 'Bạn chưa nhập lựa chọn', trigger: 'change' }, 
+					{ pattern: /^[a-zA-Z0-9]+([-]?[a-zA-Z0-9])*$/, message: 'Mã không được chứa ký tự đặc biệt' },],
 					LuaChon: [{ required: true, message: 'Bạn chưa nhập lựa chọn', trigger: 'change' }],
 				},
 			}

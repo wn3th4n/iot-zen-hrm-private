@@ -102,7 +102,9 @@ export default {
             const $this = this
             $this.$emit('update:isOpen', false)
         },
-        async onFinish() {},
+        onFinish() {
+
+        },
     },
 }
 </script>

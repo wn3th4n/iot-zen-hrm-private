@@ -2727,11 +2727,8 @@ const deXuatLamThemService = {
         // @PageIndex INT,
         // @PageSize INT
         const res = await apiUtilWork.OT('DeXuat_LamThem_Select', params)
-        if (res) {
-            const TTPhanTrang = res[0]
-            const DSDeXuatLamThem = res[1]
-            const DSKhungGio = res[2]
-            return { TTPhanTrang, DSDeXuatLamThem, DSKhungGio }
+        if (res.data) {
+            return res.data
         } else {
             return []
         }
