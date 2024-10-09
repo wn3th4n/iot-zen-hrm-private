@@ -277,7 +277,9 @@ const lichLamViecService = {
             const CTNhanSuDuBao = res.data[4][0]
             const CTNhanSuOff = res.data[5][0]
             const DSNhanVien = res.data[6]
-            return { DSNgay, DSCaCan, DSCaCo, DSCaMau, CTNhanSuDuBao, CTNhanSuOff, DSNhanVien }
+            const CTLichLamViec = res.data[7][0]
+            const CTBangCong = res.data[8][0]
+            return { DSNgay, DSCaCan, DSCaCo, DSCaMau, CTNhanSuDuBao, CTNhanSuOff, DSNhanVien, CTLichLamViec, CTBangCong }
         }
     },
     LichLamViec_PhanCa_Select: async (params) => {
@@ -1846,7 +1848,70 @@ const nhanVienService = {
         } else {
             return false
         }
-    }
+    },
+    NhanVien_HopDong_Select: async (params) => {
+        //@TrangThai TINYINT
+        //@LoaiHopDong INT
+        //@NhanVien_Id INT
+        const res = await apiUtilWork.HR('NhanVien_HopDong_Select', params)
+        if (res.data) {
+            return res.data
+        }
+    },
+    NhanVien_HopDong_Insert: async (params) => {
+        //@NhanVien_Id INT,
+        //@LoaiHopDong_Id INT,
+        //@Is_HopDongThuViec BIT,
+        //@Is_HopDongDaQua BIT,
+        //@NgayBatDau DATE,
+        //@NgayKetThuc DATE,
+        //@MaHopDong NVARCHAR(150),
+        //@Is_DaKy BIT,
+        //@LoaiGuiEmail TINYINT, --1: Không gửi email; 2: Gửi email cho nhân sự không kèm theo chi tiết hợp đồng; 3: Gửi email cho nhân sự có kèm theo chi tiết hợp đồng
+        //@File_Id CHAR(32),
+        //@MoTa NVARCHAR(500),
+        //@LuongCoBan NUMERIC(18, 2),
+        //@BacLuong_Id INT,
+        //@BacThuong_Id INT,
+        //@TruongDuLieu_JSON NVARCHAR(MAX) 
+        const res = await apiUtilWork.HR('NhanVien_HopDong_Insert', params)
+        if (res.data) {
+            return true
+        } else {
+            return false
+        }
+    },
+    NhanVien_HopDong_Update: async (params) => {
+        //@NhanVien_HopDong_Id INT,
+        //@Is_HopDongThuViec BIT,
+        //@Is_HopDongDaQua BIT,
+        //@NgayBatDau DATE,
+        //@NgayKetThuc DATE,
+        //@MaHopDong NVARCHAR(150),
+        //@Is_DaKy BIT,
+        //@LoaiGuiEmail TINYINT, --1: Không gửi email; 2: Gửi email cho nhân sự không kèm theo chi tiết hợp đồng; 3: Gửi email cho nhân sự có kèm theo chi tiết hợp đồng
+        //@File_Id CHAR(32),
+        //@MoTa NVARCHAR(500),
+        //@LuongCoBan NUMERIC(18, 2),
+        //@BacLuong_Id INT,
+        //@BacThuong_Id INT,
+        //@TruongDuLieu_JSON NVARCHAR(MAX) 
+        const res = await apiUtilWork.HR('NhanVien_HopDong_Update', params)
+        if (res.data) {
+            return true
+        } else {
+            return false
+        }
+    },
+    NhanVien_HopDong_Delete: async (params) => {
+        //@NhanVien_HopDong_Id INT
+        const res = await apiUtilWork.HR('NhanVien_HopDong_Update', params)
+        if (res.data) {
+            return true
+        } else {
+            return false
+        }
+    },
 }
 const nhomNhanVienService = {
     NhomNhanVien_Select: async () => {
@@ -2392,7 +2457,7 @@ const chinhSachService = {
         }
     },
     ChinhSach_NghiPhep_Select_By_Id: async (params) => {
-        const res = await apiUtilWork.TO('ChinhSach_NghiPhep_Select_By_Id',params)
+        const res = await apiUtilWork.TO('ChinhSach_NghiPhep_Select_By_Id', params)
         if (res.data) {
             return res.data
         } else {
@@ -2753,7 +2818,25 @@ const deXuatLamThemService = {
             return false
         }
     },
-
+    DeXuat_LamThem_Duyet: async (params) => {
+        //@DeXuat_LamThem_Id
+        const res = await apiUtilWork.OT('DeXuat_LamThem_Duyet', params)
+        if (res.data) {
+            return true
+        } else {
+            return false
+        }
+    },
+    DeXuat_LamThem_TuChoi: async (params) => {
+        //@DeXuat_LamThem_Id INT
+        //@LyDoTuChoi NVARCHAR(500) 
+        const res = await apiUtilWork.OT('DeXuat_LamThem_TuChoi', params)
+        if (res.data) {
+            return true
+        } else {
+            return false
+        }
+    }
 }
 
 const loaiHopDongLoaiDuLieuService = {

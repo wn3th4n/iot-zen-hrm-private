@@ -1,264 +1,177 @@
 <template>
-	<uc-layout>
-		<a-card>
-			<template #title>
-				<a-space size="small" class="card-title-page">
-					<a-button @click="redirectToBack()"><uc-icon name="keyboard-backspace" />Trở về</a-button>
-					{{ pageTitle }}
-				</a-space>
-			</template>
-			<template #extra>
-				<a-space size="small">
-					<uc-select-nhom-ca-mau v-model:value="NhomCaMau_Id" style="width: 200px !important" />
-					<a-button type="primary" @click="getData()"><uc-icon name="table-arrow-down" />
-						Tải dữ liệu đã phân ca
-					</a-button>
-					<a-button type="primary" @click="getTemplate()"><uc-icon name="tray-arrow-down" />
-						Tải dữ liệu mẫu
-					</a-button>
-					<a-button v-if="!isViewedTemplate" type="primary" @click="onSave()"><uc-icon
-							name="content-save-outline" />Lưu lịch phân ca</a-button>
-				</a-space>
-			</template>
-		</a-card>
-		<div v-if="!isViewedTemplate" class="bg-white">
-			<a-row class="border-bottom">
-				<a-col :span="6">
-					<a-card title="Số lượng ca cần / ca có" size="small" class="card-title-page border-0">
-						<div>
-							<b>Ca cần:</b>
-							<a-tag v-for="item in dsCaCan" color="blue">
-								{{ item.MaViTri }}: <b>{{ item.SoNguoi }}</b>
-							</a-tag>
-						</div>
-						<div class="mt-2">
-							<b>Ca có:</b>
-							<a-tag v-for="item in dsCaCo" color="green">
-								{{ item.MaViTri }}: <b>{{ item.SoNguoi }}</b>
-							</a-tag>
-						</div>
-					</a-card>
-				</a-col>
-				<a-col :span="18">
-					<a-card title="Số lượng thiếu/dư" size="small" class="card-title-page border-0 table-x-small">
-						<a-table :columns="columnsNhanSu" :data-source="dataNhanSu" size="small" :pagination="false"
-							bordered></a-table>
-					</a-card>
-				</a-col>
-				<a-col :span="24">
-					<a-card :bodyStyle="{ display: 'flex', 'flex-direction': 'column', gap: '8px', padding: '5px' }">
-						<div class="d-flex" style="flex-wrap: wrap">
-							<b style="margin-right: 8px">Lịch làm việc (Ca mẫu):</b>
-							<a-tag v-for="item in dsCaMau" color="default">
-								<b>{{ item.MaCaMau }}</b>
-							</a-tag>
-						</div>
-						<div class="d-flex">
-							<b style="margin-right: 8px">Loại vị trí:</b>
-							<a-tag v-for="item in DSVaiTro"> {{ item.MaVaiTro }} </a-tag>
-						</div>
-						<div><b>Đào tạo:</b> <a-tag>V</a-tag></div>
-					</a-card>
-				</a-col>
-			</a-row>
-		</div>
-		<uc-handsontable ref="refExcel" :data="dsLichPhanCa" :nestedHeaders="templateHeader" :afterChange="afterChange"
-			:height="IsGetData ? 'calc(100vh - 57px)' : 'calc(100vh - 305px)'" :key="keyExcel"  :afterRender="afterRender"
-			:afterGetColHeader="setHeaderClass" >
-			<hot-column title=" Mã" data="MaNhanVien" :readOnly="true"> </hot-column>
-			<hot-column title="Tên nhân viên" data="HoVaTenNhanVien" :readOnly="true"> </hot-column>
-			<hot-column title="Vị trí" data="TenViTri" :readOnly="true"></hot-column>
-			<hot-column title="Phân ca" data="ThongTinPhanCa" width="250" :readOnly="true"></hot-column>
-			<hot-column v-for="(date, index) in dsNgay" :title="date" :data="'Ngay_' + date.toString().padStart('2', 0)"
-				:readOnly="isViewedTemplate" :className="getColumnClassNgay(date, index, dsThu)"> </hot-column>
-
-		</uc-handsontable>
-	</uc-layout>
+    <uc-layout>
+        <a-card>
+            <template #title>
+                <a-space size="small" class="card-title-page">
+                    <a-button @click="redirectToBack()"><uc-icon name="keyboard-backspace" />Trở về</a-button>
+                    {{ pageTitle }}
+                </a-space>
+            </template>
+            <template #extra>
+                <a-space size="small">
+                    <uc-select-nhom-ca-mau v-model:value="NhomCaMau_Id" style="width: 200px !important" />
+                    <a-button type="primary" @click="getTemplate()"
+                        ><uc-icon name="tray-arrow-down" />
+                        Tải dữ liệu mẫu
+                    </a-button>
+                    <a-button v-if="!isViewedTemplate" type="primary" @click="onSave()"><uc-icon name="content-save-outline" />Lưu lịch phân ca</a-button>
+                </a-space>
+            </template>
+        </a-card>
+        <div v-if="!isViewedTemplate" class="bg-white">
+            <a-row class="border-bottom">
+                <a-col :span="6">
+                    <a-card title="Số lượng ca cần / ca có" size="small" class="card-title-page border-0">
+                        <div>
+                            <b>Ca cần:</b>
+                            <a-tag v-for="item in dsCaCan" color="blue">
+                                {{ item.MaViTri }}: <b>{{ item.SoNguoi }}</b>
+                            </a-tag>
+                        </div>
+                        <div class="mt-2">
+                            <b>Ca có:</b>
+                            <a-tag v-for="item in dsCaCo" color="green">
+                                {{ item.MaViTri }}: <b>{{ item.SoNguoi }}</b>
+                            </a-tag>
+                        </div>
+                    </a-card>
+                </a-col>
+                <a-col :span="18">
+                    <a-card title="Số lượng thiếu/dư" size="small" class="card-title-page border-0 table-x-small">
+                        <a-table :columns="columnsNhanSu" :data-source="dataNhanSu" size="small" :pagination="false" bordered></a-table>
+                    </a-card>
+                </a-col>
+                <a-col :span="24">
+                    <a-card size="small" class="card-title-page">
+                        <div class="mb-1">
+                            <b class="me-2">Ca mẫu:</b>
+                            <a-tag v-for="item in dsCaMau">
+                                <b>{{ item.MaCaMau }}</b>
+                            </a-tag>
+                        </div>
+                        <div class="mb-1">
+                            <b class="me-2">Loại vị trí / Vai trò:</b>
+                            <a-tag v-for="item in DSVaiTro"> {{ item.MaVaiTro }} </a-tag>
+                        </div>
+                        <div>
+                            <b class="me-2">Loại ca:</b>
+                            <a-tag v-for="item in DSLoaiCa"> {{ item.MaLoaiCa }} </a-tag>
+                        </div>
+                    </a-card>
+                </a-col>
+            </a-row>
+        </div>
+        <uc-handsontable ref="refExcel" :data="dsLichPhanCa" :nestedHeaders="templateHeader" :afterChange="afterChange" height="calc(100vh - 305px)" :key="keyExcel" :afterRender="afterRender" :afterGetColHeader="setHeaderClass">
+            <hot-column title="Mã" data="MaNhanVien" :readOnly="true"> </hot-column>
+            <hot-column title="Tên nhân viên" data="HoVaTenNhanVien" :readOnly="true"> </hot-column>
+            <hot-column title="Vị trí" data="TenViTri" :readOnly="true"></hot-column>
+            <hot-column title="Phân ca" data="ThongTinPhanCa" width="150" :readOnly="true"></hot-column>
+            <hot-column v-for="(date, index) in dsNgay" :title="date" :data="'Ngay_' + date.toString().padStart('2', 0)" :readOnly="isViewedTemplate" :className="getColumnClassNgay(date, index, dsThu)"> </hot-column>
+        </uc-handsontable>
+    </uc-layout>
 </template>
 <script>
-	export default {
-		props: [],
-		components: {
-			HotColumn: Handsontable.vue.HotColumn,
+export default {
+	props: [],
+	components: {
+		HotColumn: Handsontable.vue.HotColumn,
+	},
+	data() {
+		const urlParam = new URL(window.location.href).searchParams
+		const LichLamViec_Id = parseInt(urlParam.get('llvid'))
+		const MauBangCong_Id = parseInt(urlParam.get('mbcid'))
+		return {
+			LichLamViec_Id: LichLamViec_Id,
+			MauBangCong_Id: MauBangCong_Id,
+			pageTitle: 'Import lịch phân ca',
+			isLoading: false,
+			NhomCaMau_Id: 1,
+			dsNgay: [],
+			dsThu: [],
+			dsCaCan: [],
+			dsCaCo: [],
+			dsCaMau: [],
+			ctLichLamViec: null,
+			ctMauBangCong: null,
+			columnsNhanSu: [],
+			dataNhanSu: [],
+			dsLichPhanCa: [],
+			templateHeader: [[]],
+			isViewedTemplate: true,
+			keyExcel: 0,
+			DSVaiTro: [],
+			DSLoaiCa: []
+		}
+	},
+	watch: {},
+	mounted() {
+	},
+	methods: {
+		redirectToBack() {
+			history.back()
 		},
-		data() {
-			const urlParam = new URL(window.location.href).searchParams
-			const LichLamViec_Id = parseInt(urlParam.get('llvid'))
-			const MauBangCong_Id = parseInt(urlParam.get('mbcid'))
-			return {
-				LichLamViec_Id: LichLamViec_Id,
-				MauBangCong_Id: MauBangCong_Id,
-				pageTitle: 'Import lịch phân ca',
-				isLoading: false,
-				NhomCaMau_Id: 1,
-				dsNgay: [],
-				dsThu: [],
-				dsCaCan: [],
-				dsCaCo: [],
-				dsCaMau: [],
-				ctLichLamViec: null,
-				ctMauBangCong: null,
-				columnsNhanSu: [],
-				dataNhanSu: [],
-				dsLichPhanCa: [],
-				templateHeader: [[]],
-				isViewedTemplate: true,
-				keyExcel: 0,
-				IsGetData: false,
-				DSVaiTro: [],
-			}
-		},
-		watch: {},
-		mounted() {
-	
-			const $this = this
-			//Lấy danh sách Vai trò ra rồi mới xử lý tiếp
+		getVaiTro() {
+			//Lấy danh sách Vai trò
 			ajaxCALL('/work/HR_VaiTro_Select', {}, (res) => {
 				this.DSVaiTro = res.data
-				$this.getData()
+				})
+		},
+		getLoaiCa() {
+			//Lấy danh sách loại ca
+			ajaxCALL('/work/CA_LoaiCa_Select', {}, (res) => {
+				this.DSLoaiCa = res.data
 			})
 		},
-	
-		methods: {
-			redirectToBack() {
-				history.back()
-			},
-			async getData() {
-				const $this = this
-				if ($this.NhomCaMau_Id === null) {
-					$this.$message.error('Vui lòng chọn nhóm ca mẫu')
-					return
-				}
-	
-				$this.IsGetData = true
-	
-				const params = {
-					LichLamViec_Id: $this.LichLamViec_Id,
-					MauBangCong_Id: $this.MauBangCong_Id,
-					NhomCaMau_Id: $this.NhomCaMau_Id,
-				}
-				await lichLamViecService.LichLamViec_PhanCa_Select(params).then(({ DSNgay, DSNhanVien, CTBangCong, CTLichLamViec }) => {
-					$this.pageTitle = `Import lịch phân ca tháng ${CTLichLamViec?.Thang}/${CTLichLamViec?.Nam} - ${CTBangCong.TenMauBangCong}`
-					$this.ctLichLamViec = CTLichLamViec
-					$this.ctMauBangCong = CTBangCong
-					const arrNgay = DSNgay.map((d) => d.Ngay)
-					const arrThu = DSNgay.map((d) => d.Thu)
-					const arrNgayPadStart = DSNgay.map((d) => d.Ngay.toString().padStart('2', 0))
-					$this.dsNgay = arrNgay
-					$this.dsThu = arrThu
-					//Xử lý header
-					$this.templateHeader = [
-						[{ label: 'Thứ', colspan: 4 }, ...arrThu],
-						['Mã', 'Tên nhân viên', 'Vị trí', 'Phân ca', ...arrNgayPadStart],
-					]
-					//Xử lý dữ liệu nhân viên
-					const dataLichPhanCa = []
-					const dsNhanVien = []
-					const arrNhanVienId = []
-					//Remove duplicate nhân viên
-					DSNhanVien.forEach((nv) => {
-						if (arrNhanVienId.indexOf(nv.NhanVien_Id) < 0) {
-							arrNhanVienId.push(nv.NhanVien_Id)
-							dsNhanVien.push({
-								NhanVien_Id: nv.NhanVien_Id,
-								MaNhanVien: nv.MaNhanVien.trim(),
-								HoVaTenNhanVien: nv.HoVaTenNhanVien.trim(),
-								TenViTri: nv.TenViTri,
-							})
-						}
-					})
-					//Xử lý dữ liệu lịch, vị trí, đào tạo
-					dsNhanVien.forEach((nv) => {
-						const dtLich = {}
-						const dtViTri = {}
-						const dtDaoTao = {}
-						const filterArr = DSNhanVien.filter((filter) => filter.NhanVien_Id === nv.NhanVien_Id)
-						for (var item of filterArr) {
-							for (var key in item) {
-								if (key === 'Ngay') {
-									const ngay = item.Ngay.toString().padStart('2', 0)
-									dtLich.ThongTinPhanCa = 'LỊCH LÀM VIỆC'
-									dtLich[`Ngay_${ngay}`] = item.MaCaMau
-									dtViTri.ThongTinPhanCa = 'LOẠI VỊ TRÍ / VAI TRÒ'
-									dtViTri[`Ngay_${ngay}`] = this.convertMaLoaiViTri_List_IDToText(item.MaLoaiViTri_List)
-									dtDaoTao.ThongTinPhanCa = 'ĐÀO TẠO'
-									dtDaoTao[`Ngay_${ngay}`] = item.Is_DaoTao ? 'V' : ''
-								}
-							}
-						}
-						dataLichPhanCa.push({ ...nv, ...dtLich })
-						dataLichPhanCa.push({ ...nv, ...dtViTri })
-						dataLichPhanCa.push({ ...nv, ...dtDaoTao })
-					})
-	
-					$this.dsLichPhanCa = dataLichPhanCa
-					$this.keyExcel += 1
-					if (DSNhanVien.length > 0) {
-						$this.isViewedTemplate = true
-					}
-				})
-			},
-			getColumnClassNgay(date, index, dsThu) {
-				const thu = dsThu[index];
-				return thu === 'CN' ? 'thu-cn-new' : '';
-			},
-	
-			cells: function (row, col) {
-				const cellProperties = {};
-				const $this = this
-				if (col === 3) {
-					const className = this.getColumnClassPhanCa(row, col);
-					cellProperties.className = className; // Gọi hàm để lấy lớp
-				}
-				return cellProperties;
-			},
-	
-			getColumnClassPhanCa(row, col) {
-				console.log(row, col);
-				let className = ''; // Giá trị mặc định
-				const $this = this
-	
-				if ($this.$refs.refExcel) {
-					const hotElement = $this.$refs.refExcel.$el; // Lấy phần tử DOM từ Vue component
-					const cellSelector = `.ht_master .htCore tr:nth-child(${row + 1}) td:nth-child(${col + 2})`;
-					const cellElement = hotElement.querySelector(cellSelector); // Lấy element
-	
-					if (cellElement) {
-						console.log('cellElement:', cellElement);
-						const content = cellElement.textContent; // Lấy giá trị ô
-						console.log('Giá trị ô:', content);
-	
-						// Xử lý giá trị
-	
-						if (content === 'ĐÀO TẠO') {
-							className = 'phanca-bg-training';
-						} else if (content === 'LỊCH LÀM VIỆC') {
-							className = 'phanca-bg-schedule';
-						} else if (content === 'LOẠI VỊ TRÍ / VAI TRÒ') {
-							className = 'phanca-bg-role';
-						}
+		getColumnClassNgay(date, index, dsThu) {
+			const thu = dsThu[index];
+			return thu === 'CN' ? 'thu-cn-new' : '';
+		},
+		cells: function (row, col) {
+			const cellProperties = {};
+			const $this = this
+			if (col === 3) {
+				const className = this.getColumnClassPhanCa(row, col);
+				cellProperties.className = className; // Gọi hàm để lấy lớp
+			}
+			return cellProperties;
+		},
+		getColumnClassPhanCa(row, col) {
+			let className = ''; // Giá trị mặc định
+			const $this = this
+			if ($this.$refs.refExcel) {
+				const hotElement = $this.$refs.refExcel.$el; // Lấy phần tử DOM từ Vue component
+				const cellSelector = `.ht_master .htCore tr:nth-child(${row + 1}) td:nth-child(${col + 2})`;
+				const cellElement = hotElement.querySelector(cellSelector); // Lấy element
+
+				if (cellElement) {
+					const content = cellElement.textContent; // Lấy giá trị ô
+					// Xử lý giá trị
+					if (content === 'LOẠI CA') {
+						className = 'phanca-bg-training';
+					} else if (content === 'CA MẪU') {
+						className = 'phanca-bg-schedule';
+					} else if (content === 'VỊ TRÍ / VAI TRÒ') {
+						className = 'phanca-bg-role';
 					}
 				}
-				return className;
-			},
-			afterRender() {
-				const hotElement = this.$refs.refExcel.$el; // Lấy phần tử DOM từ Vue component
-				let col = 3
-				// Lặp qua tất cả các hàng và cột
-				for (let row = 0; row < this.dsLichPhanCa.length; row++) {
-					const cellSelector = `.ht_master .htCore tr:nth-child(${row + 1}) td:nth-child(${col + 2})`; 
-					
-					const cellElement = hotElement.querySelector(cellSelector); 
-					if (cellElement) { 
-							console.log(cellElement);
-							const content = cellElement.textContent.trim();
-							if (content==='ĐÀO TẠO' ) { 
-								cellElement.classList.add('phanca-bg-training'); 
-							}else if (content === 'LỊCH LÀM VIỆC') 
-							{ 
-								cellElement.classList.add('phanca-bg-schedule'); 
-							} else if(content === 'LOẠI VỊ TRÍ / VAI TRÒ') 
-							{ cellElement.classList.add('phanca-bg-role'); 
+			}
+			return className;
+		},
+		afterRender() {
+			const hotElement = this.$refs.refExcel.$el; // Lấy phần tử DOM từ Vue component
+			let col = 3
+			// Lặp qua tất cả các hàng và cột
+			for (let row = 0; row < this.dsLichPhanCa.length; row++) {
+				const cellSelector = `.ht_master .htCore tr:nth-child(${row + 1}) td:nth-child(${col + 2})`;
+				const cellElement = hotElement.querySelector(cellSelector);
+				if (cellElement) {
+					const content = cellElement.textContent.trim();
+					if (content === 'LOẠI CA') {
+						cellElement.classList.add('phanca-bg-training');
+					} else if (content === 'CA MẪU') {
+						cellElement.classList.add('phanca-bg-schedule');
+					} else if (content === 'VỊ TRÍ / VAI TRÒ') {
+						cellElement.classList.add('phanca-bg-role');
 					}
 				}
 			}
@@ -267,10 +180,8 @@
 			// Sao chép mảng và thêm 4 phần tử vào đầu
 			const thu = ['', '', '', '', ...this.dsThu]; // Ví dụ giá trị thứ
 			const ngay = ['', '', '', '', ...this.dsNgay]; // Ví dụ các ngày
-	
 			const currentThu = thu[col]; // Lấy giá trị thứ từ mảng mới
 			const currentNgay = ngay[col]; // Lấy giá trị ngày từ mảng mới
-	
 			// Kiểm tra xem tiêu đề có phải là 'CN' không
 			if (currentThu === 'CN') {
 				TH.classList.add('thu-cn-new'); // Thêm class
@@ -282,13 +193,16 @@
 				$this.$message.error('Vui lòng chọn nhóm ca mẫu')
 				return
 			}
-			$this.IsGetData = false
+			$this.getVaiTro()
+			$this.getLoaiCa()
 			const params = {
 				LichLamViec_Id: $this.LichLamViec_Id,
 				MauBangCong_Id: $this.MauBangCong_Id,
 				NhomCaMau_Id: $this.NhomCaMau_Id,
 			}
-			await lichLamViecService.LichLamViec_PhanCa_Select_Template(params).then(({ DSNgay, DSCaCan, DSCaCo, DSCaMau, CTNhanSuDuBao, CTNhanSuOff, DSNhanVien }) => {
+			await lichLamViecService.LichLamViec_PhanCa_Select_Template(params).then(({ DSNgay, DSCaCan, DSCaCo, DSCaMau, CTNhanSuDuBao, CTNhanSuOff, DSNhanVien, CTLichLamViec, CTBangCong }) => {
+				console.log('CTLichLamViec', CTLichLamViec)
+				$this.pageTitle = `Import lịch phân ca tháng ${CTLichLamViec?.Thang}/${CTLichLamViec?.Nam} - ${CTBangCong.TenMauBangCong}`
 				$this.dsCaCan = DSCaCan
 				$this.dsCaCo = DSCaCo
 				$this.dsCaMau = DSCaMau
@@ -348,7 +262,7 @@
 					return CTNhanSuDuBao[d.Cot_Ngay] ?? 0
 				})
 				//Xử lý dòng nhân sự có dựa vào tổng nhân sự và lịch off
-				const tongSoLuongNhanSuCo = DSNhanVien.length
+				const tongSoLuongNhanSuCo = DSNhanVien?.length / 3 //Lấy tổng nhân sự có dựa vào danh sách (Chia 3 vì 1 nhân sự có 3 dòng)
 				const arrNhanSuCo = DSNgay.map((d) => {
 					return tongSoLuongNhanSuCo - (CTNhanSuOff[d.Cot_Ngay] ?? 0)
 				})
@@ -361,28 +275,10 @@
 					[{ label: 'Tổng nhân sự dự có', colspan: 4 }, ...arrNhanSuCo],
 					['Mã', 'Tên nhân viên', 'Vị trí', 'Phân ca', ...arrNgayPadStart],
 				]
-	
-				console.log(DSNhanVien)
+
 				$this.dsLichPhanCa = DSNhanVien
 				$this.keyExcel += 1
 				$this.isViewedTemplate = false
-			})
-		},
-		onDelete() {
-			const $this = this
-			Confirm.delete({
-				content: `Xác nhận xóa lịch phân ca T${$this.ctLichLamViec?.Thang + '/' + $this.ctLichLamViec?.Nam} của ${$this.ctMauBangCong?.TenMauBangCong}`,
-				async onOk() {
-					const params = {
-						LichLamViec_Id: $this.LichLamViec_Id,
-						MauBangCong_Id: $this.MauBangCong_Id,
-					}
-					const isDelete = await lichLamViecService.LichLamViec_PhanCa_Delete_By_MauBangCong_Id(params)
-					if (isDelete) {
-						$this.$message.success('Xóa lịch phân ca thành công')
-						$this.getTemplate()
-					}
-				},
 			})
 		},
 		afterChange(changes) {
@@ -406,45 +302,43 @@
 				}
 			})
 		},
-	
 		onSave() {
 			const $this = this
 			const jsonLichLamViec = []
 			const jsonViTri = []
-			const jsonDaoTao = []
+			const jsonLoaiCa = []
 			$this.dsLichPhanCa.forEach((item) => {
 				Object.keys(item).forEach((key) => {
 					if (key.includes('Ngay_')) {
-						if (item.ThongTinPhanCa === 'LỊCH LÀM VIỆC') {
+						if (item.ThongTinPhanCa === 'CA MẪU') {
 							jsonLichLamViec.push({
 								NhanVien_Id: item.NhanVien_Id,
 								Ngay: key.split('_')[1],
 								MaCaMau: item[key] ? item[key].trim() : '',
 							})
 						}
-						if (item.ThongTinPhanCa === 'LOẠI VỊ TRÍ / VAI TRÒ') {
+						if (item.ThongTinPhanCa === 'VỊ TRÍ / VAI TRÒ') {
 							jsonViTri.push({
 								NhanVien_Id: item.NhanVien_Id,
 								Ngay: key.split('_')[1],
 								MaLoaiViTri_List: item[key] ? this.convertMaLoaiViTri_List_TextToID(item[key].trim()) : '',
 							})
 						}
-						if (item.ThongTinPhanCa === 'ĐÀO TẠO') {
-							jsonDaoTao.push({
+						if (item.ThongTinPhanCa === 'LOẠI CA') {
+							jsonLoaiCa.push({
 								NhanVien_Id: item.NhanVien_Id,
 								Ngay: key.split('_')[1],
-								Is_DaoTao: item[key] === 'V' ? 1 : 0,
+								MaLoaiCa: item[key] ? item[key].trim() : '',
 							})
 						}
 					}
 				})
 			})
-			console.log(jsonViTri)
 			const jsonLichLamViecPhanCa = []
 			jsonLichLamViec.forEach((item, index) => {
 				const mergeLich_ViTri = Object.assign(jsonLichLamViec[index], jsonViTri[index])
-				const mergeLich_ViTri_DaoTao = Object.assign(mergeLich_ViTri, jsonDaoTao[index])
-				jsonLichLamViecPhanCa.push(mergeLich_ViTri_DaoTao)
+				const mergeLich_ViTri_LoaiCa = Object.assign(mergeLich_ViTri, jsonLoaiCa[index])
+				jsonLichLamViecPhanCa.push(mergeLich_ViTri_LoaiCa)
 			})
 			const params = {
 				LichLamViec_Id: $this.LichLamViec_Id,
@@ -469,7 +363,6 @@
 			return arrList.join(',')
 		},
 		convertMaLoaiViTri_List_IDToText(MaLoaiViTri_List) {
-			console.log(MaLoaiViTri_List)
 			let str_list = MaLoaiViTri_List.split(',')
 			const arrList = []
 			for (var str of str_list) {
@@ -481,5 +374,5 @@
 			return arrList.join(',')
 		}
 	}
-				},
+},
 </script>

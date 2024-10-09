@@ -3,7 +3,7 @@
         <uc-modal v-model:isOpen="isOpen" title="Tìm nhóm đề xuất" :width="500" @onClose="onCloseModal()" ref="refFormModal">
             <a-row class="mt-4">
                 <a-col :span="24">
-                    <a-input-search v-model:value="value" placeholder="Tìm nhanh" @search="onSearch" />
+                    <a-input-search v-model:value="searchText" placeholder="Tìm nhanh" @search="onSearch" />
                 </a-col>
                 <a-col :span="24" class="mt-2">
                     <a-list item-layout="horizontal" :data-source="DSNhomNghiPhep">
@@ -21,7 +21,7 @@
                 </a-col>
             </a-row>
         </uc-modal>
-        <uc-modal-add-dx-nghi-phep v-model:isOpen="isShowModalAddDeXuat" />
+        <uc-modal-add-dx-nghi-phep v-model:isOpen="isShowModalAddDeXuat" :recordChinhSach/>
     </a-spin>
 </template>
 
@@ -31,6 +31,7 @@ export default {
     emits: ['update:isOpen'],
     data() {
         return {
+            searchText:'',
             spinning: false,
             isShowModalAddDeXuat: false,
             DSDeXuat: [
@@ -56,6 +57,10 @@ export default {
                     LoaiDeXuat: 1,
                 },
             ],
+            recordChinhSach: {
+                ChinhSach: {},
+                dsNhanSu: [],
+            },
         }
     },
     methods: {
@@ -63,8 +68,17 @@ export default {
             this.$emit('update:isOpen', false)
         },
         onSearch() {},
-        onOpenModalAddDeXuat() {
+        async onOpenModalAddDeXuat(record) {
             this.isShowModalAddDeXuat = true
+            // const isSelect = await chinhSachService.ChinhSach_LamThem_Select_By_Id({
+            //     ChinhSach_LamThem_Id: record.ChinhSach_LamThem_Id,
+            // })
+            // if (isSelect) {
+            //     this.recordChinhSach.ChinhSach = Object.assign({}, isSelect[0][0])
+            //     this.recordChinhSach.ChinhSach.Is_TamKhoa = isSelect[0][0].Is_TamKhoa === true ? 1 : 0
+            //     this.recordChinhSach.dsKhungGio = Object.assign([], isSelect[1])
+            //     this.recordChinhSach.dsNhanSu = Object.assign([], isSelect[2])
+            // }
             this.onCloseModal()
         },
     },

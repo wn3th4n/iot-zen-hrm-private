@@ -32,12 +32,12 @@
 			</a-col>
 			<a-col :sm="12" :md="12">
 				<a-form-item label="Ngày bắt đầu" name="NgayBatDau">
-					<a-date-picker format="DD/MM/YYYY" v-model:value="formData.NgayHieuLuc" class="w-100"
+					<a-date-picker format="DD/MM/YYYY" v-model:value="formData.NgayBatDau" class="w-100"
 						:allowClear="false"> </a-date-picker>
 				</a-form-item>
 			</a-col>
 			<a-col :sm="12" :md="12">
-				<a-form-item label="Ngày bắt đầu" name="NgayKetThuc">
+				<a-form-item label="Ngày kết thúc" name="NgayKetThuc">
 					<a-date-picker format="DD/MM/YYYY" v-model:value="formData.NgayKetThuc" class="w-100"
 						:allowClear="false"> </a-date-picker>
 				</a-form-item>
@@ -58,9 +58,9 @@
 			<a-col :sm="24" :md="24">
 				<a-form-item label="Gửi thông báo cho nhân sự qua email" name="TrangThai_ThongBao">
 					<a-select v-model:value="formData.TrangThai_ThongBao">
-						<a-select-option :value="0">Không gửi email</a-select-option>
-						<a-select-option :value="1">Gửi email cho nhân sự không kèm chi tiết hợp đồng</a-select-option>
-						<a-select-option :value="2">Gửi email cho nhân sự kèm chi tiết hợp đồng</a-select-option>
+						<a-select-option :value="1">Không gửi email</a-select-option>
+						<a-select-option :value="2">Gửi email cho nhân sự không kèm chi tiết hợp đồng</a-select-option>
+						<a-select-option :value="3">Gửi email cho nhân sự kèm chi tiết hợp đồng</a-select-option>
 					</a-select>
 				</a-form-item>
 			</a-col>
@@ -70,25 +70,34 @@
 				<a-row :gutter="[10]" v-for="(item, index) in formData.DuLieuList" :key="index">
 					<a-col :sm="24" :md="24">
 						<a-form-item :label="item.TenTruongDuLieu" class="w-100">
-							<a-input class="w-100" v-if="item.KieuDuLieu === 'TEXT'" />
+							<a-input v-model:value="formData.DataDuLieuList[index].GiaTri" class="w-100"
+								v-if="item.KieuDuLieu === 'TEXT'" />
 							<!-- Chỉ cho phép số nguyên -->
-							<a-input-number class="w-100" v-if="item.KieuDuLieu === 'INT'" :step="1" />
+							<a-input-number v-model:value="formData.DataDuLieuList[index].GiaTri" class="w-100"
+								v-if="item.KieuDuLieu === 'INT'" :step="1" />
 							<!-- Chỉ cho phép số thập phân -->
-							<a-input-number class="w-100" v-if="item.KieuDuLieu === 'FLOAT'" :step="0.01" />
-							<a-date-picker class="w-100" v-if="item.KieuDuLieu === 'DATE'" format="DD/MM/YYYY" />
-							<a-date-picker class="w-100" v-if="item.KieuDuLieu === 'DATETIME'" :minuteStep="5" showTime
+							<a-input-number v-model:value="formData.DataDuLieuList[index].GiaTri" class="w-100"
+								v-if="item.KieuDuLieu === 'FLOAT'" :step="0.01" />
+							<a-date-picker v-model:value="formData.DataDuLieuList[index].GiaTri" class="w-100"
+								v-if="item.KieuDuLieu === 'DATE'" format="DD/MM/YYYY" />
+							<a-date-picker v-model:value="formData.DataDuLieuList[index].GiaTri" class="w-100"
+								v-if="item.KieuDuLieu === 'DATETIME'" :minuteStep="5" showTime
 								format="DD/MM/YYYY HH:mm" />
 							<!-- Select đơn -->
-							<a-select v-if="item.KieuDuLieu === 'SELECT'"
+							<a-select v-model:value="formData.DataDuLieuList[index].GiaTri"
+								v-if="item.KieuDuLieu === 'SELECT'"
 								:options="item.value.map(option => ({ value: option, label: option }))" />
 
 							<!-- Select nhiều -->
-							<a-select v-if="item.KieuDuLieu === 'SELECT_M'" mode="multiple"
+							<a-select v-model:value="formData.DataDuLieuList[index].GiaTri"
+								v-if="item.KieuDuLieu === 'SELECT_M'" mode="multiple"
 								:options="item.value.map(option => ({ value: option, label: option }))" />
 
-							<a-checkbox v-if="item.KieuDuLieu === 'CHECKBOX'">{{item.MoTa}}</a-checkbox>
+							<a-checkbox v-model:value="formData.DataDuLieuList[index].GiaTri"
+								v-if="item.KieuDuLieu === 'CHECKBOX'">{{item.MoTa}}</a-checkbox>
 
-							<a-textarea v-if="item.KieuDuLieu === 'TEXTAREA'" />
+							<a-textarea v-model:value="formData.DataDuLieuList[index].GiaTri"
+								v-if="item.KieuDuLieu === 'TEXTAREA'" />
 						</a-form-item>
 					</a-col>
 				</a-row>
@@ -96,7 +105,7 @@
 
 			<a-col :sm="24" :md="24">
 				<a-form-item label="File đính kèm" name="File_DinhKem">
-					<uc-file-upload v-model:value="formData.File_DinhKem" :multiple="false" title="Upload File" />
+					<uc-file-upload v-model="formData.File_DinhKem" :multiple="false" title="Upload File" />
 				</a-form-item>
 			</a-col>
 			<a-col :sm="24" :md="24">
@@ -128,6 +137,8 @@
 					quan</a-checkbox>
 			</a-col>
 		</a-row>
+
+
 	</uc-form-modal>
 </template>
 
@@ -148,14 +159,15 @@
 					NgayBatDau: null,
 					NgayKetThuc: null,
 					MaHopDong: null,
-					TrangThai_HopDong: 0,
-					TrangThai_ThongBao: 0,
+					TrangThai_HopDong: null,
+					TrangThai_ThongBao: null,
 					File_DinhKem: [],
 					DuLieuList: [],
+					DataDuLieuList: [],
 					MoTa: null,
-					Is_XuLy_FileMau: 0,
-					Is_ThongBao_NguoiLienQuan: 0,
-					BacThuong_Id: null,
+					Is_XuLy_FileMau: null,
+					Is_ThongBao_NguoiLienQuan: null,
+					BacLuong_Id: null,
 					BacThuong_Id: null,
 					LuongCoBan: null,
 				},
@@ -190,7 +202,16 @@
 								item.LuaChon_List
 						}
 					})
+					this.formData.DuLieuList.forEach(item => {
+						const obj = {
+							LoaiHopDong_TruongDuLieu_Id: item.LoaiHopDong_TruongDuLieu_Id,
+							GiaTri: null,
+							KieuDuLieu: item.KieuDuLieu,
+						}
+						this.formData.DataDuLieuList.push(obj)
+					})
 					console.log("this.formData.DuLieuList", this.formData.DuLieuList)
+					console.log("clone array", this.formData.DataDuLieuList)
 				} else {
 					console.log("Fail to load du lieu")
 				}
@@ -202,8 +223,49 @@
 				this.$emit('update:isOpen', false)
 				this.$refs.modalRef.$refs.formRef.resetFields()
 			},
-			onSubmit() {
+			async onSubmit() {
+				const ngayBatDau = this.formData.NgayBatDau?.format("YYYY-MM-DD")
+				const ngayKetThuc = this.formData.NgayKetThuc?.format("YYYY-MM-DD")
 				console.log("formdata", this.formData)
+				console.log("binding data", this.formData.DataDuLieuList)
+	
+				const apiData = []
+				this.formData.DataDuLieuList.forEach(item => {
+					const obj = {
+						LoaiHopDong_TruongDuLieu_Id: item.LoaiHopDong_TruongDuLieu_Id,
+						GiaTri: item.GiaTri && (item.KieuDuLieu === 'DATE') ? item.GiaTri.format("YYYY-MM-DD") : item.GiaTri && item.KieuDuLieu === 'DATETIME' ?
+							item.GiaTri?.format("YYYY-MM-DD HH:mm") : item.GiaTri
+					}
+					apiData.push(obj)
+				})
+	
+				const param = {
+					NhanVien_Id: this.formData.NhanVien_Id,
+					LoaiHopDong_Id: this.formData.LoaiHopDong_Id,
+					Is_HopDongThuViec: this.formData.Is_HopDong_ThuViec,
+					Is_HopDongDaQua: this.formData.Is_HopDong_HienTai,
+					NgayBatDau: ngayBatDau,
+					NgayKetThuc: ngayKetThuc,
+					MaHopDong: this.formData.MaHopDong,
+					Is_DaKy: this.formData.TrangThai_HopDong,
+					LoaiGuiEmail: this.formData.TrangThai_ThongBao,
+					File_Id: this.formData.File_DinhKem[0]?.uid,
+					MoTa: this.formData.MoTa,
+					LuongCoBan: this.formData.LuongCoBan,
+					BacLuong_Id: this.formData.BacLuong_Id,
+					BacThuong_Id: this.formData.BacThuong_Id,
+					TruongDuLieu_JSON: apiData
+				}
+	
+				console.log("param", param)
+	
+				const reps = await nhanVienService.NhanVien_HopDong_Insert(param).finally(() => this.state.isLoadingModal = false)
+	
+				if (reps) {
+					this.onCancel()
+					this.$message.success("Thêm hợp đồng thành công")
+					this.$emit('onFinish')
+				}
 			},
 			formatter(value) {
 				return `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')

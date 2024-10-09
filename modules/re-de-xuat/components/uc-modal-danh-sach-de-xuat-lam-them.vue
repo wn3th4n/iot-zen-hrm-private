@@ -1,13 +1,13 @@
 <template>
     <a-spin :spinning="spinning" :delay="0">
-        <uc-modal v-model:isOpen="isOpen" title="Tìm nhóm đề xuất" :width="500" @onClose="onCloseModal()"
+        <uc-modal v-model:isOpen="isOpen" title="Chọn nhóm đề xuất" :width="500" @onClose="onCloseModal()"
             ref="refFormModal">
             <a-row class="mt-4">
                 <a-col :span="24">
-                    <a-input-search v-model:value="value" placeholder="Tìm nhanh" @search="onSearch" />
+                    <a-input-search v-model:value="searchValue" placeholder="Tìm nhanh" @search="onSearch" />
                 </a-col>
                 <a-col :span="24" class="mt-2">
-                    <a-list item-layout="horizontal" :data-source="DSChinhSachLamThem">
+                    <a-list item-layout="horizontal" :data-source="DSChinhSachLamThem.filter(item => item.TenChinhSach_LamThem.toLowerCase().includes(searchValue.toLowerCase()))">
                         <template #renderItem="{ item }">
                             <a-list-item class="px-2 cursor-pointer" @click="onOpenModalAddDeXuat(item)">
                                 <a-list-item-meta>
@@ -16,6 +16,7 @@
                                     </template>
                                     <template #description>
                                         <div>
+                                            
                                             <span class="mt-2">{{ item.MoTa }}</span>
                                         </div>
                                     </template>
@@ -36,31 +37,10 @@ export default {
     emits: ['update:isOpen','onFinish'],
     data() {
         return {
+            searchValue: '',
             spinning: false,
             isShowModalAddDeXuat: false,
-            DSDeXuat: [
-                {
-                    TenDeXuat: 'Quên chấm công vào hoặc ra (QLCM_QLCH)',
-                    MoTa: `Tên đề xuất ghi rõ họ và tên, Chọn ngày phát sinh quên chấm công và chọn cả 2 ca có trong ngày, 
-                    Trường hợp quên chấm công vào ‘Hoặc’ quên chấm công ra, * Tạo đề xuất sau không quá 03 ngày kể từ ngày quên chấm công., 
-                    * Ngoài thời gian trên,sẽ không tạo được đề xuất và sẽ không tính công.`,
-                    LoaiDeXuat: 1,
-                },
-                {
-                    TenDeXuat: 'Quên chấm công vào hoặc ra (Shipper)',
-                    MoTa: `Tên đề xuất ghi rõ họ và tên, Chọn ngày phát sinh quên chấm công và chọn cả 2 ca có trong ngày, 
-                    Trường hợp quên chấm công vào ‘Hoặc’ quên chấm công ra, * Tạo đề xuất sau không quá 03 ngày kể từ ngày quên chấm công., 
-                    * Ngoài thời gian trên,sẽ không tạo được đề xuất và sẽ không tính công.`,
-                    LoaiDeXuat: 1,
-                },
-                {
-                    TenDeXuat: 'Quên chấm công vào hoặc ra (TTBH)',
-                    MoTa: `Áp dụng đối với bộ phận Truyền Thông - Bán Hàng, Tên đề xuất ghi rõ họ và tên, 
-                    Chọn ngày phát sinh quên chấm công và chọn cả 2 ca có trong ngày, Trường hợp quên chấm công vào ‘Hoặc’ quên chấm công ra, 
-                    * Tạo đề xuất sau không quá 03 ngày kể từ ngày quên chấm công., * Ngoài thời gian trên, sẽ không tạo được đề xuất và sẽ không tính công.`,
-                    LoaiDeXuat: 1,
-                },
-            ],
+            DSDeXuat: [],
             recordChinhSach: {
                 ChinhSach: {},
                 dsNhanSu: [],

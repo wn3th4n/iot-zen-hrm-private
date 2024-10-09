@@ -104,6 +104,19 @@ const getPagination = (pagination) => {
     return newPag
 }
 
+const getPaginationDeXuat = (pagination) => {
+    console.log(pagination)
+    const newPag = {
+        current: pagination.PageIndex,
+        pageSize: pagination.PageSize,
+        total: pagination.TotalRow,
+        totalRow: pagination.TotalRow,
+        totalPage: pagination.TotalPage,
+        showTotal: (total, range) => `${range[0]} - ${range[1]} / ${total} mục`,
+    }
+    return newPag
+}
+
 const propsModalConfirm = {
     okButtonProps: {
         id: 'okButtonAction',

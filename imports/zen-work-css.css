@@ -220,8 +220,6 @@ body .handsontable .myCols {
     /* Màu nền sáng cho đào tạo */
     color: #007bff !important;
     /* Màu chữ xanh dương */
-    text-align: center;
-    /* Căn giữa chữ */
     font-size: 14px;
     /* Kích thước chữ nhỏ hơn */
 }
@@ -231,8 +229,6 @@ body .handsontable .myCols {
     /* Màu nền sáng cho lịch làm việc */
     color: #856404 !important;
     /* Màu chữ nâu */
-    text-align: center;
-    /* Căn giữa chữ */
     font-size: 14px;
     /* Kích thước chữ nhỏ hơn */
 }
@@ -242,8 +238,6 @@ body .handsontable .myCols {
     /* Màu nền sáng cho loại vị trí */
     color: #155724 !important;
     /* Màu chữ xanh lá */
-    text-align: center;
-    /* Căn giữa chữ */
     font-size: 14px;
     /* Kích thước chữ nhỏ hơn */
 }

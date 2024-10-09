@@ -40,6 +40,7 @@
 	                    copyColumnGroupHeaders: true,
 	                    copyColumnHeadersOnly: true,
 	                },
+					contextMenu:  ['copy', 'copy_with_column_headers', 'copy_with_column_group_headers', 'copy_column_headers_only']
 	            },
 	        }
 	    },

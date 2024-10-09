@@ -23,12 +23,12 @@
             <a-col :span="12">
                 <a-row :gutter="[10]">
                     <a-col :span="24" class="mt-3">
-                        <a-form-item label="Tên nhóm chính sách đề xuất" name="TenNhomChinhSach">
+                        <a-form-item label="Nhóm đề xuất" name="TenNhomChinhSach">
                             <a-input v-model:value="recordChinhSach.ChinhSach.TenNhomChinhSach_LamThem" disabled />
                         </a-form-item>
                     </a-col>
                     <a-col :span="24" class="mt-3">
-                        <a-form-item label="Tên chính sách đề xuất" name="TenChinhSach">
+                        <a-form-item label="Loại đề xuất" name="TenChinhSach">
                             <a-input v-model:value="recordChinhSach.ChinhSach.TenChinhSach_LamThem" disabled />
                         </a-form-item>
                     </a-col>
@@ -42,16 +42,6 @@
                             <uc-select-nhan-vien v-model:value="form.NhanVien_Id" />
                         </a-form-item>
                     </a-col>
-                    <!-- <a-col :span="12">
-                <a-form-item label="Chính sách" name="NhomDeXuat_Id">
-                    <a-input :disabled="true" />
-                </a-form-item>
-            </a-col>
-            <a-col :span="12">
-                <a-form-item label="Nhóm" name="LoaiDeXuat_Id">
-                    <a-input :disabled="true" />
-                </a-form-item>
-            </a-col> -->
                     <a-col :span="24">
                         <a-form-item label="Mô tả">
                             <a-textarea v-model:value="form.MoTa" :rows="3" />

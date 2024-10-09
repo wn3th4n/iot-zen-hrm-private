@@ -106,6 +106,7 @@
 				value:{
 					recordModalAddHopDong: {},
 					dsLoaiHopDong: [],
+					dsHopDongLaoDong: [],
 					dataEditModalLoaiHopDong: {},
 					recordEdit:{}
 				},
@@ -209,6 +210,9 @@
 					onOk: await loaiHopDongService.LoaiHopDong_Delete(record.LoaiHopDong_Id)
 				})
 			},
+			async onLoadHopDongLaoDong(){
+
+			}
 			
 		},
 	}
