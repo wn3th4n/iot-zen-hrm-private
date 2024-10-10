@@ -190,6 +190,8 @@ export default {
             this.spinning = false
             this.timeStart = null
             this.timeEnd = null
+            this.DSNhanVienProcess = []
+            this.cachTinh = 1
             this.is_break = true
             this.$emit('onFinish')
             this.$emit('update:isOpen', false)
@@ -293,8 +295,10 @@ export default {
                             }
                             dataFormula.push(obj)
                         })
-                        let DS_CongThucCong_1CA = $this.DS_CongThucCong.filter((item) => item.LichLamViec_PhanCa_Id === $this.DS_DuLieuCong[0].LichLamViec_PhanCa_Id)
-                        DS_CongThucCong_1CA.forEach((item) => {
+                        // let DS_CongThucCong_1CA = $this.DS_CongThucCong.filter((item) => item.LichLamViec_PhanCa_Id === $this.DS_DuLieuCong[0].LichLamViec_PhanCa_Id)
+                        // console.log('DS_CongThucCong_1CA', DS_CongThucCong_1CA)
+
+                        $this.DS_CongThucCong.forEach((item) => {
                             let obj = {
                                 LoaiDuLieu: item.LoaiDuLieu,
                                 LoaiThuocTinh: item.LoaiThuocTinh,

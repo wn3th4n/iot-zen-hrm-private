@@ -36,7 +36,8 @@
                                     <a-divider class="my-1"></a-divider>
                                     <a-menu-item @click="isShowModalSaoChepCa = true"><uc-icon name="content-copy" />Sao chép ca</a-menu-item>
                                     <a-divider class="my-1"></a-divider>
-                                    <a-menu-item @click="onDelete()"><uc-icon name="delete-outline" color="red" />Xóa lịch phân ca</a-menu-item>
+                                    <a-menu-item @click="onDeleteCaHangLoat()"><uc-icon name="delete-outline" color="red" />Xóa ca hàng loạt</a-menu-item>
+                                    <a-menu-item @click="onDelete()"><uc-icon name="delete-outline" color="red" />Xóa tất cả ca</a-menu-item>
                                 </a-menu>
                             </template>
                         </a-dropdown>
@@ -101,7 +102,7 @@
                                 <a-button @click="onOpenModalAddCa(record, day)" type="primary" size="small" block><uc-icon name="plus" class="cursor-pointer me-0" /></a-button>
                             </div>
                             <div v-for="ca in record[day.Cot_Ngay]" @click="onOpenModalThongTinCa(ca)" class="cursor-pointer">
-                                <a-tag class="mt-1 w-100" :color="ca?.TrangThai_Mau" :style="{ ...(ca?.GioCheckIn ? { borderLeft: '5px solid' } : {}), ...(ca?.GioCheckOut ? { borderRight: '5px solid' } : {}) }">
+                                <a-tag class="mt-1 w-100" :color="ca?.TrangThai_Mau" :style="{ ...(ca?.GioCheckIn ? { borderLeft: '5px solid' } : {}), ...(ca?.GioCheckOut ? { borderRight: '5px solid' } : {}), ...(ca?.VanPhong_Id !== CTBangCong.VanPhong_Id ? { opacity: 0.4 } : { opacity: 1 }) }">
                                     <template #icon><uc-icon :name="ca?.TrangThai_Icon" /></template>
                                     {{ ca?.GioBatDau }} - {{ ca?.GioKetThuc }}
                                 </a-tag>
@@ -111,7 +112,7 @@
                 </template>
             </template>
         </a-table>
-
+        <uc-modal-delete-hang-loat v-model:isOpen="isShowModalXoaCaHangLoat" :thangchuky="thangChuKy" :namchuky="namChuKy" :lichlamviecid="LichLamViec_Id" :maubangcongid="MauBangCong_Id" :ctbangcong="CTBangCong" :dsnhanvien="DSNhanVien" @onFinish="renderLichPhanCa()" />
         <uc-modal-thong-tin-ca v-model:isOpen="isShowModalThongTinCa" :record="recordThongTinCa" :dsloaica="DSLoaiCa" :dsvaitro="DSVaiTro" :dsvanphong="DSVanPhong" :dscamau="DSCaMau" @onFinish="renderLichPhanCa()" :lichlamviecid="LichLamViec_Id" />
         <uc-modal-add-ca v-model:isOpen="isShowModalAddCa" :record="recordAddCa" :recordday="recordDay" :dsloaica="DSLoaiCa" :dsvaitro="DSVaiTro" :dsvanphong="DSVanPhong" :dscamau="DSCaMau" @onFinish="renderLichPhanCa()" :lichlamviecid="LichLamViec_Id" :maubangcongid="MauBangCong_Id" :nhanvienid="NhanVien_Id" :ngay="Ngay" />
         <uc-modal-sao-chep-ca v-model:isOpen="isShowModalSaoChepCa" :lichlamviecid="LichLamViec_Id" :dsChuKy="DSChuKy" :maubangcongid="MauBangCong_Id" :thangchuky="thangChuKy" :namchuky="namChuKy" />
@@ -137,6 +138,7 @@ export default {
             isShowModalThongTinCa: false,
             isShowModalSaoChepCa: false,
             isShowModalPhanCaHangLoat: false,
+            isShowModalXoaCaHangLoat: false,
             columns: [],
             DSNgay: [],
             CTLichLamViec: null,
@@ -199,6 +201,7 @@ export default {
                     Icon: 'currency-usd-off',
                 },
             ],
+
             NhanVien_Id: null,
             Ngay: null,
             DSNhanVien: [],
@@ -269,7 +272,7 @@ export default {
                         for (var phanCa of DSFilterNhanVienPhanCa) {
                             //Xử lý dữ liệu ca của nhân viên
                             const CaCuaNhanVienID = DSFilterNhanVienPhanCa.filter((x) => x.Ngay === phanCa.Ngay).map((ca) => {
-                                return { ...ca, ...CTBangCong }
+                                return { ...ca }
                             })
                             //Tính tổng số công, giờ công
                             tongCongChuan += phanCa.SoCongChuan
@@ -392,16 +395,16 @@ export default {
         onDelete() {
             const $this = this
             Confirm.delete({
-                content: `Xác nhận xóa lịch phân ca T${$this.CTLichLamViec?.Thang + '/' + $this.CTLichLamViec?.Nam} của ${$this.CTBangCong?.TenMauBangCong}`,
+                content: `Xác nhận xóa tất cả ca T${$this.CTLichLamViec?.Thang + '/' + $this.CTLichLamViec?.Nam} của ${$this.CTBangCong?.TenMauBangCong}`,
                 async onOk() {
                     const params = {
                         LichLamViec_Id: $this.LichLamViec_Id,
                         MauBangCong_Id: $this.MauBangCong_Id,
                     }
-                    const isDelete = await lichLamViecService.LichLamViec_PhanCa_Delete_By_MauBangCong_Id(params)
+                    const isDelete = await lichLamViecService.LichLamViec_PhanCa_Delete_TatCa(params)
                     if (isDelete) {
                         $this.renderLichPhanCa()
-                        $this.$message.success('Xóa lịch phân ca thành công')
+                        $this.$message.success('Xóa tất cả ca thành công')
                     }
                 },
             })
@@ -411,6 +414,9 @@ export default {
         },
         handleTableChange(pagination) {
             this.currentPage = pagination.current
+        },
+        onDeleteCaHangLoat() {
+            this.isShowModalXoaCaHangLoat = true
         },
     },
 }

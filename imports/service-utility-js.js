@@ -318,10 +318,26 @@ const lichLamViecService = {
             return false
         }
     },
-    LichLamViec_PhanCa_Delete_By_MauBangCong_Id: async (params) => {
+    LichLamViec_PhanCa_Delete_TatCa: async (params) => {
         //@LichLamViec_Id INT
         //@MauBangCong_Id INT
-        const res = await apiUtilWork.CA('LichLamViec_PhanCa_Delete_By_MauBangCong_Id', params)
+        const res = await apiUtilWork.CA('LichLamViec_PhanCa_Delete_TatCa', params)
+        if (res.data) {
+            return true
+        } else {
+            return false
+        }
+    },
+    LichLamViec_PhanCa_Delete_HangLoat: async (params) => {
+        // @LichLamViec_Id INT,
+        // @MauBangCong_Id INT,
+        // -----------------------
+        // @Is_TatCaNgay BIT,
+        // @TuNgay DATE,
+        // @DenNgay DATE,
+        // @Is_TatCaNhanVien BIT,
+        // @NhanVien_Id_List NVARCHAR(MAX)
+        const res = await apiUtilWork.CA('LichLamViec_PhanCa_Delete_HangLoat', params)
         if (res.data) {
             return true
         } else {
@@ -1881,6 +1897,18 @@ const nhanVienService = {
             return false
         }
     },
+
+    NhanVien_HopDong_Select_By_Id: async (params) => {
+        //NhanVien_HopDong_Id
+        const res = await apiUtilWork.HR('NhanVien_HopDong_Select_By_Id', params)
+        if (res.data) {
+            return res.data
+        } else {
+            return []
+        }
+    },
+
+
     NhanVien_HopDong_Update: async (params) => {
         //@NhanVien_HopDong_Id INT,
         //@Is_HopDongThuViec BIT,
@@ -2890,6 +2918,87 @@ const loaiHopDongLoaiDuLieuService = {
             return false
         }
     },
+}
 
+const deXuatNghiPhepService = {
+    DeXuat_NghiPhep_Delete: async (params) => {
+        //@DeXuat_NghiPhep_Id INT
+        const res = await apiUtilWork.TO('DeXuat_NghiPhep_Delete', params)
+        if (res) {
+            return true
+        } else {
+            return false
+        }
+    },
 
+    DeXuat_NghiPhep_Duyet: async (params) => {
+        //@DeXuat_NghiPhep_Id INT
+        const res = await apiUtilWork.TO('DeXuat_NghiPhep_Duyet', params)
+        if (res) {
+            return true
+        } else {
+            return false
+        }
+    },
+
+    DeXuat_NghiPhep_Insert: async (params) => {
+        // @ChinhSach_NghiPhep_Id INT,
+        // @NhanVien_Id INT,
+        // @TieuDe NVARCHAR(500),
+        // @LyDo NVARCHAR(500),
+        // @MoTa NVARCHAR(500),
+        // @File_Id CHAR(36),
+        // @BatDau_Ngay VARCHAR(10),
+        // @BatDau_Gio VARCHAR(5),
+        // @KetThuc_Ngay VARCHAR(10),
+        // @KetThuc_Gio VARCHAR(5),
+        // @KhungGio_JSON NVARCHAR(MAX),
+        // @NguoiQuanLy_JSON NVARCHAR(MAX)
+        const res = await apiUtilWork.TO('DeXuat_NghiPhep_Insert', params)
+        if (res) {
+            return true
+        } else {
+            return false
+        }
+    },
+
+    DeXuat_NghiPhep_Update: async (params) => {
+        //     @DeXuat_NghiPhep_Id INT,
+        // @TieuDe NVARCHAR(500),
+        // @LyDo NVARCHAR(500),
+        // @MoTa NVARCHAR(500),
+        // @File_Id CHAR(36)
+        const res = await apiUtilWork.TO('DeXuat_NghiPhep_Update', params)
+        if (res) {
+            return true
+        } else {
+            return false
+        }
+    },
+
+    DeXuat_NghiPhep_Select: async (params) => {
+        //     @TrangThai TINYINT, -- 0: Tất cả; 1: Chờ duyệt; 2: Đã duyệt; 3: Từ chối
+        // @NhanVien_Id INT,
+        // @ChinhSach_NghiPhep_Id INT,
+        // -----------------------
+        // @PageIndex INT,
+        // @PageSize INT
+        const res = await apiUtilWork.TO('DeXuat_NghiPhep_Select', params)
+        if (res) {
+            return res.data
+        } else {
+            return []
+        }
+    },
+
+    DeXuat_NghiPhep_TuChoi: async (params) => {
+        //     @DeXuat_NghiPhep_Id INT,
+        // @LyDoTuChoi NVARCHAR(500)
+        const res = await apiUtilWork.TO('DeXuat_NghiPhep_TuChoi', params)
+        if (res) {
+            return true
+        } else {
+            return false
+        }
+    },
 }

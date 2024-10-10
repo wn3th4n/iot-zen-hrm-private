@@ -170,35 +170,36 @@ export default {
             const $this = this
             $this.isLoading = true
             let arrLoaiViTriId = $this.formData.MaLoaiViTri_List.join(',')
-            const res = await caService.LichLamViec_PhanCa_Insert({
-                LichLamViec_Id: $this.LichLamViec_Id,
-                MauBangCong_Id: $this.MauBangCong_Id,
-                Ngay: $this.Ngay,
-                CaMau_Id: $this.CaMau_Id ?? 0,
-                LoaiCa_Id: $this.formData.LoaiCa_Id,
-                NhanVien_Id: $this.NhanVien_Id,
-                SoPhutNghi: $this.formData.SoPhutNghi,
-                VanPhong_Id: $this.formData.VanPhong_Id,
-                MaLoaiViTri_List: arrLoaiViTriId,
-                GioBatDau: $this.formData.GioBatDau.format('HH:mm'),
-                GioKetThuc: $this.formData.GioKetThuc.format('HH:mm'),
-                SoCongChuan: $this.formData.SoCongChuan,
-                BatDauCa_Som_Phut: $this.formData.BatDauCa_Som_Phut,
-                BatDauCa_Tre_Phut: $this.formData.BatDauCa_Tre_Phut,
-                KetThucCa_Som_Phut: $this.formData.KetThucCa_Som_Phut,
-                KetThucCa_Tre_Phut: $this.formData.KetThucCa_Tre_Phut,
-                Is_CaQuaDem: $this.formData.Is_CaQuaDem,
-                Is_DaoTao: $this.formData.Is_DaoTao,
-                Is_XuatBan: $this.formData.Is_XuatBan,
-                GhiChu: $this.formData.GhiChu ?? '',
-            })
+            const res = await caService
+                .LichLamViec_PhanCa_Insert({
+                    LichLamViec_Id: $this.LichLamViec_Id,
+                    MauBangCong_Id: $this.MauBangCong_Id,
+                    Ngay: $this.Ngay,
+                    CaMau_Id: $this.CaMau_Id ?? 0,
+                    LoaiCa_Id: $this.formData.LoaiCa_Id,
+                    NhanVien_Id: $this.NhanVien_Id,
+                    SoPhutNghi: $this.formData.SoPhutNghi,
+                    VanPhong_Id: $this.formData.VanPhong_Id,
+                    MaLoaiViTri_List: arrLoaiViTriId,
+                    GioBatDau: $this.formData.GioBatDau.format('HH:mm'),
+                    GioKetThuc: $this.formData.GioKetThuc.format('HH:mm'),
+                    SoCongChuan: $this.formData.SoCongChuan,
+                    BatDauCa_Som_Phut: $this.formData.BatDauCa_Som_Phut,
+                    BatDauCa_Tre_Phut: $this.formData.BatDauCa_Tre_Phut,
+                    KetThucCa_Som_Phut: $this.formData.KetThucCa_Som_Phut,
+                    KetThucCa_Tre_Phut: $this.formData.KetThucCa_Tre_Phut,
+                    Is_CaQuaDem: $this.formData.Is_CaQuaDem,
+                    Is_DaoTao: $this.formData.Is_DaoTao,
+                    Is_XuatBan: $this.formData.Is_XuatBan,
+                    GhiChu: $this.formData.GhiChu ?? '',
+                })
+                .finally(() => ($this.isLoading = false))
             if (res) {
                 $this.$emit('onFinish')
                 $this.handleCancel()
                 $this.$refs.modalRef.$refs.formRef.resetFields()
                 $this.$message.success('Thêm ca thành công!')
             }
-            $this.isLoading = false
         },
         async loadCaMau_Select_By_Id() {
             const res = await caService.CaMau_Select_By_Id({ CaMau_Id: this.CaMau_Id })

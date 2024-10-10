@@ -30,24 +30,19 @@
 					</a-select>
 				</a-form-item>
 			</a-col>
-			<a-col :sm="12" :md="12">
+			<a-col :sm="8" :md="8">
 				<a-form-item label="Ngày bắt đầu" name="NgayBatDau">
 					<a-date-picker format="DD/MM/YYYY" v-model:value="formData.NgayBatDau" class="w-100"
 						:allowClear="false"> </a-date-picker>
 				</a-form-item>
 			</a-col>
-			<a-col :sm="12" :md="12">
+			<a-col :sm="8" :md="8">
 				<a-form-item label="Ngày kết thúc" name="NgayKetThuc">
 					<a-date-picker format="DD/MM/YYYY" v-model:value="formData.NgayKetThuc" class="w-100"
 						:allowClear="false"> </a-date-picker>
 				</a-form-item>
 			</a-col>
-			<a-col :sm="12" :md="12">
-				<a-form-item label="Mã hợp đồng" name="MaHopDong">
-					<a-input v-model:value="formData.MaHopDong" />
-				</a-form-item>
-			</a-col>
-			<a-col :sm="12" :md="12">
+			<a-col :sm="8" :md="8">
 				<a-form-item label="Trạng thái hợp đồng" name="TrangThai_HopDong">
 					<a-select v-model:value="formData.TrangThai_HopDong">
 						<a-select-option :value="0">Đang xử lý</a-select-option>
@@ -55,7 +50,13 @@
 					</a-select>
 				</a-form-item>
 			</a-col>
-			<a-col :sm="24" :md="24">
+			<a-col :sm="8" :md="8">
+				<a-form-item label="Mã hợp đồng" name="MaHopDong">
+					<a-input v-model:value="formData.MaHopDong" />
+				</a-form-item>
+			</a-col>
+			
+			<a-col :sm="16" :md="16">
 				<a-form-item label="Gửi thông báo cho nhân sự qua email" name="TrangThai_ThongBao">
 					<a-select v-model:value="formData.TrangThai_ThongBao">
 						<a-select-option :value="1">Không gửi email</a-select-option>
@@ -129,12 +130,6 @@
 					<a-input-number v-model:value="formData.LuongCoBan" :formatter="formatter" :parser="parser"
 						class="w-100" />
 				</a-form-item>
-			</a-col>
-
-			<a-col :sm="24" :md="24">
-				<a-checkbox v-model:value="formData.Is_XuLy_FileMau">Xử lý file mẫu</a-checkbox><br />
-				<a-checkbox v-model:value="formData.Is_ThongBao_NguoiLienQuan">Thông báo tới người có liên
-					quan</a-checkbox>
 			</a-col>
 		</a-row>
 

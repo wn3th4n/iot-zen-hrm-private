@@ -22,13 +22,13 @@
         <a-tab-pane key="1" tab="Tất cả" @handletablechange="handleTableChange">
             <a-table show-size-changer :columns="columns.All" :data-source="values.DSDeXuat"
                 :loading="states.isloadingTableSellectAll" :pagination="values.pagination" @change="handleTableChange"
-                size="small" v-bind="$attrs" :scroll="{ x: 'fit-content', y: 'calc(100vh - 184px)' }">
-                <template #bodyCell="{ column, record, value }">
+                size="small" v-bind="$attrs" :scroll="{ x: 'fit-content' ,  y: 'calc(100vh - 184px)' }">
+
+                <template #bodyCell="{ column, record }">
                     <template v-if="column.key === 'ThuTu'"><span>{{ (values.DSDeXuat.indexOf(record) +
                         1).toString().padStart('2', 0) }}</span></template>
-                    <template v-else-if="column.key === 'TenTieuDe'">
-                        <b>{{ record.TenTieuDe }}</b><br/>
-                        <span>{{ record.TenDeXuat }}</span>
+                    <template v-else-if="column.key === 'TieuDe'">
+                        <b>{{ record.TieuDe }}</b><br/>
                     </template>
                     <template v-else-if="column.key === 'NguoiThucThi'">
                         <div class="d-flex flex-row align-items-center gap-2">
@@ -44,26 +44,34 @@
                         <a-tag v-else-if="!record.Is_Duyet && !record.Is_TuChoi" color="warning">Đang chờ duyệt</a-tag>
                         <a-tag v-if="record.Is_TuChoi && !record.Is_Duyet" color="red">Đã từ chối</a-tag>
                     </template>
-                    <template v-else-if="column.key === 'NgayLamThem'">
-                        {{ new Date(value).toLocaleDateString('en-GB') }}
+                    <template v-else-if="column.key === 'dsKhungGio'">
+                        <uc-tag-list :dsKhungGio="record.dsKhungGio" />
                     </template>
+                    <template v-else-if="column.key === 'NgayTao'">
+                        {{ new Date(record.NgayTao).toLocaleDateString('en-GB') }}
+                    </template>
+                    <template v-else-if="column.key === 'NgayLamThem'">
+                        {{ new Date(record.NgayLamThem).toLocaleDateString('en-GB') }}
+                    </template>
+                  
+                   
                     <template v-else-if="column.key === 'Action'">
                         <a-dropdown trigger="click">
-                            <uc-icon color="primary" name="dots-horizontal" class="cursor-pointer" />
+                            <uc-icon color="primary" name="square-edit-outline" class="cursor-pointer" />
                             <template #overlay>
                                 <a-menu>
                                     <a-menu-item @click="onDuyet(record)"> <uc-icon color="success"
                                             name="account-edit" /> Duyệt
                                     </a-menu-item>
                                     <a-menu-item @click="onOpenModalTuChoiDX(record)"> <uc-icon
-                                            name="text-box-edit-outline" class="text-red" /> Từ chối </a-menu-item>
+                                            name="text-box-edit-outline" class="text-red" /> Từ chối</a-menu-item>
                                     <a-divider class="my-1"></a-divider>
                                     <a-menu-item @click="onOpenModalEditDX(record)"> <uc-icon name="square-edit-outline"
                                             class="text-primary" />
-                                        Sửa đề xuất </a-menu-item>
+                                        Sửa đề xuất</a-menu-item>
                                     <a-menu-item @click="onDelete(record)"> <uc-icon class="text-red"
                                             name="delete-outline" /> Xoá đề
-                                        xuất </a-menu-item>
+                                        xuất</a-menu-item>
                                 </a-menu>
                             </template>
                         </a-dropdown>
@@ -78,9 +86,8 @@
                 <template #bodyCell="{ column, record, value }">
                     <template v-if="column.key === 'ThuTu'"><span>{{ (values.DSDeXuat.indexOf(record) +
                         1).toString().padStart('2', 0) }}</span></template>
-                    <template v-else-if="column.key === 'TenTieuDe'">
-                        <b>{{ record.TenTieuDe }}</b><br />
-                        <span>{{ record.TenDeXuat }}</span>
+                    <template v-else-if="column.key === 'TieuDe'">
+                        <b>{{ record.TieuDe }}</b><br />
                     </template>
                     <template v-else-if="column.key === 'NguoiThucThi'">
                         <div class="d-flex flex-row align-items-center gap-2">
@@ -96,12 +103,15 @@
                         <a-tag v-else-if="!record.Is_Duyet && !record.Is_TuChoi" color="warning">Đang chờ duyệt</a-tag>
                         <a-tag v-if="record.Is_TuChoi && !record.Is_Duyet" color="red">Đã từ chối</a-tag>
                     </template>
-                    <template v-else-if="column.key === 'NgayLamThem'">
-                        {{ new Date(value).toLocaleDateString('en-GB') }}
+                    <template v-else-if="column.key === 'dsKhungGio'">
+                        <uc-tag-list :dsKhungGio="record.dsKhungGio" />
+                    </template>
+                    <template v-else-if="column.key === 'NgayTao'">
+                        {{ new Date(record.NgayTao).toLocaleDateString('en-GB') }}
                     </template>
                     <template v-else-if="column.key === 'Action'">
                         <a-dropdown trigger="click">
-                            <uc-icon color="primary" name="dots-horizontal" class="cursor-pointer" />
+                            <uc-icon color="primary" name="square-edit-outline" class="cursor-pointer" />
                             <template #overlay>
                                 <a-menu>
                                     <a-menu-item @click="onDuyet(record)"> <uc-icon color="success"
@@ -128,11 +138,10 @@
                 :loading="states.isloadingTableDaDuyet" :pagination="values.pagination" @change="handleTableChange"
                 size="small" v-bind="$attrs" :scroll="{ x: 'fit-content', y: 'calc(100vh - 184px)' }">
                 <template #bodyCell="{ column, record, value }">
-                    <template v-if="column.key === 'ThuTu'"><span>{{ (values.DSDeXuat.indexOf(record) +
+                    <template v-if="column.key === 'ThuTu'"><span>{{ (values.dsDaDuyet.indexOf(record) +
                         1).toString().padStart('2', 0) }}</span></template>
-                    <template v-else-if="column.key === 'TenTieuDe'">
-                        <b>{{ record.TenTieuDe }}</b><br />
-                        <span>{{ record.TenDeXuat }}</span>
+                    <template v-else-if="column.key === 'TieuDe'">
+                        <b>{{ record.TieuDe }}</b><br />
                     </template>
                     <template v-else-if="column.key === 'NguoiThucThi'">
                         <div class="d-flex flex-row align-items-center gap-2">
@@ -142,6 +151,9 @@
                                 <span class="text-primary">{{ record.DeXuat_MaNhanVien }}</span>
                             </div>
                         </div>
+                    </template>
+                    <template v-else-if="column.key === 'dsKhungGio'">
+                        <uc-tag-list :dsKhungGio="record.dsKhungGio" />
                     </template>
                     <template v-else-if="column.key === 'NguoiDuyet'">
                         <div class="d-flex flex-row align-items-center gap-2">
@@ -158,36 +170,27 @@
                         <a-tag v-if="record.Is_TuChoi && !record.Is_Duyet" color="red">Đã từ chối</a-tag>
                     </template>
                     <template v-else-if="column.key === 'NgayLamThem'">
-                        {{ new Date(value).toLocaleDateString('en-GB') }}
+                        {{ new Date(record.NgayLamThem).toLocaleDateString('en-GB') }}
+                    </template>
+                    <template v-else-if="column.key === 'NgayTao'">
+                        {{ new Date(record.NgayTao).toLocaleDateString('en-GB') }}
                     </template>
                     <template v-else-if="column.key === 'NgayDuyet'">
-                        {{ new Date(record.NgayDuyet).toLocaleDateString('en-GB') }} - {{ record.GioDuyet }}
-                    </template>
-                    <template v-else-if="column.key === 'Action'">
-                        <a-dropdown trigger="click">
-                            <uc-icon color="primary" name="dots-horizontal" class="cursor-pointer" />
-                            <template #overlay>
-                                <a-menu>
-                                    <a-menu-item @click="onDelete(record)"> <uc-icon class="text-red"
-                                            name="delete-outline" /> Xoá đề
-                                        xuất </a-menu-item>
-                                </a-menu>
-                            </template>
-                        </a-dropdown>
+                        {{ new Date(record.NgayDuyet).toLocaleDateString('en-GB') }} 
+                         {{ record.GioDuyet }}
                     </template>
                 </template>
             </a-table>
         </a-tab-pane>
         <a-tab-pane key="4" tab="Đã từ chối">
-            <a-table show-size-changer :columns="columns" :data-source="values.dsTuChoi"
+            <a-table show-size-changer :columns="columns.TuChoi" :data-source="values.dsTuChoi"
                 :loading="states.isloadingTableTuChoi" :pagination="values.pagination" @change="handleTableChange"
                 size="small" v-bind="$attrs" :scroll="{ x: 'fit-content', y: 'calc(100vh - 184px)' }">
                 <template #bodyCell="{ column, record, value }">
                     <template v-if="column.key === 'ThuTu'"><span>{{ (values.DSDeXuat.indexOf(record) +
                         1).toString().padStart('2', 0) }}</span></template>
-                    <template v-else-if="column.key === 'TenTieuDe'">
-                        <b>{{ record.TenTieuDe }}</b><br />
-                        <span>{{ record.TenDeXuat }}</span>
+                    <template v-else-if="column.key === 'TieuDe'">
+                        <b>{{ record.TieuDe }}</b><br />
                     </template>
                     <template v-else-if="column.key === 'NguoiThucThi'">
                         <div class="d-flex flex-row align-items-center gap-2">
@@ -198,6 +201,21 @@
                             </div>
                         </div>
                     </template>
+                    <template v-else-if="column.key === 'NguoiTuChoi'">
+                        <div class="d-flex flex-row align-items-center gap-2">
+                            <uc-avatar :text="record.TuChoi_HoVaTenNhanVien" :src="record.TuChoi_AnhDaiDien_Url"/>
+                            <div>
+                                <b>{{ record.TuChoi_HoVaTenNhanVien }}</b><br />
+                                <span class="text-primary">{{ record.TuChoi_MaNhanVien }}</span>
+                            </div>
+                        </div>
+                    </template>
+                    <template v-else-if="column.key === 'dsKhungGio'">
+                        <uc-tag-list :dsKhungGio="record.dsKhungGio" />
+                    </template>
+                    <template v-else-if="column.key === 'NgayTao'">
+                        {{ new Date(record.NgayTao).toLocaleDateString('en-GB') }}
+                    </template>
                     <template v-else-if="column.key === 'TrangThai'">
                         <a-tag v-if="record.Is_Duyet" color="green">Đã duyệt</a-tag>
                         <a-tag v-else-if="!record.Is_Duyet && !record.Is_TuChoi" color="warning">Đang chờ duyệt</a-tag>
@@ -205,18 +223,6 @@
                     </template>
                     <template v-else-if="column.key === 'NgayLamThem'">
                         {{ new Date(value).toLocaleDateString('en-GB') }}
-                    </template>
-                    <template v-else-if="column.key === 'Action'">
-                        <a-dropdown trigger="click">
-                            <uc-icon color="primary" name="dots-horizontal" class="cursor-pointer" />
-                            <template #overlay>
-                                <a-menu>
-                                    <a-menu-item @click="onDelete(record)"> <uc-icon class="text-red"
-                                            name="delete-outline" /> Xoá đề
-                                        xuất </a-menu-item>
-                                </a-menu>
-                            </template>
-                        </a-dropdown>
                     </template>
                 </template>
             </a-table>
@@ -248,115 +254,241 @@ export default {
                         fixed: 'left'
                     },
                     {
-                        title: 'Tiêu đề',
-                        dataIndex: 'TieuDe',
-                        key: 'TieuDe',
-                         fixed: 'left'
-                    },
-                    
-                    {
                         title: 'Người đề xuất',
                         dataIndex: 'DeXuat_HoVaTenNhanVien',
                         key: 'NguoiThucThi',
-                         fixed: 'left'
-                    },
-                    
-                    
-                    {
-                        title: 'Mô tả',
-                        dataIndex: 'MoTa',
-                        key: 'MoTa',
-                    },
-                    {
-                        title: 'Trạng thái',
-                        dataIndex: 'TrangThai',
-                        key: 'TrangThai',
-                        align: 'center',
-                        width: '150px'
-                    },
-                    {
-                        title: 'Ngày tăng ca',
-                        dataIndex: 'NgayLamThem',
-                        key: 'NgayLamThem',
-                        align: 'center',
-                        width: '150px'
-                    },
-                    {
-                        title: 'Ngày tạo',
-                        dataIndex: 'NgayTao',
-                        align: 'center',
-                        width: '150px'
-                    },
-                    {
-                        title: 'Thao tác',
-                        key: 'Action',
-                        align: 'center',
-                        width: '100px'
-                    },
-                ],
-                DaDuyet: [
-                    {
-                        title: '#',
-                        dataIndex: 'ThuTu',
-                        key: 'ThuTu',
-                        align: 'center',
-                        width: '50px',
-                    },
-                    {
-                        title: 'Tiêu đề',
-                        dataIndex: 'TieuDe',
-                        key: 'TieuDe',
-                        width:'250px',
-                    },
-                    {
-                        title: 'Người đề xuất',
-                        dataIndex: 'DeXuat_HoVaTenNhanVien',
-                        key: 'NguoiThucThi',
-                        width:'250px',
-                    },
-                    {
-                        title: 'Mô tả',
-                        dataIndex: 'MoTa',
-                        key: 'MoTa',
-                    },
-                    {
-                        title: 'Trạng thái',
-                        dataIndex: 'TrangThai',
-                        key: 'TrangThai',
-                        align: 'center',
-                        width: '150px'
-                    },
+                         width:'250px',
+                         fixed: 'left',
 
-                    {
-                        title: 'Ngày tăng ca',
-                        dataIndex: 'NgayLamThem',
-                        key: 'NgayLamThem',
-                        align: 'center',
-                        width: '150px'
-                    },
-                    {
-                        title: 'Ngày tạo',
-                        dataIndex: 'NgayTao',
-                        align: 'center',
-                        width: '150px'
-                    },
-                    {
-                        title: 'Ngày Duyệt',
-                        dataIndex: 'NgayDuyet',
-                        align: 'center',
-                        width: '150px'
-                    },
-                    {
-                        title: 'Người đã duyệt',
-                        dataIndex: 'Duyet_HoVaTenNhanVien',
-                        key: 'NguoiDuyet',
-                        width:'250px',
                     },
                     {
                         title: '',
                         key: 'Action',
                         align: 'center',
-                        width: '50px'
+                        width: '50px',
+                        fixed: 'left',
+                    },
+                    {
+                        title: 'Tiêu đề',
+                        dataIndex: 'TieuDe',
+                        key: 'TieuDe',
+                        width:'250px',
+                    },
+                    
+                    {
+                        title: 'Trạng thái',
+                        dataIndex: 'TrangThai',
+                        key: 'TrangThai',
+                        align: 'center',
+                        width: '150px'
+                    },
+                    {
+                        title: 'Mô tả',
+                        dataIndex: 'MoTa',
+                        key: 'MoTa',
+                        width:'250px',
+                    },
+                    {
+                        title: 'Ngày tạo',
+                        key: 'NgayTao',
+                        align: 'center',
+                         width: '150px'
+                    },
+                    {
+                        title: 'Nhóm truy cập',
+                        dataIndex: 'TenNhomNhanVien',
+                        key: 'TenNhomNhanVien',
+                        width:'150px',
+                        align: 'center'
+                    },
+                    {
+                        title: 'Khung giờ',
+                        key: 'dsKhungGio',
+                        align: 'center',
+                        width: '300px'
+                    },
+                    {
+                        title: 'Ngày bắt đầu tăng ca',
+                        dataIndex: 'NgayBatDau',
+                        key: 'NgayBatDau',
+                        align: 'center',
+                        width: '200px'
+                    },
+                    {
+                        title: 'Ngày kết thúc tăng ca',
+                        dataIndex: 'NgayKetThuc',
+                        key: 'NgayKetThuc',
+                        align: 'center',
+                        width: '200px'
+                    },
+                   
+                ],
+                DaDuyet: [
+                {
+                        title: '#',
+                        dataIndex: 'ThuTu',
+                        key: 'ThuTu',
+                        align: 'center',
+                        width: '50px',
+                        fixed: 'left'
+                    },
+                    {
+                        title: 'Người đề xuất',
+                        dataIndex: 'DeXuat_HoVaTenNhanVien',
+                        key: 'NguoiThucThi',
+                         width:'250px',
+                         fixed: 'left',
+
+                    },
+                    {
+                        title: 'Tiêu đề',
+                        dataIndex: 'TieuDe',
+                        key: 'TieuDe',
+                        width:'250px',
+                    },
+                    
+                    {
+                        title: 'Trạng thái',
+                        dataIndex: 'TrangThai',
+                        key: 'TrangThai',
+                        align: 'center',
+                        width: '150px'
+                    },
+                    {
+                        title: 'Mô tả',
+                        dataIndex: 'MoTa',
+                        key: 'MoTa',
+                        width:'250px',
+                    },
+                    {
+                        title: 'Ngày tạo',
+                        key: 'NgayTao',
+                        align: 'center',
+                         width: '150px'
+                    },
+                    {
+                        title: 'Nhóm truy cập',
+                        dataIndex: 'TenNhomNhanVien',
+                        key: 'TenNhomNhanVien',
+                        width:'150px',
+                        align: 'center'
+                    },
+                    {
+                        title: 'Khung giờ',
+                        key: 'dsKhungGio',
+                        align: 'center',
+                        width: '300px'
+                    },
+                    {
+                        title: 'Ngày bắt đầu tăng ca',
+                        dataIndex: 'NgayBatDau',
+                        key: 'NgayBatDau',
+                        align: 'center',
+                        width: '200px'
+                    },
+                    {
+                        title: 'Ngày kết thúc tăng ca',
+                        dataIndex: 'NgayKetThuc',
+                        key: 'NgayKetThuc',
+                        align: 'center',
+                        width: '200px'
+                    },
+                    {
+                        title: 'Người duyệt',
+                        dataIndex: 'Duyet_HoVaTenNhanVien',
+                        key: 'NguoiDuyet',
+                        width:'250px',
+                    },
+                    {
+                        title: 'Thời gian duyệt',
+                        dataIndex: 'NgayDuyet',
+                        key: 'NgayDuyet',
+                        align: 'center',
+                        width: '200px'
+                    },
+                ],
+                TuChoi: [
+                {
+                        title: '#',
+                        dataIndex: 'ThuTu',
+                        key: 'ThuTu',
+                        align: 'center',
+                        width: '50px',
+                        fixed: 'left'
+                    },
+                    {
+                        title: 'Người đề xuất',
+                        dataIndex: 'DeXuat_HoVaTenNhanVien',
+                        key: 'NguoiThucThi',
+                         width:'250px',
+                         fixed: 'left',
+
+                    },
+                    {
+                        title: 'Tiêu đề',
+                        dataIndex: 'TieuDe',
+                        key: 'TieuDe',
+                        width:'250px',
+                    },
+                    
+                    {
+                        title: 'Trạng thái',
+                        dataIndex: 'TrangThai',
+                        key: 'TrangThai',
+                        align: 'center',
+                        width: '150px'
+                    },
+                    {
+                        title: 'Mô tả',
+                        dataIndex: 'MoTa',
+                        key: 'MoTa',
+                        width:'250px',
+                    },
+                    {
+                        title: 'Ngày tạo',
+                        key: 'NgayTao',
+                        align: 'center',
+                         width: '150px'
+                    },
+                    {
+                        title: 'Nhóm truy cập',
+                        dataIndex: 'TenNhomNhanVien',
+                        key: 'TenNhomNhanVien',
+                        width:'150px',
+                        align: 'center'
+                    },
+                    {
+                        title: 'Khung giờ',
+                        key: 'dsKhungGio',
+                        align: 'center',
+                        width: '300px'
+                    },
+                    {
+                        title: 'Ngày bắt đầu tăng ca',
+                        dataIndex: 'NgayBatDau',
+                        key: 'NgayBatDau',
+                        align: 'center',
+                        width: '200px'
+                    },
+                    {
+                        title: 'Ngày kết thúc tăng ca',
+                        dataIndex: 'NgayKetThuc',
+                        key: 'NgayKetThuc',
+                        align: 'center',
+                        width: '200px'
+                    },
+                    {
+                        title: 'Người từ chối',
+                        dataIndex: 'TuChoi_HoVaTenNhanVien',
+                        key: 'NguoiTuChoi',
+                        width:'250px',
+                    },
+                    {
+                        title: 'Thời gian từ chối',
+                        dataIndex: 'NgayTuChoi',
+                        key: 'NgayTuChoi',
+                        align: 'center',
+                        width: '200px'
                     },
                 ],
                 
@@ -453,9 +585,19 @@ export default {
                 const KhungGioList = isSelectDangChoDuyet[2]
                 const mergedData = DeXuatList.map(proposal => {
                     const matchedTimeSlot = KhungGioList.find(slot => slot.DeXuat_LamThem_Id.trim() === proposal.DeXuat_LamThem_Id.toString());
+                    const matchedTimeFilter= KhungGioList.filter(i => i.DeXuat_LamThem_Id.trim() === proposal.DeXuat_LamThem_Id.toString());
+                    const matchedTimeFormated = matchedTimeFilter.map(item => {
+                        return {
+                            ...item, 
+                            DeXuat_LamThem_Id: proposal.DeXuat_LamThem_Id,
+                            NgayLamThem: item.NgayLamThem.split('/').splice(0, 2).join('/')
+                        }
+                    });
                     return {
                         ...proposal,
-                        ...matchedTimeSlot,
+                        dsKhungGio: [...matchedTimeFormated],
+                        NgayBatDau: matchedTimeSlot ? matchedTimeSlot.NgayBatDau : '',
+                        NgayKetThuc: matchedTimeSlot ? matchedTimeSlot.NgayKetThuc : '',
                         DeXuat_LamThem_Id: proposal.DeXuat_LamThem_Id,
                     };
                 })
@@ -480,9 +622,19 @@ export default {
                 const KhungGioList = isSelectDaDuyet[2]
                 const mergedData = DeXuatList.map(proposal => {
                     const matchedTimeSlot = KhungGioList.find(slot => slot.DeXuat_LamThem_Id.trim() === proposal.DeXuat_LamThem_Id.toString());
+                    const matchedTimeFilter= KhungGioList.filter(i => i.DeXuat_LamThem_Id.trim() === proposal.DeXuat_LamThem_Id.toString());
+                    const matchedTimeFormated = matchedTimeFilter.map(item => {
+                        return {
+                            ...item, 
+                            DeXuat_LamThem_Id: proposal.DeXuat_LamThem_Id,
+                            NgayLamThem: item.NgayLamThem.split('/').splice(0, 2).join('/')
+                        }
+                    });
                     return {
                         ...proposal,
-                        ...matchedTimeSlot,
+                        dsKhungGio: [...matchedTimeFormated],
+                        NgayBatDau: matchedTimeSlot ? matchedTimeSlot.NgayBatDau : '',
+                        NgayKetThuc: matchedTimeSlot ? matchedTimeSlot.NgayKetThuc : '',
                         DeXuat_LamThem_Id: proposal.DeXuat_LamThem_Id,
                     };
                 })
@@ -507,10 +659,20 @@ export default {
                 const KhungGioList = isSelectTuChoi[2]
                 const mergedData = DeXuatList.map(proposal => {
                     const matchedTimeSlot = KhungGioList.find(slot => slot.DeXuat_LamThem_Id.trim() === proposal.DeXuat_LamThem_Id.toString());
+                    const matchedTimeFilter= KhungGioList.filter(i => i.DeXuat_LamThem_Id.trim() === proposal.DeXuat_LamThem_Id.toString());
+                    const matchedTimeFormated = matchedTimeFilter.map(item => {
+                        return {
+                            ...item, 
+                            DeXuat_LamThem_Id: proposal.DeXuat_LamThem_Id,
+                            NgayLamThem: item.NgayLamThem.split('/').splice(0, 2).join('/')
+                        }
+                    });
                     return {
                         ...proposal,
-                        ...matchedTimeSlot,
+                        dsKhungGio: [...matchedTimeFormated],
                         DeXuat_LamThem_Id: proposal.DeXuat_LamThem_Id,
+                        NgayBatDau: matchedTimeSlot ? matchedTimeSlot.NgayBatDau : '',
+                        NgayKetThuc: matchedTimeSlot ? matchedTimeSlot.NgayKetThuc : '',
                     };
                 })
                 $this.values.dsTuChoi = Object.assign([], mergedData)
@@ -533,12 +695,23 @@ export default {
                 const KhungGioList = isSelectAll[2]
                 const mergedData = DeXuatList.map(proposal => {
                     const matchedTimeSlot = KhungGioList.find(slot => slot.DeXuat_LamThem_Id.trim() === proposal.DeXuat_LamThem_Id.toString());
+                    const matchedTimeFilter= KhungGioList.filter(i => i.DeXuat_LamThem_Id.trim() === proposal.DeXuat_LamThem_Id.toString());
+                    const matchedTimeFormated = matchedTimeFilter.map(item => {
+                        return {
+                            ...item, 
+                            DeXuat_LamThem_Id: proposal.DeXuat_LamThem_Id,
+                            NgayLamThem: item.NgayLamThem.split('/').splice(0, 2).join('/')
+                        }
+                    });
                     return {
                         ...proposal,
-                        ...matchedTimeSlot,
+                        dsKhungGio: [...matchedTimeFormated],
+                        NgayBatDau: matchedTimeSlot ? matchedTimeSlot.NgayBatDau : '',
+                        NgayKetThuc: matchedTimeSlot ? matchedTimeSlot.NgayKetThuc : '',
                         DeXuat_LamThem_Id: proposal.DeXuat_LamThem_Id,
                     };
                 })
+
                 $this.values.DSDeXuat = Object.assign([], mergedData)
             }
 
@@ -558,7 +731,6 @@ export default {
             })
         },
         handleTableChange(_pagination) {
-            console.log(_pagination)
             const $this = this
             $this.values.paramSelect = {
                 ...$this.values.paramSelect,
@@ -568,7 +740,6 @@ export default {
             $this.onSearch()
         },
         onDuyet(record) {
-            console.log(record);
             Confirm.confirm({
                 content: 'Bạn có muốn duyệt đề xuất?',
                 onOk: async () => {

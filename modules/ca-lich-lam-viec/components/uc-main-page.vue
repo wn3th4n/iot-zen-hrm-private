@@ -97,7 +97,7 @@
                     <template v-if="column?.key === day?.Cot_Ngay">
                         <div :id="day?.Thu_So + '_' + day?.Ngay">
                             <div v-for="ca in record[day.Cot_Ngay]" class="cursor-pointer">
-                                <a-tag class="mt-1 w-100" :color="ca?.TrangThai_Mau" :style="{ ...(ca?.GioCheckIn ? { borderLeft: '5px solid' } : {}), ...(ca?.GioCheckOut ? { borderRight: '5px solid' } : {}) }" @click="onOpenModalThongTinCa(ca)">
+                                <a-tag class="mt-1 w-100" :color="ca?.TrangThai_Mau" :style="{ ...(ca?.GioCheckIn ? { borderLeft: '5px solid' } : {}), ...(ca?.GioCheckOut ? { borderRight: '5px solid' } : {}), ...(ca?.VanPhong_Id !== CTBangCong.VanPhong_Id ? { opacity: 0.4 } : { opacity: 1 }) }" @click="onOpenModalThongTinCa(ca, record)">
                                     <template #icon><uc-icon :name="ca?.TrangThai_Icon" /></template>
                                     <span>{{ ca?.GioBatDau }} - {{ ca?.GioKetThuc }} </span>
                                     <span class="float-end shift-number" :class="ca?.TrangThai_Cong_Mau" v-if="current === 1">{{ ca.SoCongChuan }}</span>
@@ -282,23 +282,30 @@ export default {
                         const DSFilterNhanVienPhanCa = DSPhanCa.filter((x) => x.NhanVien_Id === nv.NhanVien_Id)
                         let tongCongChuan = 0
                         let tongGioCong = 0
+                        console.log('DSFilterNhanVienPhanCa', DSFilterNhanVienPhanCa)
                         for (var phanCa of DSFilterNhanVienPhanCa) {
                             //Xử lý dữ liệu ca của nhân viên
-                            const CaCuaNhanVienID = DSFilterNhanVienPhanCa.filter((x) => x.Ngay === phanCa.Ngay).map((ca) => {
-                                return { ...ca, ...CTBangCong }
-                            })
-                            //Tính tổng số công, giờ công
-                            tongCongChuan += phanCa.SoCongChuan
-                            tongGioCong += phanCa.SoGioCong
-                            cloneNhanVien['Ngay_' + phanCa.Ngay.toString().padStart('2', 0)] = CaCuaNhanVienID
+                            console.log('PhanCa', phanCa)
+                            const CaCuaNhanVienID = DSFilterNhanVienPhanCa.filter((x) => x.Ngay === phanCa.Ngay)
+                            if (CaCuaNhanVienID.length > 0) {
+                                //Tính tổng số công, giờ công
+                                tongCongChuan += phanCa.SoCongChuan
+                                tongGioCong += phanCa.SoGioCong
+                                //console.log('CaCuaNhanVienID', CaCuaNhanVienID)
+                                cloneNhanVien['Ngay_' + phanCa.Ngay.toString().padStart('2', 0)] = CaCuaNhanVienID
+
+                                console.log('cloneNhanVien', cloneNhanVien)
+                            }
                         }
                         cloneNhanVien.TenMauBangCong = CTBangCong.TenMauBangCong
                         cloneNhanVien.Thang = CTLichLamViec.Thang
                         cloneNhanVien.Nam = CTLichLamViec.Nam
                         cloneNhanVien.TongCongChuan = tongCongChuan
                         cloneNhanVien.TongGioCong = tongGioCong
+                        // console.log('cloneNhanVien', cloneNhanVien)
                         newDSPhanCa.push(cloneNhanVien)
                     }
+                    console.log('newDSPhanCa', newDSPhanCa)
                     $this.DSPhanCa = newDSPhanCa
                     $this.current = $this.CTBangCong.TrangThai_Buoc
                     const columnNhanVien = {
@@ -314,8 +321,9 @@ export default {
                 }
             } catch (err) {}
         },
-        onOpenModalThongTinCa(record) {
-            this.recordThongTinCa = record
+        onOpenModalThongTinCa(ca, record) {
+            console.log('ca', ca)
+            this.recordThongTinCa = Object.assign({}, ca)
             if (this.current === 1) {
                 this.isShowModalThongTinCaStep2 = true
             } else {

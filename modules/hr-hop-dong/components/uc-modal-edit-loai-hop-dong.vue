@@ -1,5 +1,5 @@
 <template>
-	<uc-form-modal :width="750" title="Chỉnh sửa loại hợp đồng mới" :isOpen="isOpen" ref="modalRef" :formData="record"
+	<uc-form-modal :width="750" title="Chỉnh sửa loại hợp đồng" :isOpen="isOpen" ref="modalRef" :formData="record"
 		:rules="rules" @onSubmit="onSubmit()" :isSubmit="state.isLoading" @onClose="onCancel()">
 		<!-- {{record}} -->
 		<a-row :gutter="[10]">
@@ -99,6 +99,7 @@
 		watch: {
 			record: function (val) {
 				if (val) {
+					console.log("hhhhhhh", val)
 					//binding vào các trường record
 					this.record.Is_HopDong_ThuViec = val.Is_ThuViec ? 1 : 0
 					this.record.NhacNho_Ngay = val.SoNgayThongBao
